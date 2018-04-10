@@ -57,10 +57,10 @@ class StudentController extends Controller
 
     /**
      * @Route("/student/create")
-     * @Method({"GET", "POST"})
+     * @Method({"POST"})
      * @param Request $request
      */
-    public function create(Request $request)
+    public function store(Request $request)
     {
 
     }
