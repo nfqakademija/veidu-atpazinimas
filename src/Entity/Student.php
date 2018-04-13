@@ -30,7 +30,13 @@ class Student
      */
     private $face;
 
-    #region Getters & Setters
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Course", inversedBy="course")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $course;
+
+
     public function getId()
     {
         return $this->id;
@@ -59,5 +65,4 @@ class Student
 
         return $this;
     }
-    #endregion
 }

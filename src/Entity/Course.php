@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,11 +19,26 @@ class Course
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string")
      */
     private $title;
 
-    #region Getters & Setters
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="course")
+     */
+    private $students;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Lecture", mappedBy="lecture")
+     */
+    private $lectures;
+
+    public function __construct()
+    {
+        $this->students = new ArrayCollection();
+        $this->lectures = new ArrayCollection();
+    }
+
     public function getId()
     {
         return $this->id;
@@ -38,5 +55,20 @@ class Course
 
         return $this;
     }
-    #endregion
+
+    /**
+     * @return Collection|Student[]
+     */
+    public function getStudents()
+    {
+        return $this->students;
+    }
+
+    /**
+     * @return Collection|Lecture[]
+     */
+    public function getLectures()
+    {
+        return $this->lectures;
+    }
 }
