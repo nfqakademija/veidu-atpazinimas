@@ -1,0 +1,61 @@
+course_index:
+    path: /courses
+    controller: App\Controller\CourseController::index
+    methods: [GET]
+
+course_show:
+    path: /courses/{id}
+    controller: App\Controller\CourseController::show
+    methods: [GET]
+
+course_edit:
+    path: /courses/{id}
+    controller: App\Controller\CourseController::edit
+    methods: [PUT]
+
+course_delete:
+    path: /courses/{id}
+    controller: App\Controller\CourseController::delete
+    methods: [DELETE]
+
+
+student_show:
+    path: /courses/{id}/students/{id}
+    controller: App\Controller\StudentController::show
+    methods: [GET]
+
+student_new:
+    path: /courses/{id}/students
+    controller: App\Controller\StudentController::new
+    methods: [POST]
+
+student_edit:
+    path: /courses/{id}/students/{id}
+    controller: App\Controller\StudentController::edit
+    methods: [PUT]
+
+student_delete:
+    path: /courses/{id}/students/{id}
+    controller: App\Controller\StudentController::delete
+    methods: [DELETE]
+
+
+lecture_index:
+    path: /lectures
+    controller: App\Controller\LectureController::index
+    methods: [GET]
+
+lecture_show:
+    path: /lectures/{id}
+    controller: App\Controller\LectureController::show
+    methods: [GET]
+
+lecture_edit:
+    path: /lectures/{id}
+    controller: App\Controller\LectureController::edit
+    methods: [PUT]
+
+lecture_delete:
+    path: /lectures/{id}
+    controller: App\Controller\LectureController::delete
+    methods: [DELETE]

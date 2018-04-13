@@ -1,4 +1,9 @@
-index:
+api:
+    resource: api_routes.yaml
+    name_prefix: api_
+    prefix: /api
+
+react_routing:
     path: /{react}
     controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
     defaults:
