@@ -22,12 +22,12 @@ class Lecture
     private $title;
 
     /**
-     * @var \DateTime
+     * @ORM\Column(type="datetime")
      */
     private $startDate;
 
     /**
-     * @var \DateTime
+     * @ORM\Column(type="datetime")
      */
     private $endDate;
 
