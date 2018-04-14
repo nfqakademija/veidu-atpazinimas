@@ -1,6 +1,5 @@
 api:
     resource: api_routes.yaml
-    name_prefix: api_
     prefix: /api
 
 react_routing:
@@ -9,5 +8,3 @@ react_routing:
     defaults:
         template: react/index.html.twig
         react: null
-    requirements:
-        reactRouting": "^(?!api).+"
