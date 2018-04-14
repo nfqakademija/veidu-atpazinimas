@@ -50,7 +50,6 @@ class Student
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -62,7 +61,24 @@ class Student
     public function setFace($face): self
     {
         $this->face = $face;
+        return $this;
+    }
 
+    /**
+     * @return Course
+     */
+    public function getCourse(): Course
+    {
+        return $this->course;
+    }
+
+    /**
+     * @param Course $course
+     * @return Student
+     */
+    public function setCourse(Course $course): self
+    {
+        $this->course = $course;
         return $this;
     }
 }

@@ -52,7 +52,6 @@ class Course
     public function setTitle($title): self
     {
         $this->title = $title;
-
         return $this;
     }
 

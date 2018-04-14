@@ -57,7 +57,6 @@ class Lecture
     public function setCourse(Course $course): self
     {
         $this->course = $course;
-
         return $this;
     }
 
