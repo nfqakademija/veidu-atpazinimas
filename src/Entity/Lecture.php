@@ -32,10 +32,10 @@ class Lecture
     private $endDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Course", inversedBy="course")
+     * @ORM\ManyToOne(targetEntity="Group", inversedBy="group")
      * @ORM\JoinColumn()
      */
-    private $course;
+    private $group;
 
     public function getId()
     {
@@ -43,20 +43,20 @@ class Lecture
     }
 
     /**
-     * @return Course
+     * @return Group
      */
-    public function getCourse(): Course
+    public function getGroup(): Group
     {
-        return $this->course;
+        return $this->group;
     }
 
     /**
-     * @param Course $course
+     * @param Group $group
      * @return Lecture
      */
-    public function setCourse(Course $course): self
+    public function setGroup(Group $group): self
     {
-        $this->course = $course;
+        $this->group = $group;
         return $this;
     }
 

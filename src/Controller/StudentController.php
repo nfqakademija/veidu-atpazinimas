@@ -2,42 +2,38 @@
 
 namespace App\Controller;
 
+use App\Entity\Group;
 use App\Entity\Student;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 
 class StudentController extends Controller
 {
-    public function save()
+    public function show($group, $student)
     {
+        $entityManager = $this->getDoctrine()->getManager();
+    }
+
+    public function new(Group $group, Request $request)
+    {
+        $content = $request->request;
+
         $entityManager = $this->getDoctrine()->getManager();
 
         $student = new Student();
-        $student->setName("Name Surname");
+        $student->setName($content->get('Name'));
         // $student->setFace();
+        $student->setGroup($group->getId());
 
         $entityManager->persist($student);
         $entityManager->flush();
     }
 
-    public function show()
+    public function edit($group)
     {
-        $dir_known = 'known/';
-        $dir_unknown = 'unknown/';
-
-        $process = new Process(array('face-recognition', $dir_known, $dir_unknown));
-        $process->run();
-
-        if (!$process->isSuccessful())
-            throw new ProcessFailedException($process);
-
-        echo $process->getOutput();
     }
 
-    public function store(Request $request)
+    public function delete($group)
     {
-
     }
 }

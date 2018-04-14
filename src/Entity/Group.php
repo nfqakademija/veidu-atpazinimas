@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CourseRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
  */
-class Course
+class Group
 {
     /**
      * @ORM\Id()
@@ -24,7 +24,7 @@ class Course
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="course")
+     * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="group")
      */
     private $students;
 

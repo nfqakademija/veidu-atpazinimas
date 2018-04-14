@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Course;
+use App\Entity\Group;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Course|null find($id, $lockMode = null, $lockVersion = null)
- * @method Course|null findOneBy(array $criteria, array $orderBy = null)
- * @method Course[]    findAll()
- * @method Course[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Group|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Group|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Group[]    findAll()
+ * @method Group[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CourseRepository extends ServiceEntityRepository
+class GroupRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Course::class);
+        parent::__construct($registry, Group::class);
     }
 
 //    /**
-//     * @return Course[] Returns an array of Course objects
+//     * @return Group[] Returns an array of Course objects
 //     */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class CourseRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Course
+    public function findOneBySomeField($value): ?Group
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

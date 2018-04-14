@@ -1,46 +1,46 @@
-course_index:
-    path: /courses
-    controller: App\Controller\CourseController::index
+group_index:
+    path: /groups
+    controller: App\Controller\GroupController::index
     methods: [GET]
 
-course_show:
-    path: /courses/{course}
-    controller: App\Controller\CourseController::show
+group_show:
+    path: /groups/{group}
+    controller: App\Controller\GroupController::show
     methods: [GET]
 
-course_new:
-    path: /courses
-    controller: App\Controller\CourseController::new
+group_new:
+    path: /groups
+    controller: App\Controller\GroupController::new
     methods: [POST]
 
-course_edit:
-    path: /courses/{course}
-    controller: App\Controller\CourseController::edit
+group_edit:
+    path: /groups/{group}
+    controller: App\Controller\GroupController::edit
     methods: [PUT]
 
-course_delete:
-    path: /courses/{course}
-    controller: App\Controller\CourseController::delete
+group_delete:
+    path: /groups/{group}
+    controller: App\Controller\GroupController::delete
     methods: [DELETE]
 
 
 student_show:
-    path: /courses/{course}/students/{student}
+    path: /students/{student}
     controller: App\Controller\StudentController::show
     methods: [GET]
 
 student_new:
-    path: /courses/{course}/students
+    path: /students
     controller: App\Controller\StudentController::new
     methods: [POST]
 
 student_edit:
-    path: /courses/{course}/students/{student}
+    path: /students/{student}
     controller: App\Controller\StudentController::edit
     methods: [PUT]
 
 student_delete:
-    path: /courses/{course}/students/{student}
+    path: /students/{student}
     controller: App\Controller\StudentController::delete
     methods: [DELETE]
 
