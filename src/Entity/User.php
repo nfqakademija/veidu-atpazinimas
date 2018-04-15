@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -35,6 +37,19 @@ class User implements UserInterface, \Serializable
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Module", mappedBy="lecturer")
+     */
+    private $modules;
+
+    /**
+     * User constructor.
+     */
+    public function __construct() {
+        $this->modules = new ArrayCollection();
+    }
+
+    #region Getters & Setters
     public function getId(): int
     {
         return $this->id;
@@ -124,7 +139,9 @@ class User implements UserInterface, \Serializable
         $this->name = $name;
         return $this;
     }
+    #endregion
 
+    #region Misc
     /**
      * Removes sensitive data from the user.
      *
@@ -135,7 +152,9 @@ class User implements UserInterface, \Serializable
     {
         // TODO: Implement eraseCredentials() method.
     }
+    #endregion
 
+    #region Serialization
     /**
      * String representation of object
      * @link http://php.net/manual/en/serializable.serialize.php
@@ -170,4 +189,27 @@ class User implements UserInterface, \Serializable
             $this->name,
         ] = unserialize($serialized, ['allowed_classes' => false]);
     }
+    #endregion
+
+    #region modules
+    /**
+     * @return Collection|Module[]
+     */
+    public function getModules()
+    {
+        return $this->modules;
+    }
+
+    public function addModule(Module $module)
+    {
+        if ($this->getRoles() != 'ROLE_LECTURER')
+            return;
+
+        if ($this->modules->contains($module))
+            return;
+
+        $this->modules[] = $module;
+        $module->setLecturer($this);
+    }
+    #endregion
 }

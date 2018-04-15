@@ -6,6 +6,7 @@ use App\Entity\Module;
 use App\Form\ModuleType;
 use App\Repository\ModuleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,48 +16,33 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ModuleController extends Controller
 {
-    /**
-     * @Route("/", name="module_index", methods="GET")
-     */
-    public function index(ModuleRepository $moduleRepository): Response
+    public function index(): Response
     {
-        return $this->render('module/index.html.twig', ['modules' => $moduleRepository->findAll()]);
+        return new JsonResponse(['modules' => $this->getUser()->getModules()]);
     }
 
-    /**
-     * @Route("/new", name="module_new", methods="GET|POST")
-     */
     public function new(Request $request): Response
     {
         $module = new Module();
         $form = $this->createForm(ModuleType::class, $module);
-        $form->handleRequest($request);
+        $form->submit($request->getContent());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($module);
             $em->flush();
 
-            return $this->redirectToRoute('module_index');
+            return new JsonResponse($module, '201');
         }
 
-        return $this->render('module/new.html.twig', [
-            'module' => $module,
-            'form' => $form->createView(),
-        ]);
+        return new Response('', 400);
     }
 
-    /**
-     * @Route("/{id}", name="module_show", methods="GET")
-     */
     public function show(Module $module): Response
     {
-        return $this->render('module/show.html.twig', ['module' => $module]);
+        return new JsonResponse($module);
     }
 
-    /**
-     * @Route("/{id}/edit", name="module_edit", methods="GET|POST")
-     */
     public function edit(Request $request, Module $module): Response
     {
         $form = $this->createForm(ModuleType::class, $module);
@@ -65,26 +51,21 @@ class ModuleController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('module_edit', ['id' => $module->getId()]);
+            return new JsonResponse(['id' => $module->getId()]);
         }
 
-        return $this->render('module/edit.html.twig', [
-            'module' => $module,
-            'form' => $form->createView(),
-        ]);
+        return new Response('', 400);
     }
 
-    /**
-     * @Route("/{id}", name="module_delete", methods="DELETE")
-     */
     public function delete(Request $request, Module $module): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$module->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $module->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($module);
             $em->flush();
+            return new Response('', 204);
         }
 
-        return $this->redirectToRoute('module_index');
+        return new Response('', 400);
     }
 }

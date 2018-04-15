@@ -15,7 +15,7 @@ class LectureType extends AbstractType
             ->add('title')
             ->add('startDate')
             ->add('endDate')
-            ->add('course')
+            ->add('module')
         ;
     }
 

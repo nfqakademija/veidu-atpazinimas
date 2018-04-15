@@ -24,6 +24,11 @@ class Module
     private $title;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="modules")
+     */
+    private $lecturer;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Group", inversedBy="modules")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -60,23 +65,27 @@ class Module
     }
     #endregion
 
-    #region Lectures
+    #region Lecturer
     /**
-     * @return Collection|Lecture[]
+     * @return User
      */
-    public function getLectures()
+    public function getLecturer()
     {
-        return $this->lectures;
+        return $this->lecturer;
     }
 
     /**
-     * @param Lecture $lectures
-     * @return Module
+     * @param User $lecturer
      */
-    public function setLectures(Lecture $lectures): self
+    public function setLecturer(User $lecturer)
     {
-        $this->lectures = $lectures;
-        return $this;
+        if ($lecturer->getRoles() != 'ROLE_LECTURER')
+            return;
+
+        if ($this->lecturer == $lecturer)
+            return;
+
+        $this->lecturer = $lecturer;
     }
     #endregion
 
@@ -99,6 +108,26 @@ class Module
 
         $this->groups[] = $group;
         $group->addModule($this);
+    }
+    #endregion
+
+    #region Lectures
+    /**
+     * @return Collection|Lecture[]
+     */
+    public function getLectures()
+    {
+        return $this->lectures;
+    }
+
+    /**
+     * @param Lecture $lectures
+     * @return Module
+     */
+    public function setLectures(Lecture $lectures): self
+    {
+        $this->lectures = $lectures;
+        return $this;
     }
     #endregion
 }

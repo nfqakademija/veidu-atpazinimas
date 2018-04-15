@@ -13,6 +13,8 @@ class GroupType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('groups')
+            ->add('modules')
         ;
     }
 

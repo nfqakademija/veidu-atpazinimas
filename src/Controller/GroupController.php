@@ -10,41 +10,51 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GroupController extends Controller
 {
-    public function index()
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        
-    }
-
-    public function new(Request $request)
+    public function new(Request $request): Response
     {
         $group = new Group();
-        $form = $this->createForm(Group::class, $group);
-        $content = $request->request;
+        $form = $this->createForm(GroupType::class, $group);
+        $form->submit($request->getContent());
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($group);
+            $em->flush();
 
-        $group->setTitle($content->get($content));
+            return new JsonResponse($group, '201');
+        }
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($group);
-        $entityManager->flush();
+        return new Response('', 400);
     }
 
-    public function show($group)
+    public function show(Group $group): Response
     {
-        $group = $this->getDoctrine()->getRepository(Group::class)->find($group);
-
-        if(!$group)
-            throw $this->createNotFoundException('The group does not exist');
-
         return new JsonResponse($group);
     }
 
-    public function edit($group)
+    public function edit(Request $request, Group $group): Response
     {
+        $form = $this->createForm(GroupType::class, $group);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return new JsonResponse(['id' => $group->getId()]);
+        }
+
+        return new Response('', 400);
     }
 
-    public function delete($group)
+    public function delete(Request $request, Group $group): Response
     {
+        if ($this->isCsrfTokenValid('delete' . $group->getId(), $request->request->get('_token'))) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($group);
+            $em->flush();
+            return new Response('', 204);
+        }
+
+        return new Response('', 400);
     }
 }
