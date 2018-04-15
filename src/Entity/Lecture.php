@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,40 +26,32 @@ class Lecture
     /**
      * @ORM\Column(type="datetime")
      */
-    private $startDate;
+    private $start;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $endDate;
+    private $end;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Group", inversedBy="group")
-     * @ORM\JoinColumn()
+     * @ORM\ManyToOne(targetEntity="Module", inversedBy="lectures")
      */
-    private $group;
+    private $module;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Student", inversedBy="absences")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $absences;
+
+    public function __construct() {
+        $this->absences = new ArrayCollection();
+    }
+
+    #region Getters & Setters
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return Group
-     */
-    public function getGroup(): Group
-    {
-        return $this->group;
-    }
-
-    /**
-     * @param Group $group
-     * @return Lecture
-     */
-    public function setGroup(Group $group): self
-    {
-        $this->group = $group;
-        return $this;
     }
 
     /**
@@ -81,36 +75,77 @@ class Lecture
     /**
      * @return \DateTime
      */
-    public function getStartDate(): \DateTime
+    public function getStart(): \DateTime
     {
-        return $this->startDate;
+        return $this->start;
     }
 
     /**
-     * @param \DateTime $startDate
+     * @param \DateTime $start
      * @return Lecture
      */
-    public function setStartDate(\DateTime $startDate): Lecture
+    public function setStart(\DateTime $start): Lecture
     {
-        $this->startDate = $startDate;
+        $this->start = $start;
         return $this;
     }
 
     /**
      * @return \DateTime
      */
-    public function getEndDate(): \DateTime
+    public function getEnd(): \DateTime
     {
-        return $this->endDate;
+        return $this->end;
     }
 
     /**
-     * @param \DateTime $endDate
+     * @param \DateTime $end
      * @return Lecture
      */
-    public function setEndDate(\DateTime $endDate): Lecture
+    public function setEnd(\DateTime $end): Lecture
     {
-        $this->endDate = $endDate;
+        $this->end = $end;
         return $this;
     }
+    #endregion
+
+    #region Module
+    /**
+     * @return Module
+     */
+    public function getModule(): Module
+    {
+        return $this->module;
+    }
+
+    /**
+     * @param Module $module
+     * @return Lecture
+     */
+    public function setModule($module): self
+    {
+        $this->module = $module;
+        return $this;
+    }
+    #endregion
+
+    #region Absences
+    /**
+     * @return Collection|Student[]
+     */
+    public function getAbsences()
+    {
+        return $this->absences;
+    }
+
+    /**
+     * @param Student $student
+     * @return Lecture
+     */
+    public function addAbsence(Student $student): self
+    {
+        $this->absences[] = $student;
+        return $this;
+    }
+    #endregion
 }

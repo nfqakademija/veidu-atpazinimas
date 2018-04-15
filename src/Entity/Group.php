@@ -24,21 +24,24 @@ class Group
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="group")
+     * @ORM\OneToMany(targetEntity="Student", mappedBy="group")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $students;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Lecture", mappedBy="lecture")
+     * @ORM\ManyToMany(targetEntity="Module", mappedBy="groups")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $lectures;
+    private $modules;
 
     public function __construct()
     {
         $this->students = new ArrayCollection();
-        $this->lectures = new ArrayCollection();
+        $this->modules = new ArrayCollection();
     }
 
+    #region Getter & Setters
     public function getId()
     {
         return $this->id;
@@ -54,7 +57,9 @@ class Group
         $this->title = $title;
         return $this;
     }
+    #endregion
 
+    #region Students
     /**
      * @return Collection|Student[]
      */
@@ -64,10 +69,43 @@ class Group
     }
 
     /**
-     * @return Collection|Lecture[]
+     * @param Student $student
      */
-    public function getLectures()
+    public function addStudent(Student $student)
     {
-        return $this->lectures;
+        if ($this->students->contains($student))
+            return;
+
+        $this->students[] = $student;
+        $student->setGroup($this);
     }
+
+    /**
+     * @param Student $student
+     */
+    public function removeStudent(Student $student)
+    {
+        $this->students->removeElement($student);
+        $student->setGroup(null);
+    }
+    #endregion
+
+    #region Modules
+    /**
+     * @return Collection|Module[]
+     */
+    public function getModules()
+    {
+        return $this->modules;
+    }
+
+    public function addModule(Module $module)
+    {
+        if ($this->students->contains($module))
+            return;
+
+        $this->students[] = $module;
+        $module->addGroup($this);
+    }
+    #endregion
 }

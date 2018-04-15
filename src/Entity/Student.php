@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -18,7 +20,7 @@ class Student
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string")
      */
     private $name;
 
@@ -31,12 +33,23 @@ class Student
     private $face;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Group", inversedBy="group")
+     * @ORM\ManyToOne(targetEntity="Group", inversedBy="students")
      * @ORM\JoinColumn(nullable=true)
      */
     private $group;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Lecture", mappedBy="absences")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $absences;
 
+    public function __construct()
+    {
+        $this->absences = new ArrayCollection();
+    }
+
+    #region Getters & Setters
     public function getId()
     {
         return $this->id;
@@ -63,7 +76,9 @@ class Student
         $this->face = $face;
         return $this;
     }
+    #endregion
 
+    #region Group
     /**
      * @return Group
      */
@@ -79,6 +94,19 @@ class Student
     public function setGroup(Group $group): self
     {
         $this->group = $group;
+
+        $this->group->addStudent($this);
         return $this;
     }
+    #endregion
+
+    #region Absences
+    /**
+     * @return Collection|Lecture[]
+     */
+    public function getAbsences()
+    {
+        return $this->absences;
+    }
+    #endregion
 }
