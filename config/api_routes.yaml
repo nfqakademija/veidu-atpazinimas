@@ -1,7 +1,28 @@
-group_index:
-    path: /groups
-    controller: App\Controller\GroupController::index
+module_index:
+    path: /modules
+    controller: App\Controller\ModuleController::index
     methods: [GET]
+
+module_show:
+    path: /modules/{module}
+    controller: App\Controller\ModuleController::show
+    methods: [GET]
+
+module_new:
+    path: /modules
+    controller: App\Controller\ModuleController::new
+    methods: [POST]
+
+module_edit:
+    path: /modules/{module}
+    controller: App\Controller\ModuleController::edit
+    methods: [GET]
+
+module_delete:
+    path: /modules/{module}
+    controller: App\Controller\ModuleController::delete
+    methods: [DELETE]
+
 
 group_show:
     path: /groups/{group}
