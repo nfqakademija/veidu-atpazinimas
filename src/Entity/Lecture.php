@@ -140,12 +140,13 @@ class Lecture
 
     /**
      * @param Student $student
-     * @return Lecture
      */
-    public function addAbsence(Student $student): self
+    public function addAbsence(Student $student)
     {
+        if (!$student->getGroup()->getModules()->contains($this->getModule()))
+            return;
+
         $this->absences[] = $student;
-        return $this;
     }
     #endregion
 }

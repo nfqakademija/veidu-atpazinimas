@@ -89,6 +89,9 @@ class Module
         return $this->groups;
     }
 
+    /**
+     * @param Group $group
+     */
     public function addGroup(Group $group)
     {
         if ($this->groups->contains($group))
