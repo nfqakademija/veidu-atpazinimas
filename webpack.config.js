@@ -6,7 +6,7 @@ Encore
     // the public path used by the web server to access the previous directory
     .setPublicPath('/build')
     .cleanupOutputBeforeBuild()
-    .enableSourceMaps(!Encore.isProduction())
+    // .enableSourceMaps(!Encore.isProduction())
     // uncomment to create hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
 
@@ -24,4 +24,9 @@ Encore
     // .autoProvidejQuery()
 ;
 
-module.exports = Encore.getWebpackConfig();
+const config = Encore.getWebpackConfig();
+config.watchOptions = {
+  poll: true,
+};
+
+module.exports = config;

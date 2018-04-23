@@ -1,10 +1,11 @@
-
 import React from 'react';
 import { render } from 'react-dom';
-import Demo from './Components/Demo';
+import { BrowserRouter } from 'react-router-dom';
 
-const rootElement = document.querySelector('#root');
-if (rootElement) {
-    render(<Demo />, rootElement);
-}
-      
+import App from './Components/App';
+
+render((
+  <BrowserRouter>
+    <App/>
+  </BrowserRouter>
+), document.getElementById('root'));
