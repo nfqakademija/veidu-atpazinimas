@@ -1,5 +1,4 @@
 import React from 'react';
-import { withStyles } from 'material-ui';
 import AppToolbar from './AppToolbar';
 import Drawer from './Drawer';
 
@@ -11,18 +10,13 @@ const styles = theme => ({
   },
 });
 
-const App = (props) => {
-  const {classes} = props;
-  
-  return (
-    <div>
-      <AppToolbar/>
-      <Drawer/>
-      <main className={classes.content}>
-      
-      </main>
-    </div>
-  );
-};
+const App = () => (
+  <div>
+    <AppToolbar/>
+    <Drawer/>
+    <main>
+    </main>
+  </div>
+);
 
-export default withStyles(styles)(App);
+export default App;

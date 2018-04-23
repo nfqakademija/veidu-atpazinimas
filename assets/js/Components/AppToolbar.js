@@ -20,7 +20,7 @@ const AppToolbar = (props) => {
     >
       <Toolbar>
         <Typography variant="title" color="inherit" noWrap>
-          Permanent drawer
+          Face Recognition
         </Typography>
       </Toolbar>
     </AppBar>
