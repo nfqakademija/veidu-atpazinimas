@@ -38,17 +38,6 @@ class Student
      */
     private $group;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Lecture", mappedBy="absences")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $absences;
-
-    public function __construct()
-    {
-        $this->absences = new ArrayCollection();
-    }
-
     #region Getters & Setters
     public function getId()
     {
@@ -97,16 +86,6 @@ class Student
 
         $this->group->addStudent($this);
         return $this;
-    }
-    #endregion
-
-    #region Absences
-    /**
-     * @return Collection|Lecture[]
-     */
-    public function getAbsences()
-    {
-        return $this->absences;
     }
     #endregion
 }

@@ -39,10 +39,9 @@ class Lecture
     private $module;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Student", inversedBy="absences")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\OneToOne(targetEntity="Attendance")
      */
-    private $absences;
+    private $attendance;
 
     public function __construct() {
         $this->absences = new ArrayCollection();
