@@ -14,7 +14,7 @@ export const primaryNavigation = (
       <ListItemIcon>
         <Face/>
       </ListItemIcon>
-      <ListItemText primary="Lectures"/>
+      <ListItemText primary="Attendance"/>
     </ListItem>
     <ListItem button>
       <ListItemIcon>
