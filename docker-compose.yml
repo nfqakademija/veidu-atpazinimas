@@ -29,12 +29,6 @@ services:
     volumes:
       - .:/code # Mount your code, so nginx/phpcould see it
 
-#  python:
-#    container_name: python
-#    build: .docker/python/
-#    volumes:
-#      - .:/code
-
   mysql.symfony:
     container_name: mysql.symfony
     image: mysql:5.7.21
@@ -50,3 +44,9 @@ services:
     container_name: frontend.symfony
     volumes:
       - .:/code # Mount your code, so javaScript tools could see it
+
+#  python:
+#    container_name: python
+#    build: .docker/python/
+#    volumes:
+#      - .:/code
