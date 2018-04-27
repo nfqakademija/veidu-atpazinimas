@@ -164,7 +164,6 @@ class User implements UserInterface, \Serializable
     {
         $this->lecturer = $lecturer;
 
-        // set (or unset) the owning side of the relation if necessary
         $newUser = $lecturer === null ? null : $this;
         if ($newUser !== $lecturer->getUser()) {
             $lecturer->setUser($newUser);

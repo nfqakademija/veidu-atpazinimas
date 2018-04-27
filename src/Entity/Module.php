@@ -13,8 +13,8 @@ class Module
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="UUID")
-     * @ORM\Column(type="guid")
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -30,7 +30,7 @@ class Module
     private $lecturer;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Group", inversedBy="modules")
+     * @ORM\ManyToMany(targetEntity="StudentGroup", inversedBy="modules")
      * @ORM\JoinColumn(nullable=true)
      */
     private $groups;
@@ -68,7 +68,7 @@ class Module
 
     #region Groups
     /**
-     * @return Collection|Group[]
+     * @return Collection|StudentGroup[]
      */
     public function getGroups()
     {
@@ -76,15 +76,31 @@ class Module
     }
 
     /**
-     * @param Group $group
+     * @param StudentGroup $group
+     * @return Module
      */
-    public function addGroup(Group $group)
+    public function addGroup(StudentGroup $group): Module
     {
-        if ($this->groups->contains($group))
-            return;
+        if (!$this->groups->contains($group)) {
+            $this->groups[] = $group;
+            $group->addModule($this);
+        }
 
-        $this->groups[] = $group;
-        $group->addModule($this);
+        return $this;
+    }
+
+    /**
+     * @param StudentGroup $group
+     * @return Module
+     */
+    public function removeGroup(StudentGroup $group)
+    {
+        if ($this->groups->contains($group)) {
+            $this->groups->removeElement($group);
+            $group->removeModule($this);
+        }
+
+        return $this;
     }
     #endregion
 

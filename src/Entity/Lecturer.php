@@ -20,6 +20,7 @@ class Lecturer
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="lecturer", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
@@ -41,14 +42,26 @@ class Lecturer
     #endregion
 
     #region User
+    /**
+     * @return User|null
+     */
     public function getUser(): ?User
     {
         return $this->user;
     }
 
+    /**
+     * @param User|null $user
+     * @return Lecturer
+     */
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        $newLecturer = $user === null ? null : $this;
+        if ($newLecturer !== $user->getLecturer()) {
+            $user->setLecturer($newLecturer);
+        }
 
         return $this;
     }
@@ -77,10 +90,6 @@ class Lecturer
     {
         if ($this->modules->contains($module)) {
             $this->modules->removeElement($module);
-            // set the owning side to null (unless already changed)
-            if ($module->getLecturer() === $this) {
-                $module->setLecturer(null);
-            }
         }
 
         return $this;

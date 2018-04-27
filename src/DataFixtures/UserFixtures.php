@@ -2,12 +2,22 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Lecturer;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements OrderedFixtureInterface
 {
+    private $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
     public function load(ObjectManager $manager)
     {
         $faker = \Faker\Factory::create('lt_LT');
@@ -17,10 +27,28 @@ class UserFixtures extends Fixture
             $user
                 ->setName($faker->name)
                 ->setEmail($faker->email)
-                ->setPassword($faker->password(6, 20));
+                ->setPassword($this->encoder->encodePassword($user, $faker->password(6, 20)));
+
+            if ($faker->randomElement([true, false])) {
+                $lecturer = new Lecturer();
+                $lecturer->setUser($user);
+
+                $manager->persist($lecturer);
+            }
+
             $manager->persist($user);
         }
 
         $manager->flush();
+    }
+
+    /**
+     * Get the order of this fixture
+     *
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return 0;
     }
 }

@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,8 +12,8 @@ class Student
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="UUID")
-     * @ORM\Column(type="guid")
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -25,7 +23,7 @@ class Student
     private $name;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      *
      * @Assert\NotBlank(message="Please, upload the image as JPEG/JPG.")
      * @Assert\File(mimeTypes={ "image/jpeg" })
@@ -33,7 +31,7 @@ class Student
     private $face;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Group", inversedBy="students")
+     * @ORM\ManyToOne(targetEntity="StudentGroup", inversedBy="students")
      * @ORM\JoinColumn(nullable=true)
      */
     private $group;
@@ -67,24 +65,23 @@ class Student
     }
     #endregion
 
-    #region Group
+    #region StudentGroup
     /**
-     * @return Group
+     * @return StudentGroup
      */
-    public function getGroup(): Group
+    public function getGroup(): StudentGroup
     {
         return $this->group;
     }
 
     /**
-     * @param Group $group
+     * @param StudentGroup $group
      * @return Student
      */
-    public function setGroup(Group $group): self
+    public function setGroup(?StudentGroup $group): self
     {
         $this->group = $group;
 
-        $this->group->addStudent($this);
         return $this;
     }
     #endregion

@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Group;
+use App\Entity\StudentGroup;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,7 +21,7 @@ class GroupType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Group::class,
+            'data_class' => StudentGroup::class,
         ]);
     }
 }

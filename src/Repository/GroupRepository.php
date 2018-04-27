@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Group;
+use App\Entity\StudentGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Group|null find($id, $lockMode = null, $lockVersion = null)
- * @method Group|null findOneBy(array $criteria, array $orderBy = null)
- * @method Group[]    findAll()
- * @method Group[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method StudentGroup|null find($id, $lockMode = null, $lockVersion = null)
+ * @method StudentGroup|null findOneBy(array $criteria, array $orderBy = null)
+ * @method StudentGroup[]    findAll()
+ * @method StudentGroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class GroupRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Group::class);
+        parent::__construct($registry, StudentGroup::class);
     }
 
 //    /**
-//     * @return Group[] Returns an array of Course objects
+//     * @return StudentGroup[] Returns an array of Course objects
 //     */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class GroupRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Group
+    public function findOneBySomeField($value): ?StudentGroup
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

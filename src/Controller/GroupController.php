@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Group;
+use App\Entity\StudentGroup;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +12,7 @@ class GroupController extends Controller
 {
     public function new(Request $request): Response
     {
-        $group = new Group();
+        $group = new StudentGroup();
         $form = $this->createForm(GroupType::class, $group);
         $form->submit($request->getContent());
 
@@ -27,12 +27,12 @@ class GroupController extends Controller
         return new Response('', 400);
     }
 
-    public function show(Group $group): Response
+    public function show(StudentGroup $group): Response
     {
         return new JsonResponse($group);
     }
 
-    public function edit(Request $request, Group $group): Response
+    public function edit(Request $request, StudentGroup $group): Response
     {
         $form = $this->createForm(GroupType::class, $group);
         $form->handleRequest($request);
@@ -46,7 +46,7 @@ class GroupController extends Controller
         return new Response('', 400);
     }
 
-    public function delete(Request $request, Group $group): Response
+    public function delete(Request $request, StudentGroup $group): Response
     {
         if ($this->isCsrfTokenValid('delete' . $group->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();

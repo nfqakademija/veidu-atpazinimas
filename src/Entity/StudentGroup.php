@@ -9,12 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
  */
-class Group
+class StudentGroup
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="UUID")
-     * @ORM\Column(type="guid")
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -70,23 +70,32 @@ class Group
 
     /**
      * @param Student $student
+     * @return StudentGroup
      */
-    public function addStudent(Student $student)
+    public function addStudent(Student $student): self
     {
-        if ($this->students->contains($student))
-            return;
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
+            $student->setGroup($this);
+        }
 
-        $this->students[] = $student;
-        $student->setGroup($this);
+        return $this;
     }
 
     /**
      * @param Student $student
+     * @return StudentGroup
      */
-    public function removeStudent(Student $student)
+    public function removeStudent(Student $student): self
     {
-        $this->students->removeElement($student);
-        $student->setGroup(null);
+        if ($this->students->contains($student)) {
+            $this->students->removeElement($student);
+
+            if ($student->getGroup() === $this)
+                $student->setGroup(null);
+        }
+
+        return $this;
     }
     #endregion
 
@@ -99,13 +108,33 @@ class Group
         return $this->modules;
     }
 
-    public function addModule(Module $module)
+    /**
+     * @param Module $module
+     * @return StudentGroup
+     */
+    public function addModule(Module $module): self
     {
-        if ($this->students->contains($module))
-            return;
+        if (!$this->modules->contains($module)) {
+            $this->modules[] = $module;
+            $module->addGroup($this);
+        }
 
-        $this->students[] = $module;
-        $module->addGroup($this);
+        return $this;
+    }
+
+    /**
+     * @param Module $module
+     * @return StudentGroup
+     */
+    public function removeModule(Module $module): self
+    {
+        if ($this->modules->contains($module)) {
+            $this->modules->removeElement($module);
+
+            $module->removeGroup($this);
+        }
+
+        return $this;
     }
     #endregion
 }
