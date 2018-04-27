@@ -39,12 +39,13 @@ class Lecture
     private $module;
 
     /**
-     * @ORM\OneToOne(targetEntity="Attendance")
+     * @ORM\OneToMany(targetEntity="Attendance", mappedBy="lecture")
      */
-    private $attendance;
+    private $attendances;
 
-    public function __construct() {
-        $this->absences = new ArrayCollection();
+    public function __construct()
+    {
+        $this->attendances = new ArrayCollection();
     }
 
     #region Getters & Setters
@@ -128,24 +129,24 @@ class Lecture
     }
     #endregion
 
-    #region Absences
+    #region Attendances
     /**
-     * @return Collection|Student[]
+     * @return Collection|Attendance[]
      */
-    public function getAbsences()
+    public function getAttendances()
     {
-        return $this->absences;
+        return $this->attendances;
     }
 
     /**
-     * @param Student $student
+     * @param Attendance $attendance
      */
-    public function addAbsence(Student $student)
+    public function addAttendance(Attendance $attendance)
     {
-        if (!$student->getGroup()->getModules()->contains($this->getModule()))
+        if (!$attendance->getStudent()->getGroup()->getModules()->contains($this->getModule()))
             return;
 
-        $this->absences[] = $student;
+        $this->attendances[] = $attendance;
     }
     #endregion
 }

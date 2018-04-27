@@ -11,58 +11,61 @@ class Attendance
 {
     /**
      * @ORM\Id()
+     * @ORM\ManyToOne(targetEntity="Lecture", inversedBy="attendances")
+     */
+    private $lecture;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Student")
      */
-    private $students;
+    private $student;
 
     /**
-     * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity="Lecture")
-     */
-    private $lectures;
-
-    /**
-     * @ORM\Id()
      * @ORM\Column(type="boolean")
      */
     private $attended;
 
+    #region Student
     /**
-     * @return mixed
+     * @return Student
      */
-    public function getStudents()
+    public function getStudent(): Student
     {
-        return $this->students;
+        return $this->student;
     }
 
     /**
-     * @param mixed $students
+     * @param Student $student
      * @return Attendance
      */
-    public function setStudents($students)
+    public function setStudent(Student $student): self
     {
-        $this->students = $students;
+        $this->student = $student;
         return $this;
     }
+    #endregion
 
+    #region Lecture
     /**
-     * @return mixed
+     * @return Lecture
      */
-    public function getLectures()
+    public function getLecture(): Lecture
     {
-        return $this->lectures;
+        return $this->lecture;
     }
 
     /**
-     * @param Lecture $lectures
+     * @param Lecture $lecture
      * @return Attendance
      */
-    public function setLectures($lectures)
+    public function setLecture(Lecture $lecture): self
     {
-        $this->lectures = $lectures;
+        $this->lecture = $lecture;
         return $this;
     }
+    #endregion
 
+    #region Attendance
     /**
      * @return bool
      */
@@ -80,4 +83,5 @@ class Attendance
         $this->attended = $attended;
         return $this;
     }
+    #endregion
 }
