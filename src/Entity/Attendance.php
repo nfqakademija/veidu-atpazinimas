@@ -12,6 +12,7 @@ class Attendance
     /**
      * @ORM\Id()
      * @ORM\ManyToOne(targetEntity="Lecture", inversedBy="attendances")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $lecture;
 

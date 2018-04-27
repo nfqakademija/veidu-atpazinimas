@@ -4,21 +4,20 @@ namespace App\Controller;
 
 use App\Entity\Module;
 use App\Form\ModuleType;
-use App\Repository\ModuleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/module")
- */
 class ModuleController extends Controller
 {
     public function index(): Response
     {
-        return new JsonResponse(['modules' => $this->getUser()->getModules()]);
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+
+            return new JsonResponse(['modules' => $this->getUser()->getModules()]);
+
     }
 
     public function new(Request $request): Response

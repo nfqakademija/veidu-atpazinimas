@@ -35,6 +35,7 @@ class Lecture
 
     /**
      * @ORM\ManyToOne(targetEntity="Module", inversedBy="lectures")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $module;
 

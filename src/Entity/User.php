@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -38,16 +36,9 @@ class User implements UserInterface, \Serializable
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Module", mappedBy="lecturer")
+     * @ORM\OneToOne(targetEntity="App\Entity\Lecturer", mappedBy="user", cascade={"persist", "remove"})
      */
-    private $modules;
-
-    /**
-     * User constructor.
-     */
-    public function __construct() {
-        $this->modules = new ArrayCollection();
-    }
+    private $lecturer;
 
     #region Getters & Setters
     public function getId(): int
@@ -56,25 +47,14 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Returns the roles granted to the user.
-     *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
      * @return array (Role|string)[] The user roles
      */
     public function getRoles()
     {
-        return ['ROLE_LECTURER', 'ROLE_ADMIN'];
+        return ['ROLE_ADMIN', 'ROLE_LECTURER'];
     }
 
     /**
-     * Returns the password used to authenticate the user.
-     *
-     * This should be the encoded password. On authentication, a plain-text
-     * password will be salted, encoded, and then compared to this value.
-     *
      * @return string The password
      */
     public function getPassword(): string
@@ -83,20 +63,16 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
+     * @param string $password
+     * @return $this
      */
-    public function getSalt(): ?string
+    public function setPassword(string $password): self
     {
-        // TODO: Implement getSalt() method.
+        $this->password = $password;
+        return $this;
     }
 
     /**
-     * Returns the username used to authenticate the user.
-     *
      * @return string The username
      */
     public function getUsername(): string
@@ -141,19 +117,6 @@ class User implements UserInterface, \Serializable
     }
     #endregion
 
-    #region Misc
-    /**
-     * Removes sensitive data from the user.
-     *
-     * This is important if, at any given point, sensitive information like
-     * the plain-text password is stored on this object.
-     */
-    public function eraseCredentials()
-    {
-        // TODO: Implement eraseCredentials() method.
-    }
-    #endregion
-
     #region Serialization
     /**
      * String representation of object
@@ -191,25 +154,28 @@ class User implements UserInterface, \Serializable
     }
     #endregion
 
-    #region modules
-    /**
-     * @return Collection|Module[]
-     */
-    public function getModules()
+    #region Lecturer
+    public function getLecturer(): ?Lecturer
     {
-        return $this->modules;
+        return $this->lecturer;
     }
 
-    public function addModule(Module $module)
+    public function setLecturer(?Lecturer $lecturer): self
     {
-        if ($this->getRoles() != 'ROLE_LECTURER')
-            return;
+        $this->lecturer = $lecturer;
 
-        if ($this->modules->contains($module))
-            return;
+        // set (or unset) the owning side of the relation if necessary
+        $newUser = $lecturer === null ? null : $this;
+        if ($newUser !== $lecturer->getUser()) {
+            $lecturer->setUser($newUser);
+        }
 
-        $this->modules[] = $module;
-        $module->setLecturer($this);
+        return $this;
     }
+
     #endregion
+
+    public function getSalt(): ?string { return null; }
+
+    public function eraseCredentials() { }
 }

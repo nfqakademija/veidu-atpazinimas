@@ -24,7 +24,8 @@ class Module
     private $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="modules")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Lecturer", inversedBy="modules")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $lecturer;
 
@@ -62,30 +63,6 @@ class Module
         $this->title = $title;
 
         return $this;
-    }
-    #endregion
-
-    #region Lecturer
-    /**
-     * @return User
-     */
-    public function getLecturer()
-    {
-        return $this->lecturer;
-    }
-
-    /**
-     * @param User $lecturer
-     */
-    public function setLecturer(User $lecturer)
-    {
-        if ($lecturer->getRoles() != 'ROLE_LECTURER')
-            return;
-
-        if ($this->lecturer == $lecturer)
-            return;
-
-        $this->lecturer = $lecturer;
     }
     #endregion
 
@@ -127,6 +104,20 @@ class Module
     public function setLectures(Lecture $lectures): self
     {
         $this->lectures = $lectures;
+        return $this;
+    }
+    #endregion
+
+    #region Lecturer
+    public function getLecturer(): ?Lecturer
+    {
+        return $this->lecturer;
+    }
+
+    public function setLecturer(?Lecturer $lecturer): self
+    {
+        $this->lecturer = $lecturer;
+
         return $this;
     }
     #endregion
