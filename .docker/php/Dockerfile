@@ -13,7 +13,7 @@ RUN ln -s /php/composer.phar /usr/bin/composer
 
 # Install dependencies
 RUN apt-get update \
- && apt-get install -y git zip unzip \
+ && apt-get install -y git zip unzip dos2unix \
  && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
@@ -25,6 +25,13 @@ RUN apt-get update \
 # xDebug helpers (do not use this in real production)
 ADD enable_xdebug.sh /enable_xdebug.sh
 ADD disable_xdebug.sh /disable_xdebug.sh
+
+# Convert line endings (CRLF -> LF)
+RUN dos2unix /enable_xdebug.sh && \
+    dos2unix /disable_xdebug.sh && \
+    apt-get --purge remove -y dos2unix && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN pecl install xdebug-2.6.0 && \
     chmod +x /enable_xdebug.sh && \
     chmod +x /disable_xdebug.sh && \

@@ -1,11 +1,11 @@
-version: "2"
+version: "3"
 
 services:
   nginx.symfony:
     container_name: nginx.symfony
     image: nginx:1.13.10
     volumes:
-      - .:/code # Mount your code, so nginx/phpcould see it
+      - .:/code # Mount your code, so nginx/php could see it
       - .docker/nginx/site.conf:/etc/nginx/conf.d/site.conf # Use custom virtual hosts
     ports:
       - 127.0.0.1:8000:8000 # For development. Open in browser 127.0.0.1:8000
@@ -19,7 +19,7 @@ services:
       - APP_SECRET=$APP_SECRET
       - DATABASE_URL=$DATABASE_URL
     volumes:
-      - .:/code # Mount your code, so nginx/phpcould see it
+      - .:/code # Mount your code, so nginx/php could see it
 
   prod.php.symfony:
     container_name: prod.php.symfony
@@ -27,7 +27,7 @@ services:
     environment: # Production environment should not use parameters from .env, but get them via nginx/apache
       - APP_ENV=prod # bin/console use APP_ENV value from environment
     volumes:
-      - .:/code # Mount your code, so nginx/phpcould see it
+      - .:/code # Mount your code, so nginx/php could see it
 
   mysql.symfony:
     container_name: mysql.symfony
@@ -43,10 +43,10 @@ services:
     build: .docker/frontend/
     container_name: frontend.symfony
     volumes:
-      - .:/code # Mount your code, so javaScript tools could see it
+      - .:/code # Mount your code, so JavaScript tools could see it
 
-#  python:
-#    container_name: python
-#    build: .docker/python/
-#    volumes:
-#      - .:/code
+  python:
+    container_name: python
+    build: .docker/python/
+    volumes:
+      - .:/code
