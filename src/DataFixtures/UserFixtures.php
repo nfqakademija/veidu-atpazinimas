@@ -22,7 +22,7 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
     {
         $faker = \Faker\Factory::create('lt_LT');
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $user = new User();
             $user
                 ->setName($faker->name)

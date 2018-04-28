@@ -16,10 +16,10 @@ class ModuleFixtures extends Fixture implements OrderedFixtureInterface
 
         $lecturers = $manager->getRepository(Lecturer::class)->findAll();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $module = new Module();
             $module
-                ->setTitle($faker->name)
+                ->setTitle($faker->word)
                 ->setLecturer($faker->randomElement($lecturers));
 
             $manager->persist($module);
