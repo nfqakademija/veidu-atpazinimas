@@ -1,0 +1,23 @@
+services:
+    encoder.json:
+        class: Symfony\Component\Serializer\Encoder\JsonEncoder
+    
+    normalizer.module:
+        class: App\Normalizer\ModuleNormalizer
+        tags:
+            - { name: serializer.normalizer }
+        
+    normalizer.group:
+        class: App\Normalizer\ModuleNormalizer
+        tags:
+            - { name: serializer.normalizer }
+
+    serializer.default:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            0:
+                - '@normalizer.module'
+                - '@normalizer.group'
+                - '@serializer.normalizer.object'
+            1:
+                - '@encoder.json'

@@ -150,4 +150,16 @@ class Lecture
         $this->attendances[] = $attendance;
     }
     #endregion
+
+    public function jsonSerialize()
+    {
+        return [
+            'id'          => $this->id,
+            'title'       => $this->title,
+            'start'       => $this->start->format("Y-m-d H:i:s"),
+            'end'         => $this->end->format("Y-m-d H:i:s"),
+            'module'      => $this->module->getId(),
+            'attendances' => $this->attendances,
+        ];
+    }
 }

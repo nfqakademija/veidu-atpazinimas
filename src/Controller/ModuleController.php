@@ -3,21 +3,31 @@
 namespace App\Controller;
 
 use App\Entity\Module;
+use App\Entity\User;
 use App\Form\ModuleType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ModuleController extends Controller
 {
-    public function index(): Response
+    public function index(NormalizerInterface $normalizer): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find(442);
+        // TODO: Get authenticated user
+        
+        if (!$user)
+            throw new AuthenticationException();
+        
+        $modules = $user->getLecturer() ? $user->getLecturer()->getModules() : null;
 
-
-            return new JsonResponse(['modules' => $this->getUser()->getModules()]);
-
+        return new JsonResponse([
+            'modules' => $normalizer->normalize($modules, null, ['include_relations' => true]),
+        ]);
     }
 
     public function new(Request $request): Response
@@ -31,10 +41,10 @@ class ModuleController extends Controller
             $em->persist($module);
             $em->flush();
 
-            return new JsonResponse($module, '201');
+            return new JsonResponse($module);
         }
 
-        return new Response('', 400);
+        return new Response('', Response::HTTP_BAD_REQUEST);
     }
 
     public function show(Module $module): Response
