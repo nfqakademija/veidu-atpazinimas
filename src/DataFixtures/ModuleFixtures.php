@@ -6,10 +6,8 @@ use App\Entity\Attendance;
 use App\Entity\Lecture;
 use App\Entity\Lecturer;
 use App\Entity\Module;
-use App\Entity\Student;
 use App\Entity\StudentGroup;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
