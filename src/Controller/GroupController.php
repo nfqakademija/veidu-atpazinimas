@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\StudentGroup;
+use App\Form\GroupType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,6 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GroupController extends Controller
 {
+    public function show(StudentGroup $group): Response
+    {
+        return $this->json($group);
+    }
+
     public function new(Request $request): Response
     {
         $group = new StudentGroup();
@@ -21,15 +27,10 @@ class GroupController extends Controller
             $em->persist($group);
             $em->flush();
 
-            return new JsonResponse($group, '201');
+            return $this->json($group, Response::HTTP_CREATED);
         }
 
-        return new Response('', 400);
-    }
-
-    public function show(StudentGroup $group): Response
-    {
-        return new JsonResponse($group);
+        return new Response('', Response::HTTP_BAD_REQUEST);
     }
 
     public function edit(Request $request, StudentGroup $group): Response
@@ -40,21 +41,22 @@ class GroupController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return new JsonResponse(['id' => $group->getId()]);
+            return $this->json(['id' => $group->getId()]);
         }
 
-        return new Response('', 400);
+        return new Response('', Response::HTTP_BAD_REQUEST);
     }
 
     public function delete(Request $request, StudentGroup $group): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $group->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$group->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($group);
             $em->flush();
-            return new Response('', 204);
+
+            return new Response('', Response::HTTP_NO_CONTENT);
         }
 
-        return new Response('', 400);
+        return new Response('', Response::HTTP_BAD_REQUEST);
     }
 }

@@ -2,17 +2,41 @@
 
 namespace App\Controller;
 
+use App\Entity\Attendance;
 use App\Entity\Lecture;
+use App\Entity\Module;
 use App\Form\LectureType;
-use App\Repository\LectureRepository;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class LectureController extends Controller
 {
+    public function index()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        // TODO: Get authenticated user
+
+        /** @var Collection|Attendance $modules */
+        $modules = $entityManager->getRepository(Lecture::class)->find(442)
+            ->getLecturer()
+            ->getModules();
+
+        $lectures = $modules->map(function (Module $module) {
+            return $module->getLectures();
+        });
+
+        return $this->json([
+            'lectures' => $lectures,
+        ]);
+    }
+
+    public function show(Lecture $lecture): Response
+    {
+        return $this->json($lecture);
+    }
+
     public function new(Request $request): Response
     {
         $lecture = new Lecture();
@@ -24,15 +48,10 @@ class LectureController extends Controller
             $em->persist($lecture);
             $em->flush();
 
-            return new JsonResponse($lecture, '201');
+            return $this->json($lecture, Response::HTTP_CREATED);
         }
 
-        return new Response('', 400);
-    }
-
-    public function show(Lecture $lecture): Response
-    {
-        return new JsonResponse($lecture);
+        return new Response('', Response::HTTP_BAD_REQUEST);
     }
 
     public function edit(Request $request, Lecture $lecture): Response
@@ -43,21 +62,22 @@ class LectureController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return new JsonResponse(['id' => $lecture->getId()]);
+            return $this->json(['id' => $lecture->getId()]);
         }
 
-        return new Response('', 400);
+        return new Response('', Response::HTTP_BAD_REQUEST);
     }
 
     public function delete(Request $request, Lecture $lecture): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $lecture->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$lecture->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($lecture);
             $em->flush();
-            return new Response('', 204);
+
+            return new Response('', Response::HTTP_NO_CONTENT);
         }
 
-        return new Response('', 400);
+        return new Response('', Response::HTTP_BAD_REQUEST);
     }
 }

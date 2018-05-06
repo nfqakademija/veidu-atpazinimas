@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LectureRepository")
  */
-class Lecture
+class Lecture implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -65,11 +65,13 @@ class Lecture
 
     /**
      * @param string $title
+     *
      * @return Lecture
      */
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -83,11 +85,13 @@ class Lecture
 
     /**
      * @param \DateTime $start
+     *
      * @return Lecture
      */
     public function setStart(\DateTime $start): Lecture
     {
         $this->start = $start;
+
         return $this;
     }
 
@@ -101,11 +105,13 @@ class Lecture
 
     /**
      * @param \DateTime $end
+     *
      * @return Lecture
      */
     public function setEnd(\DateTime $end): Lecture
     {
         $this->end = $end;
+
         return $this;
     }
     #endregion
@@ -121,11 +127,13 @@ class Lecture
 
     /**
      * @param Module $module
+     *
      * @return Lecture
      */
     public function setModule($module): self
     {
         $this->module = $module;
+
         return $this;
     }
     #endregion
@@ -140,14 +148,30 @@ class Lecture
     }
 
     /**
-     * @param Attendance $attendance
+     * @param Collection|Attendance[] $attendances
+     *
+     * @return Lecture
      */
-    public function addAttendance(Attendance $attendance)
+    public function setAttendances($attendances): self
     {
-        if (!$attendance->getStudent()->getGroup()->getModules()->contains($this->getModule()))
-            return;
-
-        $this->attendances[] = $attendance;
+        $this->attendances = $attendances;
+        /** @var Attendance $attendance */
+        foreach ($attendances->getIterator() as $attendance) {
+            $attendance->setLecture($this);
+        }
+        
+        return $this;
     }
+
     #endregion
+
+    public function jsonSerialize()
+    {
+        return [
+            'id'    => $this->getId(),
+            'title' => $this->getTitle(),
+            'start' => $this->getStart()->format(\DateTime::ISO8601),
+            'end'   => $this->getEnd()->format(\DateTime::ISO8601),
+        ];
+    }
 }

@@ -11,6 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StudentController extends Controller
 {
+    public function show(Student $student): Response
+    {
+        return $this->json($student);
+    }
+
     public function new(Request $request): Response
     {
         $student = new Student();
@@ -22,15 +27,10 @@ class StudentController extends Controller
             $em->persist($student);
             $em->flush();
 
-            return new JsonResponse($student, '201');
+            return $this->json($student, Response::HTTP_CREATED);
         }
 
-        return new Response('', 400);
-    }
-
-    public function show(Student $student): Response
-    {
-        return new JsonResponse($student);
+        return new Response('', Response::HTTP_BAD_REQUEST);
     }
 
     public function edit(Request $request, Student $student): Response
@@ -41,10 +41,10 @@ class StudentController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return new JsonResponse(['id' => $student->getId()]);
+            return $this->json(['id' => $student->getId()]);
         }
 
-        return new Response('', 400);
+        return new Response('', Response::HTTP_BAD_REQUEST);
     }
 
     public function delete(Request $request, Student $student): Response
@@ -53,9 +53,9 @@ class StudentController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($student);
             $em->flush();
-            return new Response('', 204);
+            return new Response('', Response::HTTP_NO_CONTENT);
         }
 
-        return new Response('', 400);
+        return new Response('', Response::HTTP_BAD_REQUEST);
     }
 }

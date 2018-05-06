@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Module;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -19,9 +20,21 @@ class ModuleRepository extends ServiceEntityRepository
         parent::__construct($registry, Module::class);
     }
 
-//    /**
-//     * @return Module[] Returns an array of Module objects
-//     */
+    public function findByUserJoinedWithGroups($userId)
+    {
+        return $this->createQueryBuilder('m')
+            ->join('m.lecturer', 'l')
+            ->join('l.user', 'u')
+            ->leftJoin('m.groups', 'g')
+            ->where('u.id = :id')
+            ->setParameter(':id', $userId)
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    //    /**
+    //     * @return Module[] Returns an array of Module objects
+    //     */
     /*
     public function findByExampleField($value)
     {

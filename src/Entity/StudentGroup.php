@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
@@ -15,11 +16,13 @@ class StudentGroup
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"index"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
+     * @Groups({"index"})
      */
     private $title;
 
@@ -137,4 +140,14 @@ class StudentGroup
         return $this;
     }
     #endregion
+
+    // public function jsonSerialize()
+    // {
+    //     return [
+    //         'id'      => $this->getId(),
+    //         'title'   => $this->getTitle(),
+    //         'students' => $this->getStudents()->map(function(Student $student) { return $student->getId(); }),
+    //         'modules' => $this->getModules()->map(function(Module $module) { return $module->getId(); }),
+    //     ];
+    // }
 }

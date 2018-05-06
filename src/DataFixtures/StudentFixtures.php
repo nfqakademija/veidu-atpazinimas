@@ -18,8 +18,9 @@ class StudentFixtures extends Fixture implements OrderedFixtureInterface
 
         for ($i = 0; $i < 200; $i++) {
             $student = new Student();
-            $student->setName($faker->name);
-            $student->setGroup($faker->randomElement($groups));
+            $student->setName($faker->name)
+                ->setGroup($faker->randomElement($groups));
+            
             $manager->persist($student);
         }
 
@@ -33,6 +34,6 @@ class StudentFixtures extends Fixture implements OrderedFixtureInterface
      */
     public function getOrder()
     {
-        return 3;
+        return 2;
     }
 }

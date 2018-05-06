@@ -24,12 +24,11 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
 
         for ($i = 0; $i < 50; $i++) {
             $user = new User();
-            $user
-                ->setName($faker->name)
+            $user->setName($faker->name)
                 ->setEmail($faker->email)
                 ->setPassword($this->encoder->encodePassword($user, $faker->password(6, 20)));
 
-            if ($faker->randomElement([true, false])) {
+            if ($faker->boolean(60)) {
                 $lecturer = new Lecturer();
                 $lecturer->setUser($user);
 
@@ -44,7 +43,6 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
 
     /**
      * Get the order of this fixture
-     *
      * @return integer
      */
     public function getOrder()

@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StudentRepository")
  */
-class Student
+class Student implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -50,6 +50,7 @@ class Student
     public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -61,6 +62,7 @@ class Student
     public function setFace($face): self
     {
         $this->face = $face;
+
         return $this;
     }
     #endregion
@@ -76,6 +78,7 @@ class Student
 
     /**
      * @param StudentGroup $group
+     *
      * @return Student
      */
     public function setGroup(?StudentGroup $group): self
@@ -84,5 +87,14 @@ class Student
 
         return $this;
     }
+
     #endregion
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+        ];
+    }
 }
