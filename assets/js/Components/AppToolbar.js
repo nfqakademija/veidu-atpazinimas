@@ -1,30 +1,43 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, withStyles } from 'material-ui';
+import ContentBox from './ContentBox';
 
 const drawerWidth = 240;
 
 const styles = theme => ({
+  rightSide: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`
+  },
   appBar: {
     width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
+    height: '70px'
+
   },
-  toolbar: theme.mixins.toolbar,
+  // contentElement: {
+  //   marginTop: '70px'
+  // }
+  // toolbar: theme.mixins.toolbar,
 });
 
-const AppToolbar = (props) => {
-  const {classes} = props;
+const ContentRight = (props) => {
+  const { classes } = props;
   return (
-    <AppBar
-      position="absolute"
-      className={classes.appBar}
-    >
-      <Toolbar>
-        <Typography variant="title" color="inherit" noWrap>
-          Face Recognition
+    <div className={classes.rightSide}>
+      <AppBar
+        className={classes.appBar}
+      >
+        <Toolbar>
+          <Typography variant="title" color="inherit" noWrap>
+            Face Recognition
         </Typography>
-      </Toolbar>
-    </AppBar>
+        </Toolbar>
+      </AppBar>
+
+      <ContentBox />
+    </div>
   );
 };
 
-export default withStyles(styles)(AppToolbar);
+
+export default withStyles(styles)(ContentRight);

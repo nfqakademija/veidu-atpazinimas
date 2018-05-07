@@ -6,22 +6,23 @@ import { primaryNavigation, otherNavigation, actionsNavigation } from './drawerD
 const drawerWidth = 240;
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  appFrame: {
-    height: 430,
-    zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
-    display: 'flex',
-    width: '100%',
-  },
+  // root: {
+  //   flexGrow: 1,
+  // },
+  // appFrame: {
+  //   zIndex: 1,
+  //   overflow: 'hidden',
+  //   position: 'relative',
+  //   display: 'flex',
+  //   width: '100%',
+  // },
   drawerPaper: {
-    position: 'relative',
     width: drawerWidth,
   },
-  toolbar: theme.mixins.toolbar,
+  // toolbar: theme.mixins.toolbar,
+  toolbar: {
+    marginTop: '70px'
+  }
 });
 
 class PermanentDrawer extends React.Component {
