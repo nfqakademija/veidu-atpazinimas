@@ -2,27 +2,24 @@
 
 namespace App\Form;
 
-use App\Entity\Student;
+use App\Entity\Attendance;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class StudentType extends AbstractType
+class AttendanceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('face', FileType::class, ['label' => 'Student\'s photo (Image)'])
-            ->add('group')
+            ->add('attended')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Student::class,
+            'data_class' => Attendance::class,
         ]);
     }
 }
