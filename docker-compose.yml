@@ -47,6 +47,11 @@ services:
 
   python:
     container_name: python
+    restart: always    
     build: .docker/python/
+    environment:
+      - FLASK_ENV=development
     volumes:
       - .:/code
+    ports:
+      - "5000:5000"

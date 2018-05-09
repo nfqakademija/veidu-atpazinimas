@@ -16,6 +16,7 @@ def allowed_file(filename):
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_image():
+    print(f"Received request: {request.remote_addr}")
     # Check if a valid image file was uploaded
     if request.method == 'POST':
         if 'file' not in request.files:
@@ -95,4 +96,4 @@ def detect_faces_in_image(file_stream):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host="0.0.0.0", debug=True)

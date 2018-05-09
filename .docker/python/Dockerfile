@@ -45,3 +45,8 @@ ENV HOME /home/python
 
 WORKDIR /code
 VOLUME /code
+
+ENV FLASK_APP /python/app.py
+EXPOSE 5000
+
+CMD tail -f /dev/null
