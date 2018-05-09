@@ -1,32 +1,23 @@
 import React from 'react';
 import AppToolbar from './AppToolbar';
 import Drawer from './Drawer';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import {withStyles} from 'material-ui';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: '#67daff',
-      main: '#03a9f4',
-      dark: '#007ac1',
-      contrastText: '#000',
-    },
-    secondary: {
-      light: '#76ffff',
-      main: '#18ffff',
-      dark: '#00cbcc',
-      contrastText: '#000',
-    },
-  },
+const styles = theme => ({
+
 });
 
-const App = () => (
-  <MuiThemeProvider theme={theme}>
+const App = (props) => {
+  const { classes } = props;
+  return (
+  <div>
     <AppToolbar/>
     <Drawer/>
     <main>
     </main>
-  </MuiThemeProvider>
-);
 
-export default App;
+  </div>
+  );
+};
+
+export default withStyles(styles)(App);

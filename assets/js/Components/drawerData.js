@@ -1,26 +1,27 @@
 import React from 'react';
 import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import { People, Face, DateRange, Settings, Info, Help } from '@material-ui/icons';
+import { Switch, Route, Link, withRouter, BrowserRouter as Router } from 'react-router-dom';
 
 export const primaryNavigation = (
   <div>
     <ListItem button>
       <ListItemIcon>
-        <People/>
+        <People />
       </ListItemIcon>
-      <ListItemText primary="Students"/>
+      <ListItemText primary="Students" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <Face/>
+        <Face />
       </ListItemIcon>
-      <ListItemText primary="Attendance"/>
+      <ListItemText primary="Lectures" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <DateRange/>
+        <DateRange />
       </ListItemIcon>
-      <ListItemText primary="Schedule"/>
+      <ListItemText primary="Schedule" />
     </ListItem>
   </div>
 );
@@ -28,33 +29,42 @@ export const primaryNavigation = (
 export const actionsNavigation = (
   <div>
     <ListItem button>
-      <ListItemText primary="Export"/>
+      <ListItemText primary="Export" />
     </ListItem>
     <ListItem button>
-      <ListItemText primary="Print"/>
+      <ListItemText primary="Print" />
     </ListItem>
   </div>
 );
 
 export const otherNavigation = (
   <div>
+
     <ListItem button>
       <ListItemIcon>
-        <Settings/>
+        <Settings />
       </ListItemIcon>
-      <ListItemText primary="Settings"/>
+      <ListItemText primary="Settings" />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <Help/>
-      </ListItemIcon>
-      <ListItemText primary="Help"/>
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <Info/>
-      </ListItemIcon>
-      <ListItemText primary="About"/>
-    </ListItem>
+    <Router>
+      <Link to="/help">
+        <ListItem button>
+          <ListItemIcon>
+            <Help />
+          </ListItemIcon>
+          <ListItemText primary="Help" />
+        </ListItem>
+      </Link>
+      </Router>
+    <Router>
+      <Link to="/about">
+        <ListItem button>
+          <ListItemIcon>
+            <Info />
+          </ListItemIcon>
+          <ListItemText primary="About" />
+        </ListItem>
+      </Link>
+    </Router>
   </div>
 );
