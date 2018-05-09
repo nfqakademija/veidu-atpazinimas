@@ -1,0 +1,7 @@
+parameters:
+    faces_directory: '%kernel.project_dir%/public/faces'
+    
+services:
+    App\Service\FileUploader:
+        arguments:
+            $targetDirectory: '%faces_directory%'
