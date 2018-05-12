@@ -21,7 +21,8 @@ class LectureController extends Controller
         /** @var Collection|Attendance $modules */
         $modules = $entityManager->getRepository(Lecture::class)->find(442)
             ->getLecturer()
-            ->getModules();
+            ->getModules()
+        ;
 
         $lectures = $modules->map(function (Module $module) {
             return $module->getLectures();

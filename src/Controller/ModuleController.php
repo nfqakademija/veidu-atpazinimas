@@ -6,6 +6,7 @@ use App\Entity\Module;
 use App\Entity\User;
 use App\Form\ModuleType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -15,26 +16,29 @@ class ModuleController extends Controller
     public function index(NormalizerInterface $normalizer): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $modules = $entityManager->getRepository(User::class)->find(442)
-            ->getLecturer()
-            ->getModules();
 
-        // TODO: Get authenticated user
+        // TODO Get authenticated user
+        $user = $entityManager->getRepository(User::class)->find(19);
 
-        return $this->json($normalizer->normalize($modules, null,
-            [
-                'groups' => ['index', 'groups'],
-            ]
-        ));
+        if (!$user) {
+            return new Response('', Response::HTTP_UNAUTHORIZED);
+        }
+
+        if ($user->isLecturer()) {
+            $modules = $user->getLecturer()->getModules();
+        } else {
+            // TODO Check if user is an administrator
+            $modules = $entityManager->getRepository(Module::class)->findAll();
+        }
+
+        return new JsonResponse($normalizer->normalize($modules, null, ['groups' => ['index', 'groups']]));
     }
 
     public function show(Module $module, NormalizerInterface $normalizer): Response
     {
-        return $this->json($normalizer->normalize($module, null,
-            [
-                'groups' => ['index', 'groups', 'details'],
-            ]
-        ));
+        return $this->json($normalizer->normalize($module, null, [
+            'groups' => ['index', 'details', 'groups'],
+        ]));
     }
 
     public function new(Request $request): Response
