@@ -89,7 +89,7 @@ class Module
      */
     public function addGroup(StudentGroup $group): Module
     {
-        if ( ! $this->groups->contains($group)) {
+        if (!$this->groups->contains($group)) {
             $this->groups[] = $group;
             $group->addModule($this);
         }
@@ -124,6 +124,7 @@ class Module
 
     /**
      * @param Lecture $lecture
+     *
      * @return Module
      */
     public function addLecture(Lecture $lecture): self
@@ -138,6 +139,7 @@ class Module
 
     /**
      * @param Lecture $lecture
+     *
      * @return Module
      */
     public function removeLecture(Lecture $lecture): self
@@ -145,8 +147,9 @@ class Module
         if ($this->lectures->contains($lecture)) {
             $this->lectures->removeElement($lecture);
 
-            if ($lecture->getModule() === $this)
+            if ($lecture->getModule() === $this) {
                 $lecture->setModule(null);
+            }
         }
 
         return $this;

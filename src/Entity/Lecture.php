@@ -159,7 +159,7 @@ class Lecture implements \JsonSerializable
         foreach ($attendances->getIterator() as $attendance) {
             $attendance->setLecture($this);
         }
-        
+
         return $this;
     }
 

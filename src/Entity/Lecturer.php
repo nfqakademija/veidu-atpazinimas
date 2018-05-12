@@ -82,7 +82,7 @@ class Lecturer
 
     public function addModule(Module $module): self
     {
-        if ( ! $this->modules->contains($module)) {
+        if (!$this->modules->contains($module)) {
             $this->modules[] = $module;
             $module->setLecturer($this);
         }

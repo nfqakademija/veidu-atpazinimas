@@ -67,11 +67,13 @@ class User implements UserInterface, \Serializable
 
     /**
      * @param string $password
+     *
      * @return $this
      */
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
         return $this;
     }
 
@@ -93,11 +95,13 @@ class User implements UserInterface, \Serializable
 
     /**
      * @param string $email
+     *
      * @return User
      */
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
         return $this;
     }
 
@@ -111,11 +115,13 @@ class User implements UserInterface, \Serializable
 
     /**
      * @param string $name
+     *
      * @return User
      */
     public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
     #endregion
@@ -123,7 +129,8 @@ class User implements UserInterface, \Serializable
     #region Serialization
     /**
      * String representation of object
-     * @link http://php.net/manual/en/serializable.serialize.php
+     *
+     * @link  http://php.net/manual/en/serializable.serialize.php
      * @return string the string representation of the object or null
      * @since 5.1.0
      */
@@ -139,10 +146,13 @@ class User implements UserInterface, \Serializable
 
     /**
      * Constructs the object
-     * @link http://php.net/manual/en/serializable.unserialize.php
+     *
+     * @link  http://php.net/manual/en/serializable.unserialize.php
+     *
      * @param string $serialized <p>
-     * The string representation of the object.
-     * </p>
+     *                           The string representation of the object.
+     *                           </p>
+     *
      * @return void
      * @since 5.1.0
      */
@@ -153,7 +163,8 @@ class User implements UserInterface, \Serializable
             $this->email,
             $this->password,
             $this->name,
-        ] = unserialize($serialized, ['allowed_classes' => false]);
+        ]
+            = unserialize($serialized, ['allowed_classes' => false]);
     }
     #endregion
 
@@ -173,6 +184,11 @@ class User implements UserInterface, \Serializable
         }
 
         return $this;
+    }
+
+    public function isLecturer(): bool
+    {
+        return $this->lecturer !== null;
     }
 
     #endregion

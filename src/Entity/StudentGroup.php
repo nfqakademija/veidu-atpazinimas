@@ -58,6 +58,7 @@ class StudentGroup
     public function setTitle($title): self
     {
         $this->title = $title;
+
         return $this;
     }
     #endregion
@@ -73,6 +74,7 @@ class StudentGroup
 
     /**
      * @param Student $student
+     *
      * @return StudentGroup
      */
     public function addStudent(Student $student): self
@@ -87,6 +89,7 @@ class StudentGroup
 
     /**
      * @param Student $student
+     *
      * @return StudentGroup
      */
     public function removeStudent(Student $student): self
@@ -94,8 +97,9 @@ class StudentGroup
         if ($this->students->contains($student)) {
             $this->students->removeElement($student);
 
-            if ($student->getGroup() === $this)
+            if ($student->getGroup() === $this) {
                 $student->setGroup(null);
+            }
         }
 
         return $this;
@@ -113,6 +117,7 @@ class StudentGroup
 
     /**
      * @param Module $module
+     *
      * @return StudentGroup
      */
     public function addModule(Module $module): self
@@ -127,6 +132,7 @@ class StudentGroup
 
     /**
      * @param Module $module
+     *
      * @return StudentGroup
      */
     public function removeModule(Module $module): self

@@ -15,7 +15,7 @@ class Attendance implements \JsonSerializable
      * @ORM\Column(type="integer")
      */
     private $id;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Lecture", inversedBy="attendances")
      * @ORM\JoinColumn(nullable=false)
@@ -37,7 +37,7 @@ class Attendance implements \JsonSerializable
     {
         return $this->id;
     }
-    
+
     /**
      * @return Student
      */
@@ -48,6 +48,7 @@ class Attendance implements \JsonSerializable
 
     /**
      * @param Student $student
+     *
      * @return Attendance
      */
     public function setStudent(Student $student): self

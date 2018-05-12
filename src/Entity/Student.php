@@ -3,36 +3,44 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StudentRepository")
  */
-class Student implements \JsonSerializable
+class Student
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"index"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
+     * @Groups({"index"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     *
      * @Assert\NotBlank(message="Please, upload the image as JPEG/JPG.")
      * @Assert\File(mimeTypes={ "image/jpeg" })
      */
     private $face;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $encoding;
+
+    /**
      * @ORM\ManyToOne(targetEntity="StudentGroup", inversedBy="students")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups({"details"})
      */
     private $group;
 
@@ -67,7 +75,7 @@ class Student implements \JsonSerializable
     }
     #endregion
 
-    #region StudentGroup
+    #region Group    
     /**
      * @return StudentGroup
      */
@@ -87,14 +95,19 @@ class Student implements \JsonSerializable
 
         return $this;
     }
-
     #endregion
-
-    public function jsonSerialize()
+    
+    #region Encoding
+    public function getEncoding(): string
     {
-        return [
-            'id' => $this->getId(),
-            'name' => $this->getName(),
-        ];
+        return unserialize(base64_decode($this->encoding));
     }
+
+    public function setEncoding(array $encoding): self
+    {
+        $this->encoding = base64_encode(serialize($encoding));
+
+        return $this;
+    }
+    #endregion
 }

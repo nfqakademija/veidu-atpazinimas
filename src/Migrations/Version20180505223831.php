@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
@@ -36,7 +36,8 @@ class Version20180505223831 extends AbstractMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql',
+            'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE module_student_group DROP FOREIGN KEY FK_B62CFDF04DDF95DC');
         $this->addSql('ALTER TABLE student DROP FOREIGN KEY FK_B723AF33FE54D947');
