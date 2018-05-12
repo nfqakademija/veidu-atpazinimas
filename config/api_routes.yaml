@@ -78,7 +78,7 @@ lecture_show:
     
 lecture_new:
     path: /lectures
-    controller: App\Controller\LecturesController::new
+    controller: App\Controller\LectureController::new
     methods: [POST]
 
 lecture_edit:
