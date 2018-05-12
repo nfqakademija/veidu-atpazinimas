@@ -1,0 +1,6 @@
+services:
+    app.file_uploader:
+        class: App\Service\FileUploader
+        public: true
+        arguments:
+            $targetDirectory: '%faces_directory%'
