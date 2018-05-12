@@ -75,6 +75,11 @@ lecture_show:
     path: /lectures/{lecture}
     controller: App\Controller\LectureController::show
     methods: [GET]
+    
+lecture_new:
+    path: /lectures
+    controller: App\Controller\LecturesController::new
+    methods: [POST]
 
 lecture_edit:
     path: /lectures/{lecture}
@@ -85,3 +90,8 @@ lecture_delete:
     path: /lectures/{lecture}
     controller: App\Controller\LectureController::delete
     methods: [DELETE]
+    
+lecture_upload:
+    path: /lectures/
+    controller: App\Controller\LectureController::upload
+    methods: [POST]
