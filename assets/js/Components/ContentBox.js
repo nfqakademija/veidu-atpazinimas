@@ -6,6 +6,9 @@ import Typography from 'material-ui/Typography';
 import { Switch, Route, Link, withRouter, BrowserRouter as Router } from 'react-router-dom';
 import About from './About';
 import HelpComponent from './Help';
+import StudentsComponent from './Students';
+import LecturesComponent from './Lectures';
+import SheduleComponent from './Shedule';
 
 const drawerWidth = 240;
 
@@ -29,12 +32,13 @@ function ContentBox(props) {
     <div className={classes.contentElement}>
       <Paper className={classes.content} elevation={1}>
         <React.Fragment>
-          <Router>
             <Switch>
+            <Route path='/students' component={StudentsComponent} />
+              <Route path='/lectures' component={LecturesComponent} />
+              <Route path='/shedule' component={SheduleComponent} />
               <Route path='/about' component={About} />
               <Route path='/help' component={HelpComponent} />
             </Switch>
-          </Router>
         </React.Fragment>
       </Paper>
     </div>
