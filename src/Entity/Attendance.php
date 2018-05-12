@@ -107,7 +107,8 @@ class Attendance implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'student'  => $this->getStudent(),
+            'id'  => $this->getStudent()->getId(),
+            'name'  => $this->getStudent()->getName(),
             'attended' => $this->hasAttended(),
         ];
     }

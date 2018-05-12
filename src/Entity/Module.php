@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ModuleRepository")
  */
-class Module
+class Module implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -171,18 +171,11 @@ class Module
 
     #endregion
 
-    // public function jsonSerialize()
-    // {
-    //     return [
-    //         'id'       => $this->getId(),
-    //         'title'    => $this->getTitle(),
-    //         'lecturer' => $this->getLecturer()->getId(),
-    //         'groups'   => $this->getGroups()->map(function (StudentGroup $group) {
-    //             return [
-    //                 'id'    => $group->getId(),
-    //                 'title' => $group->getTitle(),
-    //             ];
-    //         }),
-    //     ];
-    // }
+    public function jsonSerialize()
+    {
+        return [
+            'id'          => $this->getId(),
+            'title'       => $this->getTitle()
+        ];
+    }
 }

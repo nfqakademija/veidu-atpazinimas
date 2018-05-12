@@ -2,40 +2,45 @@
 
 namespace App\Controller;
 
-use App\Entity\Attendance;
 use App\Entity\Lecture;
 use App\Entity\Module;
+use App\Entity\User;
 use App\Form\LectureType;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class LectureController extends Controller
 {
-    public function index()
+    public function index(NormalizerInterface $normalizer)
     {
         $entityManager = $this->getDoctrine()->getManager();
         // TODO: Get authenticated user
 
-        /** @var Collection|Attendance $modules */
-        $modules = $entityManager->getRepository(Lecture::class)->find(442)
+        /** @var Collection|Module $modules */
+        $lecturer = $entityManager->getRepository(User::class)->find(19)
             ->getLecturer()
-            ->getModules()
         ;
+        
+        $lectures = $entityManager->getRepository(Lecture::class)->findByLecturer($lecturer, 10);
 
-        $lectures = $modules->map(function (Module $module) {
-            return $module->getLectures();
-        });
-
-        return $this->json([
-            'lectures' => $lectures,
-        ]);
+        return $this->json($normalizer->normalize($lectures, null,
+            ['groups' => ['index', 'info']]
+        ));
     }
 
-    public function show(Lecture $lecture): Response
+    public function show(Lecture $lecture, NormalizerInterface $normalizer): Response
     {
-        return $this->json($lecture);
+        return $this->json($normalizer->normalize($lecture, null,
+            ['groups' => ['index', 'info', 'details', 'attendances']]
+        ));
+    }
+
+    public function upload()
+    {
+
     }
 
     public function new(Request $request): Response

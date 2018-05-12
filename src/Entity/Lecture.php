@@ -5,42 +5,50 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LectureRepository")
  */
-class Lecture implements \JsonSerializable
+class Lecture
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"index"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
+     * @Groups({"index"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"info"})
      */
     private $start;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"info"})
      */
     private $end;
 
     /**
      * @ORM\ManyToOne(targetEntity="Module", inversedBy="lectures")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"details"})
      */
     private $module;
 
     /**
      * @ORM\OneToMany(targetEntity="Attendance", mappedBy="lecture")
+     * @Groups({"attendances"})
      */
     private $attendances;
 
@@ -168,10 +176,8 @@ class Lecture implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id'    => $this->getId(),
-            'title' => $this->getTitle(),
-            'start' => $this->getStart()->format(\DateTime::ISO8601),
-            'end'   => $this->getEnd()->format(\DateTime::ISO8601),
+            'id'          => $this->getId(),
+            'title'       => $this->getTitle()
         ];
     }
 }

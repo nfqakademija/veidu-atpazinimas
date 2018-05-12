@@ -31,14 +31,16 @@ class ModuleController extends Controller
             $modules = $entityManager->getRepository(Module::class)->findAll();
         }
 
-        return new JsonResponse($normalizer->normalize($modules, null, ['groups' => ['index', 'groups']]));
+        return new JsonResponse($normalizer->normalize($modules, null,
+            ['groups' => ['index', 'groups']]
+        ));
     }
 
     public function show(Module $module, NormalizerInterface $normalizer): Response
     {
-        return $this->json($normalizer->normalize($module, null, [
-            'groups' => ['index', 'details', 'groups'],
-        ]));
+        return $this->json($normalizer->normalize($module, null,
+            ['groups' => ['index', 'details', 'groups']]
+        ));
     }
 
     public function new(Request $request): Response

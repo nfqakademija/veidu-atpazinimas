@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Lecture;
+use App\Entity\Lecturer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -18,7 +19,20 @@ class LectureRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Lecture::class);
     }
-
+    
+    
+    public function findByLecturer(Lecturer $lecturer, int $limit)
+    {
+        return $this->createQueryBuilder('l')
+            ->join('l.module', 'm')
+            ->join('m.lecturer', 'll')
+            ->where('ll.id = :lecturer')
+            ->orderBy('l.start', 'DESC')
+            ->setMaxResults($limit)
+            ->setParameter('lecturer', $lecturer)
+            ->getQuery()
+            ->execute();
+    }
 //    /**
 //     * @return Lecture[] Returns an array of Lecture objects
 //     */
