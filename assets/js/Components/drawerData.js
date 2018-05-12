@@ -5,24 +5,30 @@ import { Switch, Route, Link, withRouter, BrowserRouter as Router } from 'react-
 
 export const primaryNavigation = (
   <div>
-    <ListItem button>
-      <ListItemIcon>
-        <People />
-      </ListItemIcon>
-      <ListItemText primary="Students" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <Face />
-      </ListItemIcon>
-      <ListItemText primary="Lectures" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <DateRange />
-      </ListItemIcon>
-      <ListItemText primary="Schedule" />
-    </ListItem>
+    <Link to="/students">
+      <ListItem button>
+        <ListItemIcon>
+          <People />
+        </ListItemIcon>
+        <ListItemText primary="Students" />
+      </ListItem>
+    </Link>
+    <Link to="/lectures">
+      <ListItem button>
+        <ListItemIcon>
+          <Face />
+        </ListItemIcon>
+        <ListItemText primary="Lectures" />
+      </ListItem>
+    </Link>
+    <Link to="/shedule">
+      <ListItem button>
+        <ListItemIcon>
+          <DateRange />
+        </ListItemIcon>
+        <ListItemText primary="Schedule" />
+      </ListItem>
+    </Link>
   </div>
 );
 
@@ -46,25 +52,21 @@ export const otherNavigation = (
       </ListItemIcon>
       <ListItemText primary="Settings" />
     </ListItem>
-    <Router>
-      <Link to="/help">
-        <ListItem button>
-          <ListItemIcon>
-            <Help />
-          </ListItemIcon>
-          <ListItemText primary="Help" />
-        </ListItem>
-      </Link>
-      </Router>
-    <Router>
-      <Link to="/about">
-        <ListItem button>
-          <ListItemIcon>
-            <Info />
-          </ListItemIcon>
-          <ListItemText primary="About" />
-        </ListItem>
-      </Link>
-    </Router>
+    <Link to="/help">
+      <ListItem button>
+        <ListItemIcon>
+          <Help />
+        </ListItemIcon>
+        <ListItemText primary="Help" />
+      </ListItem>
+    </Link>
+    <Link to="/about">
+      <ListItem button>
+        <ListItemIcon>
+          <Info />
+        </ListItemIcon>
+        <ListItemText primary="About" />
+      </ListItem>
+    </Link>
   </div>
 );
