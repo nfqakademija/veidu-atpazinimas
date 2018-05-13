@@ -24,14 +24,14 @@ class LectureController extends Controller
         // TODO: Get authenticated user
 
         /** @var Collection|Teacher $modules */
-        $teacher = $entityManager->getRepository(User::class)->find(13)
+        $teacher = $entityManager->getRepository(User::class)->find(102)
             ->getTeacher()
         ;
 
         $lectures = $entityManager->getRepository(Lecture::class)->findByTeacher($teacher, 10);
 
         return $this->json($normalizer->normalize($lectures, null,
-            ['groups' => ['index', 'time', 'module', 'attendances']]
+            ['groups' => ['index', 'time', 'module']]
         ));
     }
 

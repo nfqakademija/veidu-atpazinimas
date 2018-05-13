@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LectureRepository")
@@ -171,5 +170,25 @@ class Lecture
         return $this;
     }
 
+    /** @Groups({"index"}) */
+    public function getTotalStudents(): int
+    {
+        return array_sum(
+            $this->getModule()->getGroups()->map(function (StudentGroup $group) {
+                return $group->getStudents()->count();
+            })->toArray());
+    }
+
+    /** @Groups({"index"}) */
+    public function getAttendedStudents(): int
+    {
+        if (!$this->getAttendances()) {
+            return 0;
+        }
+
+        return $this->getAttendances()->filter(function (Attendance $attendance) {
+            return $attendance->hasAttended();
+        })->count();
+    }
     #endregion
 }

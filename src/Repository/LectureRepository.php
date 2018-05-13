@@ -34,6 +34,7 @@ class LectureRepository extends ServiceEntityRepository
             ->execute()
         ;
     }
+    
 //    /**
 //     * @return Lecture[] Returns an array of Lecture objects
 //     */
