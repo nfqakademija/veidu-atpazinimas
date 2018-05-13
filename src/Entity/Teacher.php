@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\LecturerRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TeacherRepository")
  */
-class Lecturer
+class Teacher
 {
     /**
      * @ORM\Id()
@@ -21,14 +21,20 @@ class Lecturer
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="lecturer", cascade={"persist", "remove"})
+     * @ORM\Column(type="string")
+     * @Groups({"index"})
+     */
+    private $name;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="teacher", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      * @Groups("index")
      */
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Module", mappedBy="lecturer")
+     * @ORM\OneToMany(targetEntity="App\Entity\Module", mappedBy="teacher")
      */
     private $modules;
 
@@ -41,6 +47,26 @@ class Lecturer
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return Teacher
+     */
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
     #endregion
 
@@ -56,15 +82,15 @@ class Lecturer
     /**
      * @param User|null $user
      *
-     * @return Lecturer
+     * @return Teacher
      */
     public function setUser(?User $user): self
     {
         $this->user = $user;
 
         $newLecturer = $user === null ? null : $this;
-        if ($newLecturer !== $user->getLecturer()) {
-            $user->setLecturer($newLecturer);
+        if ($newLecturer !== $user->getTeacher()) {
+            $user->setTeacher($newLecturer);
         }
 
         return $this;
@@ -84,7 +110,7 @@ class Lecturer
     {
         if (!$this->modules->contains($module)) {
             $this->modules[] = $module;
-            $module->setLecturer($this);
+            $module->setTeacher($this);
         }
 
         return $this;

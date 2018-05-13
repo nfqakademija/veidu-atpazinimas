@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AttendanceRepository")
  */
-class Attendance implements \JsonSerializable
+class Attendance
 {
     /**
      * @ORM\Id()
@@ -25,11 +26,13 @@ class Attendance implements \JsonSerializable
     /**
      * @ORM\ManyToOne(targetEntity="Student")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"index"})
      */
     private $student;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"index"})
      */
     private $attended;
 
@@ -103,13 +106,4 @@ class Attendance implements \JsonSerializable
     }
 
     #endregion
-
-    public function jsonSerialize()
-    {
-        return [
-            'id'  => $this->getStudent()->getId(),
-            'name'  => $this->getStudent()->getName(),
-            'attended' => $this->hasAttended(),
-        ];
-    }
 }

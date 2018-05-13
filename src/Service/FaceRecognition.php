@@ -3,41 +3,35 @@
 namespace App\Service;
 
 
-use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Client;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 
 class FaceRecognition
 {
-    /** @var ClientInterface */
+    /** @var Client */
     private $client;
-    
-    /** @var string */
-    private $directory;
 
     /**
      * FaceRecognitionService constructor.
      *
-     * @param ClientInterface $client
-     * @param string          $directory
+     * @param Client $client
      */
-    public function __construct(ClientInterface $client, string $directory)
+    public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->directory = $directory;
     }
 
     /**
-     * @param string $imageFileName
+     * @param UploadedFile $image
      *
      * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function calculateFaceEncoding(string $imageFileName): array
+    public function calculateFaceEncoding(UploadedFile $image): array
     {
         $request = $this->client->request('POST', '/encoding', [
-            'body' => [
-                'file' => fopen($this->directory.'/'.$imageFileName, 'r'),
-            ],
+            'file' => $image,
         ]);
 
         return $request->getStatusCode() === Response::HTTP_OK
@@ -46,23 +40,33 @@ class FaceRecognition
     }
 
     /**
-     * @param string  $imageFileName
-     * @param float[] $encodings
+     * @param float[]      $encodings
+     * @param UploadedFile $image
      *
      * @return bool[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function compareFacesWithEncodings(array $encodings, string $imageFileName): array
+    public function compareFacesWithEncodings(array $encodings, UploadedFile $image): array
     {
-        $request = $this->client->request('GET', '/recognition', [
-            'body' => [
-                'encodings' => $encodings,
-                'file'      => fopen($this->directory.'/'.$imageFileName, 'r'),
+        $response = $this->client->request('POST', '/recognition', [
+            'multipart' => [
+                [
+                    'name'     => 'encodings',
+                    'contents' => json_encode($encodings),
+                ],
+                [
+                    'name'     => 'file',
+                    'contents' => fopen($image->getPathname(), 'r'),
+                ],
             ],
         ]);
-
-        return $request->getStatusCode() === Response::HTTP_OK
-            ? json_decode($request->getBody())
+        
+        echo 'Sending';
+        
+        echo highlight_string("<?php\n\$data=".$response.";\n", true);
+        
+        return $response->getStatusCode() === Response::HTTP_OK
+            ? json_decode($response->getBody())
             : null;
     }
 }

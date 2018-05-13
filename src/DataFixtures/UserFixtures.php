@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Lecturer;
+use App\Entity\Teacher;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -24,16 +24,21 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
 
         for ($i = 0; $i < 50; $i++) {
             $user = new User();
-            $user->setName($faker->name)
+            $user
                 ->setEmail($faker->email)
-                ->setPassword($this->encoder->encodePassword($user, $faker->password(6, 20)))
+                ->setPassword(
+                    $this->encoder->encodePassword($user, $faker->password(6, 20))
+                )
             ;
 
             if ($faker->boolean(60)) {
-                $lecturer = new Lecturer();
-                $lecturer->setUser($user);
+                $teacher = new Teacher();
+                $teacher
+                    ->setName($faker->name)
+                    ->setUser($user)
+                ;
 
-                $manager->persist($lecturer);
+                $manager->persist($teacher);
             }
 
             $manager->persist($user);

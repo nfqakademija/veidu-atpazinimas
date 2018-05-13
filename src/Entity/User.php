@@ -33,15 +33,9 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
-     * @ORM\Column(type="string")
-     * @Groups({"index"})
+     * @ORM\OneToOne(targetEntity="Teacher", mappedBy="user", cascade={"persist", "remove"})
      */
-    private $name;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Lecturer", mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $lecturer;
+    private $teacher;
 
     #region Getters & Setters
     public function getId(): int
@@ -104,91 +98,51 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
+    #endregion
 
-    /**
-     * @return null|string
-     */
-    public function getName(): ?string
+    #region Teacher
+    public function getTeacher(): ?Teacher
     {
-        return $this->name;
+        return $this->teacher;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return User
-     */
-    public function setName(string $name): self
+    public function setTeacher(?Teacher $teacher): self
     {
-        $this->name = $name;
+        $this->teacher = $teacher;
+
+        $newUser = $teacher === null ? null : $this;
+        if ($newUser !== $teacher->getUser()) {
+            $teacher->setUser($newUser);
+        }
 
         return $this;
     }
+
+    public function isTeacher(): bool
+    {
+        return $this->teacher !== null;
+    }
+
     #endregion
 
     #region Serialization
-    /**
-     * String representation of object
-     *
-     * @link  http://php.net/manual/en/serializable.serialize.php
-     * @return string the string representation of the object or null
-     * @since 5.1.0
-     */
     public function serialize()
     {
         return serialize([
             $this->id,
             $this->email,
             $this->password,
-            $this->name,
         ]);
     }
 
-    /**
-     * Constructs the object
-     *
-     * @link  http://php.net/manual/en/serializable.unserialize.php
-     *
-     * @param string $serialized <p>
-     *                           The string representation of the object.
-     *                           </p>
-     *
-     * @return void
-     * @since 5.1.0
-     */
     public function unserialize($serialized)
     {
         [
             $this->id,
             $this->email,
             $this->password,
-            $this->name,
         ]
             = unserialize($serialized, ['allowed_classes' => false]);
-    }
-    #endregion
-
-    #region Lecturer
-    public function getLecturer(): ?Lecturer
-    {
-        return $this->lecturer;
-    }
-
-    public function setLecturer(?Lecturer $lecturer): self
-    {
-        $this->lecturer = $lecturer;
-
-        $newUser = $lecturer === null ? null : $this;
-        if ($newUser !== $lecturer->getUser()) {
-            $lecturer->setUser($newUser);
-        }
-
-        return $this;
-    }
-
-    public function isLecturer(): bool
-    {
-        return $this->lecturer !== null;
     }
 
     #endregion

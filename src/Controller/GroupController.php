@@ -8,12 +8,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class GroupController extends Controller
 {
-    public function show(StudentGroup $group): Response
+    public function show(StudentGroup $group, NormalizerInterface $normalizer): Response
     {
-        return $this->json($group);
+        return $this->json($normalizer->normalize($group, null, [
+            'groups' => ['index', ]
+        ]));
     }
 
     public function new(Request $request): Response

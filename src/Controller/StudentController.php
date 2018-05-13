@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Student;
 use App\Form\StudentType;
-use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -19,21 +19,27 @@ class StudentController extends Controller
         ]));
     }
 
-    public function new(Request $request, FileUploader $fileUploader): Response
+    public function new(Request $request, NormalizerInterface $normalizer): Response
     {
         $student = new Student();
         $form = $this->createForm(StudentType::class, $student, ['csrf_protection' => false]);
-        $form->handleRequest($request);
-        
+
+        $form->submit($request->request->all());
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-        
+            
+            /** @var UploadedFile $file */
+            $face = $student->getFace();
+
             $em->persist($student);
             $em->flush();
-        
-            return $this->json($student, Response::HTTP_CREATED);
-        }
 
+            return $this->json($normalizer->normalize($student, null, [
+                'groups' => ['index'],
+            ]), Response::HTTP_CREATED);
+        }
+        
         return new Response('', Response::HTTP_BAD_REQUEST);
     }
 

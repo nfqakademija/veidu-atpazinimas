@@ -3,10 +3,9 @@ services:
         class: App\Service\FaceRecognition
         public: true
         arguments:
-            $client: '@app.http_client'
-            $directory: '%faces_directory%'
+            - '@app.http_client'
     
     app.http_client:
         class: GuzzleHttp\Client
         arguments:
-            - [ base_uri: 'http://localhost:8000' ]
+            - [ base_uri: 'http://localhost:5000' ]

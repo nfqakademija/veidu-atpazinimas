@@ -27,7 +27,6 @@ class Student
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\NotBlank(message="Please, upload the image as JPEG/JPG.")
      * @Assert\File(mimeTypes={ "image/jpeg" })
      */
     private $face;
@@ -79,7 +78,7 @@ class Student
     /**
      * @return StudentGroup
      */
-    public function getGroup(): StudentGroup
+    public function getGroup(): ?StudentGroup
     {
         return $this->group;
     }

@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Attendance;
 use App\Entity\Lecture;
-use App\Entity\Lecturer;
+use App\Entity\Teacher;
 use App\Entity\Module;
 use App\Entity\StudentGroup;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -17,13 +17,14 @@ class ModuleFixtures extends Fixture implements OrderedFixtureInterface
     {
         $faker = \Faker\Factory::create('lt_LT');
 
-        $lecturers = $manager->getRepository(Lecturer::class)->findAll();
+        $lecturers = $manager->getRepository(Teacher::class)->findAll();
         $groups = $manager->getRepository(StudentGroup::class)->findAll();
 
         for ($i = 0; $i < 20; $i++) {
             $module = new Module();
-            $module->setTitle($faker->word)
-                ->setLecturer($faker->randomElement($lecturers))
+            $module
+                ->setTitle($faker->word)
+                ->setTeacher($faker->randomElement($lecturers))
             ;
 
             for ($m = 0; $m < $faker->randomElement(range(1, 4)); $m++) {
@@ -36,7 +37,8 @@ class ModuleFixtures extends Fixture implements OrderedFixtureInterface
 
                 $start = $faker->dateTime();
                 $end = (clone $start)->add(new \DateInterval('PT45M'));
-                $lecture->setTitle($faker->text(50))
+                $lecture
+                    ->setTitle($faker->text(50))
                     ->setStart($start)
                     ->setEnd($end)
                 ;
@@ -44,7 +46,8 @@ class ModuleFixtures extends Fixture implements OrderedFixtureInterface
                 foreach ($module->getGroups() as $group) {
                     foreach ($group->getStudents() as $student) {
                         $attendance = new Attendance();
-                        $attendance->setLecture($lecture)
+                        $attendance
+                            ->setLecture($lecture)
                             ->setStudent($student)
                             ->setAttended($faker->boolean(90))
                         ;

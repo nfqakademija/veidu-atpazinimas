@@ -2,13 +2,12 @@ imports:
     - { resource: face_uploader.yaml }
     - { resource: face_recognition.yaml }
     
-parameters:
-    faces_directory: '%kernel.project_dir%/public/faces'
-    
 services:
     app.event_listeners.face_uploader:
         class: App\EventListener\FaceUploadListener
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
-        arguments: ['@app.file_uploader', '@app.face_recognition']
+        arguments: 
+            - '@app.file_uploader'
+            - '@app.face_recognition'

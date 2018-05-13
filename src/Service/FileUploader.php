@@ -19,6 +19,8 @@ class FileUploader
 
         $file->move($this->getTargetDirectory(), $fileName);
 
+        echo $file->getPathname();
+        
         return $fileName;
     }
 

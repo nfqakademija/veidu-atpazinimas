@@ -29,20 +29,20 @@ class Lecture
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"info"})
+     * @Groups({"time"})
      */
     private $start;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"info"})
+     * @Groups({"time"})
      */
     private $end;
 
     /**
      * @ORM\ManyToOne(targetEntity="Module", inversedBy="lectures")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"details"})
+     * @Groups({"module"})
      */
     private $module;
 
@@ -172,12 +172,4 @@ class Lecture
     }
 
     #endregion
-
-    public function jsonSerialize()
-    {
-        return [
-            'id'          => $this->getId(),
-            'title'       => $this->getTitle()
-        ];
-    }
 }

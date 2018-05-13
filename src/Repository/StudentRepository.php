@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Lecture;
 use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -19,9 +20,22 @@ class StudentRepository extends ServiceEntityRepository
         parent::__construct($registry, Student::class);
     }
 
-//    /**
-//     * @return Student[] Returns an array of Student objects
-//     */
+    public function findInLecture(Lecture $lecture)
+    {
+        return $this->createQueryBuilder('s')
+            ->join('s.group', 'g')
+            ->join('g.modules', 'm')
+            ->join('m.lectures', 'l')
+            ->where('l.id = :lecture')
+            ->setParameter('lecture', $lecture)
+            ->getQuery()
+            ->execute()
+        ;
+    }
+
+    //    /**
+    //     * @return Student[] Returns an array of Student objects
+    //     */
     /*
     public function findByExampleField($value)
     {

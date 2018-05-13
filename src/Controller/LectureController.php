@@ -3,11 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Lecture;
-use App\Entity\Module;
+use App\Entity\Student;
+use App\Entity\Teacher;
 use App\Entity\User;
 use App\Form\LectureType;
+use App\Service\FaceRecognition;
 use Doctrine\Common\Collections\Collection;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -19,28 +23,50 @@ class LectureController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         // TODO: Get authenticated user
 
-        /** @var Collection|Module $modules */
-        $lecturer = $entityManager->getRepository(User::class)->find(19)
-            ->getLecturer()
+        /** @var Collection|Teacher $modules */
+        $teacher = $entityManager->getRepository(User::class)->find(13)
+            ->getTeacher()
         ;
-        
-        $lectures = $entityManager->getRepository(Lecture::class)->findByLecturer($lecturer, 10);
+
+        $lectures = $entityManager->getRepository(Lecture::class)->findByTeacher($teacher, 10);
 
         return $this->json($normalizer->normalize($lectures, null,
-            ['groups' => ['index', 'info']]
+            ['groups' => ['index', 'time', 'module', 'attendances']]
         ));
     }
 
     public function show(Lecture $lecture, NormalizerInterface $normalizer): Response
     {
         return $this->json($normalizer->normalize($lecture, null,
-            ['groups' => ['index', 'info', 'details', 'attendances']]
+            ['groups' => ['index', 'time', 'module', 'attendances']]
         ));
     }
 
-    public function upload()
+    public function upload(Request $request, FaceRecognition $recognition): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
 
+        $teacher = $entityManager->getRepository(User::class)->find(13)->getTeacher();
+
+        /** @var Lecture $lecture */
+        $lecture = $entityManager->getRepository(Lecture::class)->findByTeacher($teacher)[0];
+
+        $students = $entityManager->getRepository(Student::class)->findInLecture($lecture);
+
+        $encodings = array_map(function (Student $student) {
+            return $student->getEncoding();
+        }, $students);
+
+        /** @var UploadedFile $file */
+        $file = $request->files->get('file');
+
+        try {
+            $mask = $recognition->compareFacesWithEncodings($encodings, $file);
+        } catch (GuzzleException $e) {
+            return new Response('', Response::HTTP_BAD_REQUEST);
+        }
+
+        return $this->json($mask);
     }
 
     public function new(Request $request): Response

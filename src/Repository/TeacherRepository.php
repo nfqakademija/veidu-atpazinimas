@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\Lecturer;
+use App\Entity\Teacher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Lecturer|null find($id, $lockMode = null, $lockVersion = null)
- * @method Lecturer|null findOneBy(array $criteria, array $orderBy = null)
- * @method Lecturer[]    findAll()
- * @method Lecturer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Teacher|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Teacher|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Teacher[]    findAll()
+ * @method Teacher[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LecturerRepository extends ServiceEntityRepository
+class TeacherRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Lecturer::class);
+        parent::__construct($registry, Teacher::class);
     }
 
 //    /**

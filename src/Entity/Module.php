@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ModuleRepository")
  */
-class Module implements \JsonSerializable
+class Module
 {
     /**
      * @ORM\Id()
@@ -28,11 +28,11 @@ class Module implements \JsonSerializable
     private $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Lecturer", inversedBy="modules")
+     * @ORM\ManyToOne(targetEntity="Teacher", inversedBy="modules")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"details"})
+     * @Groups({"teacher"})
      */
-    private $lecturer;
+    private $teacher;
 
     /**
      * @ORM\ManyToMany(targetEntity="StudentGroup", inversedBy="modules")
@@ -44,7 +44,6 @@ class Module implements \JsonSerializable
     /**
      * @ORM\OneToMany(targetEntity="Lecture", mappedBy="module")
      * @ORM\JoinColumn(nullable=true)
-     * @Groups({"lectures"})
      */
     private $lectures;
 
@@ -156,26 +155,18 @@ class Module implements \JsonSerializable
     }
     #endregion
 
-    #region Lecturer
-    public function getLecturer(): ?Lecturer
+    #region Teacher
+    public function getTeacher(): Teacher
     {
-        return $this->lecturer;
+        return $this->teacher;
     }
 
-    public function setLecturer(?Lecturer $lecturer): self
+    public function setTeacher(Teacher $teacher): self
     {
-        $this->lecturer = $lecturer;
+        $this->teacher = $teacher;
 
         return $this;
     }
 
     #endregion
-
-    public function jsonSerialize()
-    {
-        return [
-            'id'          => $this->getId(),
-            'title'       => $this->getTitle()
-        ];
-    }
 }
