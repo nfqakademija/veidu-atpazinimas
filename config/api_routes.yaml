@@ -92,6 +92,6 @@ lecture_delete:
     methods: [DELETE]
     
 lecture_upload:
-    path: /lectures/upload
+    path: /lectures/{lecture}/upload
     controller: App\Controller\LectureController::upload
     methods: [POST]
