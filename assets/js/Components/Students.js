@@ -14,10 +14,6 @@ const styles = theme => ({
 
 const Students = (props) => {
 
-  var submitPhoto = function () {
-    console.log('to do upload');
-  };
-
   const { classes } = props;
   return (
     <div className={classes.studentsComponent}>

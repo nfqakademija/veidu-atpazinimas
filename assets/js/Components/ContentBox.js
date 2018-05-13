@@ -9,6 +9,7 @@ import HelpComponent from './Help';
 import StudentsComponent from './Students';
 import LecturesComponent from './Lectures';
 import SheduleComponent from './Shedule';
+import SingleLecture from './SingleLecture';
 
 const drawerWidth = 240;
 
@@ -32,13 +33,14 @@ function ContentBox(props) {
     <div className={classes.contentElement}>
       <Paper className={classes.content} elevation={1}>
         <React.Fragment>
-            <Switch>
+          <Switch>
             <Route path='/students' component={StudentsComponent} />
-              <Route path='/lectures' component={LecturesComponent} />
-              <Route path='/shedule' component={SheduleComponent} />
-              <Route path='/about' component={About} />
-              <Route path='/help' component={HelpComponent} />
-            </Switch>
+            <Route path='/lectures' component={LecturesComponent} />
+            <Route path='/singlelecture' component={SingleLecture} />
+            <Route path='/shedule' component={SheduleComponent} />
+            <Route path='/about' component={About} />
+            <Route path='/help' component={HelpComponent} />
+          </Switch>
         </React.Fragment>
       </Paper>
     </div>
@@ -48,6 +50,5 @@ function ContentBox(props) {
 ContentBox.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-
 
 export default withStyles(styles)(ContentBox);
