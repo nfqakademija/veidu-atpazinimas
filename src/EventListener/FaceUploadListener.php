@@ -47,19 +47,14 @@ class FaceUploadListener
         if ($file instanceof UploadedFile) {
             $fileName = $this->uploader->upload($file);
             $entity->setFace($fileName);
-        }
 
-        $encoding = $entity->getEncoding();
-
-        if ($encoding) {
             try {
-                $encodingArray = $this->recognition->calculateFaceEncoding($entity->getFace());
+                $encoding = $this->recognition->calculateFaceEncoding($file);
             } catch (GuzzleException $exception) {
-                $encodingArray = null;
+                $encoding = null;
             }
 
-            $entity->setEncoding($encodingArray);
+            $entity->setEncoding($encoding);
         }
-        
     }
 }

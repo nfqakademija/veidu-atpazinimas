@@ -31,7 +31,7 @@ class FaceRecognition
     public function calculateFaceEncoding(UploadedFile $image): array
     {
         $request = $this->client->request('POST', '/encoding', [
-            'file' => $image,
+            'file' => base64_encode($image),
         ]);
 
         return $request->getStatusCode() === Response::HTTP_OK
@@ -56,7 +56,7 @@ class FaceRecognition
                 ],
                 [
                     'name'     => 'file',
-                    'contents' => fopen($image->getPathname(), 'r'),
+                    'contents' => base64_encode($image),
                 ],
             ],
         ]);

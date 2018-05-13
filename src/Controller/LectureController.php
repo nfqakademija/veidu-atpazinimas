@@ -31,7 +31,7 @@ class LectureController extends Controller
         $lectures = $entityManager->getRepository(Lecture::class)->findByTeacher($teacher, 10);
 
         return $this->json($normalizer->normalize($lectures, null,
-            ['groups' => ['index', 'time', 'module']]
+            ['groups' => ['index', 'time', 'module', 'count']]
         ));
     }
 
@@ -42,15 +42,9 @@ class LectureController extends Controller
         ));
     }
 
-    public function upload(Request $request, FaceRecognition $recognition): Response
+    public function upload(Lecture $lecture, Request $request, FaceRecognition $recognition): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-
-        $teacher = $entityManager->getRepository(User::class)->find(13)->getTeacher();
-
-        /** @var Lecture $lecture */
-        $lecture = $entityManager->getRepository(Lecture::class)->findByTeacher($teacher)[0];
-
         $students = $entityManager->getRepository(Student::class)->findInLecture($lecture);
 
         $encodings = array_map(function (Student $student) {

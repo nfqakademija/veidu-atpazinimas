@@ -97,14 +97,14 @@ class Student
     #endregion
     
     #region Encoding
-    public function getEncoding(): string
+    public function getEncoding(): ?string
     {
-        return unserialize(base64_decode($this->encoding));
+        return $this->encoding;
     }
 
     public function setEncoding(array $encoding): self
     {
-        $this->encoding = base64_encode(serialize($encoding));
+        $this->encoding = $encoding;
 
         return $this;
     }
