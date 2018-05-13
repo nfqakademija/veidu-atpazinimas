@@ -24,8 +24,7 @@ class ModuleFixtures extends Fixture implements OrderedFixtureInterface
             $module = new Module();
             $module
                 ->setTitle($faker->word)
-                ->setTeacher($faker->randomElement($lecturers))
-            ;
+                ->setTeacher($faker->randomElement($lecturers));
 
             for ($m = 0; $m < $faker->randomElement(range(1, 4)); $m++) {
                 $group = $faker->randomElement($groups);
@@ -40,19 +39,19 @@ class ModuleFixtures extends Fixture implements OrderedFixtureInterface
                 $lecture
                     ->setTitle($faker->text(50))
                     ->setStart($start)
-                    ->setEnd($end)
-                ;
+                    ->setEnd($end);
 
-                foreach ($module->getGroups() as $group) {
-                    foreach ($group->getStudents() as $student) {
-                        $attendance = new Attendance();
-                        $attendance
-                            ->setLecture($lecture)
-                            ->setStudent($student)
-                            ->setAttended($faker->boolean(90))
-                        ;
+                if ($faker->boolean(70)) {
+                    foreach ($module->getGroups() as $group) {
+                        foreach ($group->getStudents() as $student) {
+                            $attendance = new Attendance();
+                            $attendance
+                                ->setLecture($lecture)
+                                ->setStudent($student)
+                                ->setAttended($faker->boolean(90));
 
-                        $manager->persist($attendance);
+                            $manager->persist($attendance);
+                        }
                     }
                 }
 

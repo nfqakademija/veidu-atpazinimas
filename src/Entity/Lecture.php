@@ -180,10 +180,10 @@ class Lecture
     }
 
     /** @Groups({"index"}) */
-    public function getAttendedStudents(): int
+    public function getAttendedStudents(): ?int
     {
-        if (!$this->getAttendances()) {
-            return 0;
+        if ($this->getAttendances()->isEmpty()) {
+            return null;
         }
 
         return $this->getAttendances()->filter(function (Attendance $attendance) {
