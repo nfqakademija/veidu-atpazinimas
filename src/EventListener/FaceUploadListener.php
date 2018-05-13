@@ -51,7 +51,7 @@ class FaceUploadListener
 
         $encoding = $entity->getEncoding();
 
-        if (!$encoding) {
+        if ($encoding) {
             try {
                 $encodingArray = $this->recognition->calculateFaceEncoding($entity->getFace());
             } catch (GuzzleException $exception) {
