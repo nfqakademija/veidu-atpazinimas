@@ -1,4 +1,4 @@
-ARTIFACT_INCLUDES = bin config public src templates vendor composer.json composer.lock symfony.lock
+ARTIFACT_INCLUDES = bin config public python src templates vendor composer.json composer.lock symfony.lock
 ARTIFACT_EXCLUDES = public/images/.gitkeep
 
 .PHONY: build
@@ -25,3 +25,6 @@ public/build: assets node_modules
 
 node_modules:
 	yarn
+	
+python:
+	python python/app.py
