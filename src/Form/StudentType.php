@@ -14,8 +14,8 @@ class StudentType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('face', FileType::class, ['label' => 'Student\'s photo (Image)'])
             ->add('group')
+            ->add('face', FileType::class)
         ;
     }
 

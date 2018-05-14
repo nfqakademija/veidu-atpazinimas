@@ -14,7 +14,7 @@ class StudentController extends Controller
     public function show(Student $student, NormalizerInterface $normalizer): Response
     {
         return $this->json($normalizer->normalize($student, null, [
-            'groups' => ['index', 'details'],
+            'groups' => ['index', 'group'],
         ]));
     }
 
@@ -22,7 +22,8 @@ class StudentController extends Controller
     {
         $student = new Student();
         $form = $this->createForm(StudentType::class, $student, ['csrf_protection' => false]);
-        $form->handleRequest($request);
+
+        $form->submit(array_merge($request->request->all(), ['face' => $request->files->get('face')]));
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -31,11 +32,22 @@ class StudentController extends Controller
             $em->flush();
 
             return $this->json($normalizer->normalize($student, null, [
-                'groups' => ['index'],
+                'groups' => ['index', 'face'],
             ]), Response::HTTP_CREATED);
-        }
+        } else {
+            $errors = [];
+            foreach ($form as $child) {
+                if (!$child->isValid()) {
+                    foreach ($child->getErrors() as $error) {
+                        $errors[$child->getName()] = $error->getMessage();
+                    }
+                }
+            }
 
-        return new Response('', Response::HTTP_BAD_REQUEST);
+            return $this->json([
+                'error' => $errors,
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     public function edit(Request $request, Student $student): Response

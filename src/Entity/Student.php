@@ -27,7 +27,9 @@ class Student
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\File(mimeTypes={ "image/jpeg" })
+     * @Assert\NotBlank(message="Please, upload the student's photo as JPEG file.")
+     * @Assert\File(mimeTypes={"image/jpeg"})
+     * @Groups({"face"})
      */
     private $face;
 
@@ -39,7 +41,7 @@ class Student
     /**
      * @ORM\ManyToOne(targetEntity="StudentGroup", inversedBy="students")
      * @ORM\JoinColumn(nullable=true)
-     * @Groups({"details"})
+     * @Groups({"group"})
      */
     private $group;
 
@@ -95,16 +97,16 @@ class Student
         return $this;
     }
     #endregion
-    
+
     #region Encoding
     public function getEncoding(): ?string
     {
-        return $this->encoding;
+        return json_decode(base64_decode($this->encoding));
     }
 
-    public function setEncoding(array $encoding): self
+    public function setEncoding(?string $encoding): self
     {
-        $this->encoding = $encoding;
+        $this->encoding = base64_decode(json_encode($encoding));
 
         return $this;
     }
