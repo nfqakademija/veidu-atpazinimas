@@ -1,6 +1,11 @@
 #!/usr/bin/env python
-import face_recognition as face
-from flask import Flask, jsonify, request
+import base64
+import re
+from io import BytesIO
+
+import face_recognition
+import numpy as np
+from flask import Flask, jsonify, request, json
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -12,51 +17,59 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+@app.route('/')
+def index():
+    return jsonify(test='test')
+
+
 @app.route('/encoding', methods=['POST'])
 def calculate_encoding():
-    file = get_file(request)
+    image = decode_image(request.form['file'])
 
-    if not file:
-        return 400
+    if not image:
+        return '', 400
 
-    picture = face.load_image_file(file)
-    encoding = face.face_encodings(picture)[0].tolist()
+    picture = face_recognition.load_image_file(image)
+    encoding = face_recognition.face_encodings(picture)[0].tolist()
 
-    return jsonify(encoding), 200 if encoding else 400
+    if not encoding:
+        return '', 400
+
+    return jsonify(encoding)
 
 
 @app.route('/recognition', methods=['POST'])
 def recognize_faces():
-    face_encodings = request.json
+    face_encodings = json.loads(request.form['encodings'])
 
     if not face_encodings:
-        return 400
+        return '', 400
 
-    file = get_file(request)
+    image = decode_image(request.form['file'])
 
-    if not file:
-        return 400
+    if not image:
+        return '', 400
 
-    image = face_recognition.load_image_file(file)
-    encodings_in_image = face_recognition.face_encodings(image)
+    picture = face_recognition.load_image_file(image)
+    encodings_in_image = face_recognition.face_encodings(picture)
 
-    match_results = face.compare_faces(face_encodings, encodings_in_image)
+    result = np.zeros(len(face_encodings), dtype=bool)
 
-    return jsonify(match_results), 200 if match_results else 400
+    for encoding in encodings_in_image:
+        matches = face_recognition.compare_faces(face_encodings, encoding)
+
+        if True in matches:
+            result[matches.index(True)] = True
+
+    return jsonify(result.tolist())
 
 
-def get_file(req: request):
-    if 'file' not in req.files:
-        return None
+def decode_image(file):
+    encoded_string = re.sub('^data:image/.+;base64,', '', file)
+    image_string = base64.b64decode(encoded_string)
 
-    file = req.files['file']
-
-    if file.filename == '':
-        return None
-
-    if file and allowed_file(file.filename):
-        return file
+    return BytesIO(image_string)
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host='0.0.0.0', debug=True)

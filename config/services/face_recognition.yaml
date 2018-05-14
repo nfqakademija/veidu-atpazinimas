@@ -1,11 +1,15 @@
+parameters:
+    faces_directory: '%kernel.project_dir%/public/faces'
+
 services:
     app.face_recognition:
         class: App\Service\FaceRecognition
         public: true
         arguments:
             - '@app.http_client'
+            - '%faces_directory%'
     
     app.http_client:
         class: GuzzleHttp\Client
         arguments:
-            - [ base_uri: 'http://localhost:5000' ]
+            - [ base_uri: '%router.request_context.scheme%://%router.request_context.host%:5000' ]
