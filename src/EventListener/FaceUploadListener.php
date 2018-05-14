@@ -7,7 +7,6 @@ use App\Service\FaceRecognition;
 use App\Service\FileUploader;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FaceUploadListener
@@ -48,12 +47,7 @@ class FaceUploadListener
             $fileName = $this->uploader->upload($file);
             $entity->setFace($fileName);
 
-            try {
-                $encoding = $this->recognition->calculateFaceEncoding($file);
-            } catch (GuzzleException $exception) {
-                $encoding = null;
-            }
-
+            $encoding = $this->recognition->calculateFaceEncoding($fileName);
             $entity->setEncoding($encoding);
         }
     }
