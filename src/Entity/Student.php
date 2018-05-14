@@ -27,7 +27,7 @@ class Student
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\NotBlank(message="Please, upload the student's photo as JPEG file.")
+     * @Assert\NotBlank(message="Please, upload the photo as JPEG file.")
      * @Assert\File(mimeTypes={"image/jpeg"})
      * @Groups({"face"})
      */
@@ -99,16 +99,21 @@ class Student
     #endregion
 
     #region Encoding
-    public function getEncoding(): ?string
+    public function getEncoding(): array
     {
-        return json_decode(base64_decode($this->encoding));
+        return json_decode($this->encoding) ?: [];
     }
 
-    public function setEncoding(?string $encoding): self
+    public function setEncoding(array $encoding): self
     {
-        $this->encoding = base64_decode(json_encode($encoding));
+        $this->encoding = json_encode($encoding);
 
         return $this;
+    }
+
+    public function hasEncoding(): bool
+    {
+        return $this->encoding !== null;
     }
     #endregion
 }

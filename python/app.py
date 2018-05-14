@@ -43,12 +43,12 @@ def recognize_faces():
     face_encodings = json.loads(request.form['encodings'])
 
     if not face_encodings:
-        return '', 400
+        return 'No encodings', 400
 
     image = decode_image(request.form['file'])
 
     if not image:
-        return '', 400
+        return 'No file', 400
 
     picture = face_recognition.load_image_file(image)
     encodings_in_image = face_recognition.face_encodings(picture)

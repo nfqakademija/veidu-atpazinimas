@@ -1,5 +1,5 @@
 parameters:
-    faces_directory: '%kernel.project_dir%/public/faces'
+    faces_directory: '%kernel.project_dir%/public/uploads/faces'
 
 services:
     app.face_recognition:
@@ -12,4 +12,4 @@ services:
     app.http_client:
         class: GuzzleHttp\Client
         arguments:
-            - [ base_uri: '%router.request_context.scheme%://%router.request_context.host%:5000' ]
+            - [ base_uri: 'http://python:5000/' ]

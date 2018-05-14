@@ -28,11 +28,11 @@ class FaceRecognition
     /**
      * @param string $image
      *
-     * @return string
+     * @return array
      */
-    public function calculateFaceEncoding(string $image): string
+    public function calculateFaceEncoding(string $image): array
     {
-        $request = $this->client->post('/encoding', [
+        $request = $this->client->post('http://python:5000/encoding', [
             'multipart' => [
                 [
                     'name'    => 'file',
@@ -42,8 +42,8 @@ class FaceRecognition
         ]);
 
         return $request->getStatusCode() === Response::HTTP_OK
-            ? json_decode($request->getBody())
-            : "";
+            ? json_decode($request->getBody()->getContents())
+            : [];
     }
 
     /**
@@ -55,7 +55,7 @@ class FaceRecognition
      */
     public function compareFacesWithEncodings(array $encodings, string $image): array
     {
-        $response = $this->client->request('POST', '/recognition', [
+        $response = $this->client->request('POST', 'http://python:5000/recognition', [
             'multipart' => [
                 [
                     'name'     => 'encodings',
@@ -63,14 +63,10 @@ class FaceRecognition
                 ],
                 [
                     'name'     => 'file',
-                    'contents' => base64_encode(file_get_contents($this->directory.'/'.$image)),
+                    'contents' => base64_encode(file_get_contents($image)),
                 ],
             ],
         ]);
-
-        echo 'Sending';
-
-        echo highlight_string("<?php\n\$data=".$response.";\n", true);
 
         return $response->getStatusCode() === Response::HTTP_OK
             ? json_decode($response->getBody())

@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Attendance;
 use App\Entity\Lecture;
 use App\Entity\Student;
 use App\Entity\Teacher;
-use App\Entity\User;
 use App\Form\LectureType;
 use App\Service\FaceRecognition;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -24,9 +24,10 @@ class LectureController extends Controller
         // TODO: Get authenticated user
 
         /** @var Collection|Teacher $modules */
-        $teacher = $entityManager->getRepository(User::class)->find(102)
-            ->getTeacher()
-        ;
+        // $teacher = $entityManager->getRepository(User::class)->find(10)
+        //     ->getTeacher()
+        // ;
+        $teacher = $entityManager->getRepository(Teacher::class)->findOneBy([]);
 
         $lectures = $entityManager->getRepository(Lecture::class)->findByTeacher($teacher, 10);
 
@@ -42,25 +43,39 @@ class LectureController extends Controller
         ));
     }
 
-    public function upload(Lecture $lecture, Request $request, FaceRecognition $recognition): Response
-    {
+    public function upload(Lecture $lecture,
+        Request $request,
+        FaceRecognition $recognition,
+        NormalizerInterface $normalizer
+    ): Response {
         $entityManager = $this->getDoctrine()->getManager();
+
+        $file = $request->files->get('file');
+
+        /** @var array|Student $students */
         $students = $entityManager->getRepository(Student::class)->findInLecture($lecture);
+
+        // Map (index => encoding)
+        $withEncodings = array_filter($students, function (Student $student) {
+            return $student->hasEncoding();
+        });
 
         $encodings = array_map(function (Student $student) {
             return $student->getEncoding();
-        }, $students);
-
-        /** @var UploadedFile $file */
-        $file = $request->files->get('file');
+        }, array_values($withEncodings));
 
         try {
             $mask = $recognition->compareFacesWithEncodings($encodings, $file);
+            $withEncodings = array_combine(array_keys($withEncodings), $mask);
+
+            $lecture->setAttendances($this->createAttendancesFromMask($students, $withEncodings));
         } catch (GuzzleException $e) {
-            return new Response('', Response::HTTP_BAD_REQUEST);
+            return $this->json($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->json($mask);
+        return $this->json($normalizer->normalize($lecture, null,
+            ['groups' => ['index', 'attendances']]
+        ));
     }
 
     public function new(Request $request): Response
@@ -105,5 +120,25 @@ class LectureController extends Controller
         }
 
         return new Response('', Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @param array|Student $students
+     * @param array|bool    $compared
+     *
+     * @return ArrayCollection
+     */
+    private function createAttendancesFromMask($students, $compared)
+    {
+        $attendances = new ArrayCollection();
+        foreach ($compared as $index => $hasAttended) {
+            $attendance = (new Attendance())
+                ->setStudent($students[$index])
+                ->setAttended($hasAttended);
+
+            $attendances->add($attendance);
+        }
+        
+        return $attendances;
     }
 }

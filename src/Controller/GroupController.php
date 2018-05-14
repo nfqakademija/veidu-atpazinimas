@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\StudentGroup;
 use App\Form\GroupType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -15,7 +14,7 @@ class GroupController extends Controller
     public function show(StudentGroup $group, NormalizerInterface $normalizer): Response
     {
         return $this->json($normalizer->normalize($group, null, [
-            'groups' => ['index', ]
+            'groups' => ['index']
         ]));
     }
 

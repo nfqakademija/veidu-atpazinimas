@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Module;
-use App\Entity\User;
+use App\Entity\Teacher;
 use App\Form\ModuleType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,18 +17,19 @@ class ModuleController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         // TODO Get authenticated user
-        $user = $entityManager->getRepository(User::class)->find(12);
+        // $user = $entityManager->getRepository(User::class)->find(12);
+        $teacher = $entityManager->getRepository(Teacher::class)->findOneBy([]);
+        
+        // if (!$user) {
+        //     return new Response('', Response::HTTP_UNAUTHORIZED);
+        // }
 
-        if (!$user) {
-            return new Response('', Response::HTTP_UNAUTHORIZED);
-        }
-
-        if ($user->isTeacher()) {
-            $modules = $user->getTeacher()->getModules();
-        } else {
+        // if ($teacher = $user->getTeacher()) {
+            $modules = $teacher->getModules();
+        // } else {
             // TODO Check if user is an administrator
-            $modules = $entityManager->getRepository(Module::class)->findAll();
-        }
+            // $modules = $entityManager->getRepository(Module::class)->findAll();
+        // }
 
         return $this->json($normalizer->normalize($modules, null, [
             'groups' => ['index', 'groups'],
