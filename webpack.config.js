@@ -1,32 +1,32 @@
-const Encore = require('@symfony/webpack-encore');
+var Encore = require('@symfony/webpack-encore');
 
 Encore
-    // the project directory where compiled assets will be stored
+// the project directory where compiled assets will be stored
     .setOutputPath('public/build/')
     // the public path used by the web server to access the previous directory
     .setPublicPath('/build')
     .cleanupOutputBeforeBuild()
-    // .enableSourceMaps(!Encore.isProduction())
+    .enableSourceMaps(!Encore.isProduction())
     // uncomment to create hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
 
     // uncomment to define the assets of the project
-    .addEntry('js/app', './assets/js/app.js')
-    .addStyleEntry('css/app', './assets/css/app.scss')
+    .addEntry('js/index', './assets/js/index.js')
 
-    // uncomment if you use Sass/SCSS files
-    .enableSassLoader()
-    
     // React preset
     .enableReactPreset()
 
-    // uncomment for legacy applications that require $/jQuery as a global variable
-    // .autoProvidejQuery()
+    .configureBabel(function(babelConfig) {
+      babelConfig.plugins = ['transform-object-rest-spread', 'transform-class-properties'];
+    })
 ;
 
 const config = Encore.getWebpackConfig();
-config.watchOptions = {
-  poll: true,
-};
+
+config.watchOptions = {poll: 300, ignored: /node_modules/};
+
+if (!Encore.isProduction()) {
+  config.devtool = 'eval-source-map';
+}
 
 module.exports = config;
