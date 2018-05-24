@@ -3,9 +3,9 @@ import React from 'react';
 import { Hidden } from '@material-ui/core';
 import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 
-import theme from '../config/Theme';
-import { Desktop, Mobile } from './index';
-import { Routes } from '../config/index';
+import theme from './config/Theme';
+import { Desktop, Mobile } from './layouts/index';
+import { Routes } from './config/index';
 import { Face, People } from '@material-ui/icons';
 
 const styles = theme => ({

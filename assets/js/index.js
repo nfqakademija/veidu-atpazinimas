@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 
 import registerServiceWorker from './registerServiceWorker';
 import reducers from './reducers/reducers';
-import App from './layouts/App';
+import App from './App';
 
 const store = createStore(combineReducers(reducers));
 
