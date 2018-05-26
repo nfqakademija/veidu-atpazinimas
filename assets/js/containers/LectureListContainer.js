@@ -14,14 +14,10 @@ class LectureListContainer extends Component {
   }
 
   componentDidMount() {
-    const parseTime = time => new Date(time)
-        .toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-
     axios.get('/api/lectures')
         .then(({data}) => {
           for (let lecture of data) {
             lecture.start = parseTime(lecture.start);
-            lecture.end = parseTime(lecture.end);
           }
 
           this.setState({
@@ -34,11 +30,18 @@ class LectureListContainer extends Component {
               error,
             }),
         );
+
+    const parseTime = time => new Date(time)
+        .toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+  }
+
+  componentWillUnmount() {
+
   }
 
   render() {
     return <div>
-      <Toolbar/>
+      <Toolbar title="Attendance" account={true}/>
       <LectureList {...this.state} />
     </div>;
   }

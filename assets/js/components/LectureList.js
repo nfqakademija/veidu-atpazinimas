@@ -3,7 +3,8 @@ import React from 'react';
 
 const styles = theme => ({
   card: {
-    width: '100vh',
+    width: '90%',
+    maxWidth: 700,
   },
   container: {
     display: 'flex',

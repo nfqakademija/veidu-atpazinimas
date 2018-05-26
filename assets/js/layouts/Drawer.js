@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { Drawer, List, ListItem, ListItemIcon, withStyles } from '@material-ui/core';
+import { withRouter } from 'react-router-dom';
+import { Drawer, ListItemIcon, MenuItem, MenuList, withStyles } from '@material-ui/core';
+import classNames from 'classnames';
 
 const styles = theme => ({
   container: {
@@ -14,35 +15,72 @@ const styles = theme => ({
 
     justifyContent: 'center',
   },
+  menuItem: {
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  icon: {
+    fontSize: 48,
+  },
+  selected: {
+    color: theme.palette.common.white,
+  },
 });
 
-const AppDrawer = props => {
-  const {classes} = props;
-  const {nav} = props;
+class AppDrawer extends Component {
+  static propTypes = {
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  };
 
-  return (
-      <div className={classes.container}>
-        <Drawer
-            variant="permanent"
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-        >
-          <List>
-            {nav.map(elem =>
-                <ListItem button key={elem.link} component={Link} to={elem.link}>
-                  <ListItemIcon children={elem.icon} style={{fontSize: 36}}/>
-                </ListItem>,
-            )}
-          </List>
-        </Drawer>
-      </div>
-  );
-};
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selected: this.props.location.pathname,
+    };
+  }
+
+  handleChange(selected) {
+    this.setState({selected});
+    this.props.history.push(selected);
+  };
+
+  render() {
+    const {classes} = this.props;
+    const {nav} = this.props;
+    return (
+        <div className={classes.container}>
+          <Drawer
+              variant="permanent"
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+          >
+            <MenuList>
+              {nav && nav.map(elem =>
+                  <MenuItem
+                      key={elem.link}
+                      onClick={() => this.handleChange(elem.link)}
+                      className={classes.menuItem}>
+                    <ListItemIcon
+                        children={elem.icon}
+                        className={classNames(
+                            classes.icon,
+                            this.state.selected === elem.link ? classes.selected : null,
+                        )}/>
+                  </MenuItem>,
+              )}
+            </MenuList>
+          </Drawer>
+        </div>
+    );
+  }
+}
 
 AppDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
   nav: PropTypes.array.isRequired,
 };
 
-export default withStyles(styles, {withTheme: true})(AppDrawer);
+export default withRouter(withStyles(styles)(AppDrawer));
