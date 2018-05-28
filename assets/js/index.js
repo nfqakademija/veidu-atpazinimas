@@ -4,14 +4,11 @@ import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
-import { combineReducers, createStore } from 'redux';
+import store from './store';
 import { Provider } from 'react-redux';
 
-import registerServiceWorker from './registerServiceWorker';
-import reducers from './reducers/reducers';
 import App from './App';
-
-const store = createStore(combineReducers(reducers));
+import registerServiceWorker from './registerServiceWorker';
 
 const history = createBrowserHistory();
 

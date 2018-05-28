@@ -42,7 +42,7 @@ class BottomNav extends Component {
   }
 
   handleChange(event, value) {
-    this.setState({value: selected});
+    this.setState({value});
     this.props.history.push(value);
   };
 
