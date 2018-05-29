@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Card, CardContent, Typography, withStyles } from '@material-ui/core';
+import { withRouter } from 'react-router-dom';
 
 const styles = theme => ({
   container: {
@@ -15,6 +16,7 @@ const styles = theme => ({
   },
   card: {
     flex: 4,
+    cursor: 'pointer',
   },
   cardContent: {
     display: 'flex',
@@ -28,12 +30,12 @@ const styles = theme => ({
   },
 });
 
-const Lecture = ({classes, id, title, module, start, attendedStudents, totalStudents}) => (
+const Lecture = ({classes, history, id, title, module, start, attendedStudents, totalStudents}) => (
     <div className={classes.container}>
       <Typography variant="headline" className={classNames(classes.time, classes.alignEnd)} color="primary">
         {parseTime(start)}
       </Typography>
-      <Card className={classes.card}>
+      <Card className={classes.card} onClick={() => history.push(`/lectures/${id}`)}>
         <CardContent>
           <div className={classes.cardContent}>
             <div className={classes.details}>
@@ -56,4 +58,4 @@ const Lecture = ({classes, id, title, module, start, attendedStudents, totalStud
 const parseTime = time => new Date(time)
     .toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 
-export default withStyles(styles)(Lecture);
+export default withRouter(withStyles(styles)(Lecture));
