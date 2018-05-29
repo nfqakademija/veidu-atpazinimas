@@ -33,6 +33,11 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
+     * @ORM\Column(type="array")
+     */
+    private $roles;
+
+    /**
      * @ORM\OneToOne(targetEntity="Teacher", mappedBy="user", cascade={"persist", "remove"})
      */
     private $teacher;
@@ -48,7 +53,7 @@ class User implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return ['ROLE_ADMIN', 'ROLE_LECTURER'];
+        return $this->roles;
     }
 
     /**

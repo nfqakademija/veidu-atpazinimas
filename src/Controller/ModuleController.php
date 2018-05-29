@@ -16,20 +16,16 @@ class ModuleController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        // TODO Get authenticated user
-        // $user = $entityManager->getRepository(User::class)->find(12);
-        $teacher = $entityManager->getRepository(Teacher::class)->findOneBy([]);
-        
-        // if (!$user) {
-        //     return new Response('', Response::HTTP_UNAUTHORIZED);
-        // }
+        $teacher = $entityManager->getRepository(Teacher::class)
+            ->findOneBy([
+                'user' => $this->getUser(),
+            ]);
 
-        // if ($teacher = $user->getTeacher()) {
-            $modules = $teacher->getModules();
-        // } else {
-            // TODO Check if user is an administrator
-            // $modules = $entityManager->getRepository(Module::class)->findAll();
-        // }
+        if (!$teacher) {
+            return new Response('', Response::HTTP_UNAUTHORIZED);
+        }
+
+        $modules = $teacher->getModules();
 
         return $this->json($normalizer->normalize($modules, null, [
             'groups' => ['index', 'groups'],
@@ -76,7 +72,7 @@ class ModuleController extends AbstractController
 
     public function delete(Request $request, Module $module): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$module->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $module->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($module);
             $em->flush();

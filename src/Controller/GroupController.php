@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\StudentGroup;
 use App\Form\GroupType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class GroupController extends Controller
+class GroupController extends AbstractController
 {
     public function show(StudentGroup $group, NormalizerInterface $normalizer): Response
     {
