@@ -18,7 +18,7 @@ class ModuleController extends AbstractController
 
         $teacher = $entityManager->getRepository(Teacher::class)
             ->findOneBy([
-                'user' => $this->getUser(),
+                // 'user' => $this->getUser(),
             ]);
 
         if (!$teacher) {
