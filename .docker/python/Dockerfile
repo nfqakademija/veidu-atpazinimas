@@ -48,4 +48,4 @@ VOLUME /code
 
 ENV FLASK_APP /python/app.py
 
-CMD tail -f /dev/null
+CMD python python/app.py
