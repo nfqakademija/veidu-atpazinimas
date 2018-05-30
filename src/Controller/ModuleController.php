@@ -34,9 +34,9 @@ class ModuleController extends AbstractController
 
     public function show(Module $module, NormalizerInterface $normalizer): Response
     {
-        return $this->json($normalizer->normalize($module, null,
-            ['groups' => ['index', 'teacher', 'groups']]
-        ));
+        return $this->json($normalizer->normalize($module, null, [
+            'groups' => ['index', 'teacher', 'groups']
+        ]));
     }
 
     public function new(Request $request): Response

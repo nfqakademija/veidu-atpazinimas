@@ -125,5 +125,4 @@ class Teacher
         return $this;
     }
     #endregion
-
 }

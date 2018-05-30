@@ -76,7 +76,7 @@ class Student
     }
     #endregion
 
-    #region Group    
+    #region Group
     /**
      * @return StudentGroup
      */

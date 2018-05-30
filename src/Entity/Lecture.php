@@ -176,7 +176,8 @@ class Lecture
         return array_sum(
             $this->getModule()->getGroups()->map(function (StudentGroup $group) {
                 return $group->getStudents()->count();
-            })->toArray());
+            })->toArray()
+        );
     }
 
     /** @Groups({"index"}) */
