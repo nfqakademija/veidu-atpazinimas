@@ -52,7 +52,8 @@ services:
     restart: always    
     build: .docker/python/
     environment:
-      - FLASK_ENV=development
+      - FLASK_ENV=$APP_ENV
+      - FLASK_DEBUG=$APP_ENV
     volumes:
       - .:/code
     ports:

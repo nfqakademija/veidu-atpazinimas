@@ -26,9 +26,12 @@ RUN apt-get update \
 ADD enable_xdebug.sh /enable_xdebug.sh
 ADD disable_xdebug.sh /disable_xdebug.sh
 
+COPY php.ini /usr/local/etc/php/php.ini
+
 # Convert line endings (CRLF -> LF)
 RUN dos2unix /enable_xdebug.sh && \
     dos2unix /disable_xdebug.sh && \
+    dos2unix /usr/local/etc/php/php.ini && \
     apt-get --purge remove -y dos2unix && \
     rm -rf /var/lib/apt/lists/*
 

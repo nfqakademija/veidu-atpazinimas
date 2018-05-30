@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import base64
-import re
 from io import BytesIO
 
 import face_recognition
@@ -64,12 +63,12 @@ def recognize_faces():
     return jsonify(result.tolist())
 
 
-def decode_image(file):
-    encoded_string = re.sub('^data:image/.+;base64,', '', file)
+def decode_image(encoded_string):
+    # encoded_string = re.sub('^data:image/.+;base64,', '', encoded_string)
     image_string = base64.b64decode(encoded_string)
 
     return BytesIO(image_string)
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0')
