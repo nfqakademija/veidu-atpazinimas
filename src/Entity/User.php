@@ -32,10 +32,10 @@ class User implements UserInterface, \Serializable
      */
     private $password;
 
-    // /**
-    //  * @ORM\Column(type="array")
-    //  */
-    // private $roles;
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $roles;
 
     /**
      * @ORM\OneToOne(targetEntity="Teacher", mappedBy="user", cascade={"persist", "remove"})
@@ -53,8 +53,7 @@ class User implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        //return $this->roles;
-        return ["ROLE_USER"];
+        return array_unique(array_merge(['ROLE_USER'], $this->roles));
     }
 
     /**
@@ -153,7 +152,12 @@ class User implements UserInterface, \Serializable
 
     #endregion
 
-    public function getSalt(): ?string { return null; }
+    public function getSalt(): ?string
+    {
+        return null;
+    }
 
-    public function eraseCredentials() { }
+    public function eraseCredentials()
+    {
+    }
 }

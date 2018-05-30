@@ -19,9 +19,9 @@ class TeacherRepository extends ServiceEntityRepository
         parent::__construct($registry, Teacher::class);
     }
 
-//    /**
-//     * @return Lecturer[] Returns an array of Lecturer objects
-//     */
+    //    /**
+    //     * @return Lecturer[] Returns an array of Lecturer objects
+    //     */
     /*
     public function findByExampleField($value)
     {

@@ -28,18 +28,14 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
                 ->setEmail($faker->email)
                 ->setPassword(
                     $this->encoder->encodePassword($user, $faker->password(6, 20))
-                )
-            ;
+                );
 
-            if ($faker->boolean(60)) {
-                $teacher = new Teacher();
-                $teacher
-                    ->setName($faker->name)
-                    ->setUser($user)
-                ;
+            $teacher = new Teacher();
+            $teacher
+                ->setName($faker->name)
+                ->setUser($user);
 
-                $manager->persist($teacher);
-            }
+            $manager->persist($teacher);
 
             $manager->persist($user);
         }

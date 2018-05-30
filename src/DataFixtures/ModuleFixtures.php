@@ -4,9 +4,9 @@ namespace App\DataFixtures;
 
 use App\Entity\Attendance;
 use App\Entity\Lecture;
-use App\Entity\Teacher;
 use App\Entity\Module;
 use App\Entity\StudentGroup;
+use App\Entity\Teacher;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -17,14 +17,14 @@ class ModuleFixtures extends Fixture implements OrderedFixtureInterface
     {
         $faker = \Faker\Factory::create('lt_LT');
 
-        $lecturers = $manager->getRepository(Teacher::class)->findAll();
+        $teachers = $manager->getRepository(Teacher::class)->findAll();
         $groups = $manager->getRepository(StudentGroup::class)->findAll();
 
         for ($i = 0; $i < 20; $i++) {
             $module = new Module();
             $module
                 ->setTitle($faker->word)
-                ->setTeacher($faker->randomElement($lecturers));
+                ->setTeacher($faker->randomElement($teachers));
 
             for ($m = 0; $m < $faker->randomElement(range(1, 4)); $m++) {
                 $group = $faker->randomElement($groups);

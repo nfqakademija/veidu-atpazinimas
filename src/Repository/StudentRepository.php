@@ -29,8 +29,7 @@ class StudentRepository extends ServiceEntityRepository
             ->where('l.id = :lecture')
             ->setParameter('lecture', $lecture)
             ->getQuery()
-            ->execute()
-        ;
+            ->execute();
     }
 
     //    /**

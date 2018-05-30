@@ -25,7 +25,7 @@ class Teacher
      * @Groups({"index"})
      */
     private $name;
-    
+
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="teacher", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)

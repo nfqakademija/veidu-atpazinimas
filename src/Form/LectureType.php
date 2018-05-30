@@ -20,8 +20,7 @@ class LectureType extends AbstractType
             ->add('attendance', CollectionType::class, [
                 'entry_type'    => AttendanceType::class,
                 'entry_options' => ['label' => false],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

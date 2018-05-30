@@ -23,29 +23,26 @@ class LectureController extends AbstractController
             ->findOneBy([
                 //'user' => $this->getUser(),
             ]);
-
-        if (!$teacher) {
-            return new Response('', Response::HTTP_UNAUTHORIZED);
-        }
         
         $lectures = $entityManager->getRepository(Lecture::class)->findByTeacher($teacher, 10);
 
-        return $this->json($normalizer->normalize($lectures, null,
-            ['groups' => ['index', 'time', 'module', 'count']]
-        ));
+        return $this->json($normalizer->normalize($lectures, null, [
+            'groups' => ['index', 'time', 'module', 'count']
+        ]));
     }
 
     public function show(Lecture $lecture, NormalizerInterface $normalizer): Response
     {
-        return $this->json($normalizer->normalize($lecture, null,
-            ['groups' => ['index', 'time', 'module', 'attendances']]
-        ));
+        return $this->json($normalizer->normalize($lecture, null, [
+            'groups' => ['index', 'time', 'module', 'attendances']
+        ]));
     }
 
-    public function upload(Lecture $lecture,
-                           Request $request,
-                           FaceRecognition $recognition,
-                           NormalizerInterface $normalizer
+    public function upload(
+        Lecture $lecture,
+        Request $request,
+        FaceRecognition $recognition,
+        NormalizerInterface $normalizer
     ): Response {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -53,16 +50,16 @@ class LectureController extends AbstractController
         $students = $entityManager->getRepository(Student::class)->findInLecture($lecture);
 
         $image = $request->files->get('file');
-        
+
         try {
             $lecture->setAttendances($recognition->checkAttendances($students, $image));
         } catch (GuzzleException $e) {
             return $this->json($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->json($normalizer->normalize($lecture, null,
-            ['groups' => ['index', 'attendances']]
-        ));
+        return $this->json($normalizer->normalize($lecture, null, [
+            'groups' => ['index', 'attendances']
+        ]));
     }
 
     public function new(Request $request): Response

@@ -15,8 +15,7 @@ class ModuleType extends AbstractType
             ->add('title')
             ->add('lecturer')
             ->add('groups')
-            ->add('lectures')
-        ;
+            ->add('lectures');
     }
 
     public function configureOptions(OptionsResolver $resolver)

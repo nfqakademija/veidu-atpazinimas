@@ -38,8 +38,8 @@ class FaceRecognition
         $request = $this->client->post('http://python:5000/encoding', [
             'multipart' => [
                 [
-                    'name'    => 'file',
-                    'contents' => base64_encode(file_get_contents($this->directory.'/'.$image)),
+                    'name'     => 'file',
+                    'contents' => base64_encode(file_get_contents($this->directory . '/' . $image)),
                 ],
             ],
         ]);
@@ -51,7 +51,7 @@ class FaceRecognition
 
     /**
      * @param float[] $students
-     * @param string  $image
+     * @param string $image
      *
      * @return ArrayCollection|Attendance
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -65,7 +65,7 @@ class FaceRecognition
         $encodings = array_map(function (Student $student) {
             return $student->getEncoding();
         }, array_values($withEncodings));
-        
+
         $response = $this->client->request('POST', 'http://python:5000/recognition', [
             'multipart' => [
                 [
@@ -89,7 +89,7 @@ class FaceRecognition
 
     /**
      * @param array|Student $students
-     * @param array|bool    $compared
+     * @param array|bool $compared
      *
      * @return ArrayCollection|Attendance
      */

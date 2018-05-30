@@ -31,13 +31,12 @@ class LectureRepository extends ServiceEntityRepository
             ->setMaxResults($limit)
             ->setParameter('teacher', $teacher)
             ->getQuery()
-            ->execute()
-        ;
+            ->execute();
     }
-    
-//    /**
-//     * @return Lecture[] Returns an array of Lecture objects
-//     */
+
+    //    /**
+    //     * @return Lecture[] Returns an array of Lecture objects
+    //     */
     /*
     public function findByExampleField($value)
     {

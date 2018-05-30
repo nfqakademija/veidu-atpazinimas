@@ -19,9 +19,9 @@ class GroupRepository extends ServiceEntityRepository
         parent::__construct($registry, StudentGroup::class);
     }
 
-//    /**
-//     * @return StudentGroup[] Returns an array of Course objects
-//     */
+    //    /**
+    //     * @return StudentGroup[] Returns an array of Course objects
+    //     */
     /*
     public function findByExampleField($value)
     {

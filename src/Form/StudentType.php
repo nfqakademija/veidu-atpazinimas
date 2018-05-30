@@ -15,8 +15,7 @@ class StudentType extends AbstractType
         $builder
             ->add('name')
             ->add('group')
-            ->add('face', FileType::class)
-        ;
+            ->add('face', FileType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

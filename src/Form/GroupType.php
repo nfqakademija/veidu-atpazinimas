@@ -14,8 +14,7 @@ class GroupType extends AbstractType
         $builder
             ->add('title')
             ->add('groups')
-            ->add('modules')
-        ;
+            ->add('modules');
     }
 
     public function configureOptions(OptionsResolver $resolver)
