@@ -27,7 +27,9 @@
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "fzaninotto/faker": "^1.7",
         "squizlabs/php_codesniffer": "*",
+        "symfony/browser-kit": "^4.0",
         "symfony/debug-bundle": "^4.0",
+        "symfony/phpunit-bridge": "^4.0",
         "symfony/profiler-pack": "^1.0"
     },
     "config": {

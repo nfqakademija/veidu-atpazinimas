@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\Attendance;
 use App\Entity\Student;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -85,7 +84,6 @@ class FaceRecognition
 
         return $this->generateAttendances($students, $withEncodings);
     }
-
 
     /**
      * @param array|Student $students
