@@ -43,5 +43,5 @@ script:
   - cd $TRAVIS_BUILD_DIR && bin/phpunit
   - cd $TRAVIS_BUILD_DIR/acceptance-tests && vendor/bin/codecept run --debug --env=travis
   
-after_failure:
-  - tail -n 5000 $TRAVIS_BUILD_DIR//acceptance-tests/tests/_output/*
+#after_failure:
+#  - tail -n 5000 $TRAVIS_BUILD_DIR//acceptance-tests/tests/_output/*
