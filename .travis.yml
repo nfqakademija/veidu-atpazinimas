@@ -34,8 +34,8 @@ install:
   
 before_script:
   - cd $TRAVIS_BUILD_DIR && yarn run encore production
-  - cd $TRAVIS_BUILD_DIR && bin/console doctrine:database:create
-  - cd $TRAVIS_BUILD_DIR && bin/console doctrine:migrations:migrate --allow-no-migration --no-interaction
+#  - cd $TRAVIS_BUILD_DIR && bin/console doctrine:database:create
+#  - cd $TRAVIS_BUILD_DIR && bin/console doctrine:migrations:migrate --allow-no-migration --no-interaction
   - (php -S 172.17.0.1:8000 -t public &> /dev/null) &
 
 script:
