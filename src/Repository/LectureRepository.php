@@ -20,16 +20,22 @@ class LectureRepository extends ServiceEntityRepository
         parent::__construct($registry, Lecture::class);
     }
 
-
-    public function findByTeacher(Teacher $teacher, int $limit = 1)
+    /**
+     * @param Teacher $teacher
+     * @param integer|null $limit
+     * @param integer|null $offset
+     * @return mixed
+     */
+    public function findByTeacher(Teacher $teacher, $limit = null, $offset = null)
     {
         return $this->createQueryBuilder('l')
             ->join('l.module', 'm')
             ->join('m.teacher', 't')
             ->where('t.id = :teacher')
+            ->setParameter('teacher', $teacher)
             ->orderBy('l.start', 'DESC')
             ->setMaxResults($limit)
-            ->setParameter('teacher', $teacher)
+            ->setFirstResult($offset)
             ->getQuery()
             ->execute();
     }
