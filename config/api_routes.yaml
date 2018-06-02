@@ -8,6 +8,7 @@ logout:
     controller: App\Controller\AuthController::logout
     methods: [GET]
 
+
 module_index:
     path: /modules
     controller: App\Controller\ModuleController::index

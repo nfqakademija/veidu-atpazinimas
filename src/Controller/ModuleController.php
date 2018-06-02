@@ -3,24 +3,24 @@
 namespace App\Controller;
 
 use App\Entity\Module;
-use App\Entity\Teacher;
 use App\Form\ModuleType;
+use App\Repository\ModuleRepository;
+use App\Repository\TeacherRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ModuleController extends BaseController
 {
-    public function index(): Response
+    public function index(TeacherRepository $teacherRepository, ModuleRepository $moduleRepository): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $teacher = $teacherRepository->findOneBy([
+            // 'user' => $this->getUser(),
+        ]);
 
-        $teacher = $entityManager->getRepository(Teacher::class)
-            ->findOneBy([
-                // 'user' => $this->getUser(),
-            ]);
-
-        $modules = $teacher->getModules();
-
+        $modules = $moduleRepository->findBy([
+            'teacher' => $teacher
+        ]);
+        
         return $this->jsonEntity($modules, ['index', 'teacher', 'groups']);
     }
 
