@@ -3,6 +3,8 @@
 NFQ Akademija
 ============
 
+[![Build Status](https://travis-ci.com/nfqakademija/veidu-atpazinimas.svg?branch=master)](https://travis-ci.com/nfqakademija/veidu-atpazinimas)
+
 # Intro
 
 Sveiki! Tai yra Jūsų startinis projekto "template". 
