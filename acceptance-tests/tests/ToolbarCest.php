@@ -10,6 +10,6 @@ class ToolbarCest
     public function checkToolbar(AcceptanceTester $I)
     {
         $I->amOnPage('/attendance');
-        $I->seeElement('header[class*="Header-appBar"]');
+        $I->seeElement('li[role="menuitem"]');
     }
 }
