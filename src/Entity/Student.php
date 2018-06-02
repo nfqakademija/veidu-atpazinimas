@@ -20,21 +20,21 @@ class Student
     private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @Groups({"index"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\NotBlank(message="Please, upload the photo as JPEG file.")
-     * @Assert\File(mimeTypes={"image/jpeg"})
+     * @Assert\NotBlank(message="Please, upload the photo as JPEG/PNG file.")
+     * @Assert\File(mimeTypes={"image/*"})
      * @Groups({"face"})
      */
     private $face;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="array", nullable=true)
      */
     private $encoding;
 
@@ -45,6 +45,19 @@ class Student
      */
     private $group;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $shadow;
+
+    /**
+     * Student constructor.
+     */
+    public function __construct()
+    {
+        $this->shadow = false;
+    }
+    
     #region Getters & Setters
     public function getId()
     {
@@ -74,6 +87,18 @@ class Student
 
         return $this;
     }
+
+    public function isShadow()
+    {
+        return $this->shadow;
+    }
+
+    public function setShadow(bool $shadow): self
+    {
+        $this->shadow = $shadow;
+        
+        return $this;
+    }
     #endregion
 
     #region Group
@@ -101,12 +126,12 @@ class Student
     #region Encoding
     public function getEncoding(): array
     {
-        return json_decode($this->encoding) ?: [];
+        return $this->encoding;
     }
 
     public function setEncoding(array $encoding): self
     {
-        $this->encoding = json_encode($encoding);
+        $this->encoding = $encoding;
 
         return $this;
     }

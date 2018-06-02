@@ -29,12 +29,14 @@ class StudentGroup
     /**
      * @ORM\OneToMany(targetEntity="Student", mappedBy="group")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups({"students"})
      */
     private $students;
 
     /**
      * @ORM\ManyToMany(targetEntity="Module", mappedBy="groups")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups({"modules"})
      */
     private $modules;
 

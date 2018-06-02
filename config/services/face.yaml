@@ -1,8 +1,14 @@
 imports:
     - { resource: face_uploader.yaml }
     - { resource: face_recognition.yaml }
-    
+
 services:
+    app.attendance_recognition:
+        class: App\Service\AttendanceRecognition
+        arguments: 
+            - '@app.face_recognition'
+            - '@doctrine.orm.entity_manager'
+
     app.event_listeners.face_uploader:
         class: App\EventListener\FaceUploadListener
         tags:

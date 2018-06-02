@@ -55,6 +55,11 @@ group_delete:
     methods: [DELETE]
 
 
+student_index:
+    path: /students
+    controller: App\Controller\StudentController::index
+    methods: [GET]
+
 student_show:
     path: /students/{student}
     controller: App\Controller\StudentController::show

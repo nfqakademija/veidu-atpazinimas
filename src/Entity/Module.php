@@ -43,6 +43,7 @@ class Module
     /**
      * @ORM\OneToMany(targetEntity="Lecture", mappedBy="module")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups({"lectures"})
      */
     private $lectures;
 

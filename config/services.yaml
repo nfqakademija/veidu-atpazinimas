@@ -5,6 +5,7 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
+    faces_directory: '%kernel.project_dir%/public/uploads/faces'
 
 services:
     # default configuration for services in *this* file
@@ -32,4 +33,4 @@ services:
     
     App\Controller\LectureController:
         bind:
-            $recognition: '@app.face_recognition'
+            $attendanceRecognition: '@app.attendance_recognition'

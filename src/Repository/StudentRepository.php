@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Lecture;
+use App\Entity\Module;
 use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -28,6 +29,17 @@ class StudentRepository extends ServiceEntityRepository
             ->join('m.lectures', 'l')
             ->where('l.id = :lecture')
             ->setParameter('lecture', $lecture)
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findInModule(int $module)
+    {
+        return $this->createQueryBuilder('s')
+            ->join('s.group', 'g')
+            ->join('g.modules', 'm')
+            ->where('m.id = :module')
+            ->setParameter('module', $module)
             ->getQuery()
             ->execute();
     }

@@ -7,7 +7,8 @@ use App\Service\FaceRecognition;
 use App\Service\FileUploader;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
 
 class FaceUploadListener
 {
@@ -43,12 +44,30 @@ class FaceUploadListener
 
         $file = $entity->getFace();
 
-        if ($file instanceof UploadedFile) {
+        if ($file instanceof File) {
             $fileName = $this->uploader->upload($file);
             $entity->setFace($fileName);
-
-            $encoding = $this->recognition->calculateFaceEncoding($fileName);
-            $entity->setEncoding($encoding);
         }
+
+        if (!$entity->hasEncoding()) {
+            $this->generateEncoding($entity);
+        }
+    }
+
+    private function generateEncoding($entity)
+    {
+        if (!$entity instanceof Student) {
+            return;
+        }
+
+        $fileName = $entity->getFace();
+        $encoding = $this->recognition->calculateFaceEncoding($fileName);
+
+        if (empty($encoding)) {
+            // TODO Notify user about bad photo.
+            throw new FileException("Face not found in image.");
+        }
+
+        $entity->setEncoding($encoding);
     }
 }

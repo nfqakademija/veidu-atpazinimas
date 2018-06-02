@@ -3,63 +3,50 @@
 namespace App\Controller;
 
 use App\Entity\Lecture;
-use App\Entity\Student;
-use App\Entity\Teacher;
 use App\Form\LectureType;
-use App\Service\FaceRecognition;
-use GuzzleHttp\Exception\GuzzleException;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\LectureRepository;
+use App\Repository\TeacherRepository;
+use App\Service\AttendanceRecognition;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class LectureController extends AbstractController
+class LectureController extends BaseController
 {
-    public function index(NormalizerInterface $normalizer)
+    public function index(TeacherRepository $teacherRepository, LectureRepository $lectureRepository): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $teacher = $teacherRepository->findOneBy([
+            //'user' => $this->getUser()
+        ]);
 
-        $teacher = $entityManager->getRepository(Teacher::class)
-            ->findOneBy([
-                //'user' => $this->getUser(),
-            ]);
-        
-        $lectures = $entityManager->getRepository(Lecture::class)->findByTeacher($teacher, 10);
+        $lectures = $lectureRepository->findByTeacher($teacher, 10);
 
-        return $this->json($normalizer->normalize($lectures, null, [
-            'groups' => ['index', 'time', 'module', 'count']
-        ]));
+        return $this->jsonEntity($lectures, ['index', 'time', 'module', 'count']);
     }
 
-    public function show(Lecture $lecture, NormalizerInterface $normalizer): Response
+    public function show(Lecture $lecture): Response
     {
-        return $this->json($normalizer->normalize($lecture, null, [
-            'groups' => ['index', 'time', 'module', 'attendances']
-        ]));
+        return $this->jsonEntity($lecture, ['index', 'time', 'module', 'attendances']);
     }
 
     public function upload(
         Lecture $lecture,
         Request $request,
-        FaceRecognition $recognition,
-        NormalizerInterface $normalizer
+        AttendanceRecognition $attendanceRecognition
     ): Response {
-        $entityManager = $this->getDoctrine()->getManager();
-
-        /** @var array|Student $students */
-        $students = $entityManager->getRepository(Student::class)->findInLecture($lecture);
-
         $image = $request->files->get('file');
 
         try {
-            $lecture->setAttendances($recognition->checkAttendances($students, $image));
-        } catch (GuzzleException $e) {
-            return $this->json($e->getMessage(), Response::HTTP_BAD_REQUEST);
+            $attendances = $attendanceRecognition->checkAttendances($lecture, $image);
+        } catch (\Exception $e) {
+            return $this->json(['error' => $e->getMessage()]);
         }
-
-        return $this->json($normalizer->normalize($lecture, null, [
-            'groups' => ['index', 'attendances']
-        ]));
+        
+        $lecture->setAttendances($attendances);
+        
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+        
+        return $this->jsonEntity($lecture, ['index', 'attendances']);
     }
 
     public function new(Request $request): Response

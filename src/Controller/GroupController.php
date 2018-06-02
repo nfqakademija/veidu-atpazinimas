@@ -9,13 +9,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class GroupController extends AbstractController
+class GroupController extends BaseController
 {
-    public function show(StudentGroup $group, NormalizerInterface $normalizer): Response
+    public function show(StudentGroup $group): Response
     {
-        return $this->json($normalizer->normalize($group, null, [
-            'groups' => ['index']
-        ]));
+        return $this->jsonEntity($group, ['index', 'modules']);
     }
 
     public function new(Request $request): Response

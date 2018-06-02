@@ -170,7 +170,7 @@ class Lecture
         return $this;
     }
 
-    /** @Groups({"index"}) */
+    /** @Groups({"count"}) */
     public function getTotalStudents(): int
     {
         return array_sum(
@@ -180,7 +180,7 @@ class Lecture
         );
     }
 
-    /** @Groups({"index"}) */
+    /** @Groups({"count"}) */
     public function getAttendedStudents(): ?int
     {
         if ($this->getAttendances()->isEmpty()) {
@@ -188,7 +188,7 @@ class Lecture
         }
 
         return $this->getAttendances()->filter(function (Attendance $attendance) {
-            return $attendance->hasAttended();
+            return $attendance->hasAttended() && !$attendance->getStudent()->isShadow();
         })->count();
     }
     #endregion

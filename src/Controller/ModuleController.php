@@ -5,14 +5,12 @@ namespace App\Controller;
 use App\Entity\Module;
 use App\Entity\Teacher;
 use App\Form\ModuleType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ModuleController extends AbstractController
+class ModuleController extends BaseController
 {
-    public function index(NormalizerInterface $normalizer): Response
+    public function index(): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -21,22 +19,14 @@ class ModuleController extends AbstractController
                 // 'user' => $this->getUser(),
             ]);
 
-        if (!$teacher) {
-            return new Response('', Response::HTTP_UNAUTHORIZED);
-        }
-
         $modules = $teacher->getModules();
 
-        return $this->json($normalizer->normalize($modules, null, [
-            'groups' => ['index', 'groups'],
-        ]));
+        return $this->jsonEntity($modules, ['index', 'teacher', 'groups']);
     }
 
-    public function show(Module $module, NormalizerInterface $normalizer): Response
+    public function show(Module $module): Response
     {
-        return $this->json($normalizer->normalize($module, null, [
-            'groups' => ['index', 'teacher', 'groups']
-        ]));
+        return $this->jsonEntity($module, ['index', 'teacher', 'groups', 'lectures']);
     }
 
     public function new(Request $request): Response
@@ -50,7 +40,7 @@ class ModuleController extends AbstractController
             $em->persist($module);
             $em->flush();
 
-            return $this->json($module, Response::HTTP_CREATED);
+            return $this->jsonEntity($module, ['index'], Response::HTTP_CREATED);
         }
 
         return new Response('', Response::HTTP_BAD_REQUEST);
@@ -64,7 +54,7 @@ class ModuleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->json(['id' => $module->getId()]);
+            return $this->jsonEntity($module, ['index']);
         }
 
         return new Response('', Response::HTTP_BAD_REQUEST);

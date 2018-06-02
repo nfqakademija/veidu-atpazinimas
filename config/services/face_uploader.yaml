@@ -1,6 +1,3 @@
-parameters:
-    faces_directory: '%kernel.project_dir%/public/uploads/faces'
-
 services:
     app.file_uploader:
         class: App\Service\FileUploader
