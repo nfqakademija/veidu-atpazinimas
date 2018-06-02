@@ -37,7 +37,15 @@ yarn-error.log
 npm-debug.log
 .idea/
 ###< Old symfony and common infrastructure ###
+
 ###> symfony/phpunit-bridge ###
 .phpunit
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+###> acceptance-tests (codeception dependencies) ###
+acceptance-tests/vendor
+acceptance-tests/tests/_support/_generated
+!acceptance-tests/tests/_output/.gitkeep
+acceptance-tests/tests/_output
+###< acceptance-tests (codeception dependencies) ###
