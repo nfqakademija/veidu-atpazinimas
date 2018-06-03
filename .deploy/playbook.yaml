@@ -9,6 +9,7 @@
               - .env
           linked_directories:
               - var/log
+              - public/uploads
 
   tasks:
       - name: Initialize the deploy root and gather facts

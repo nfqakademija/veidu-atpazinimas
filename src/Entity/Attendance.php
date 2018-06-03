@@ -14,6 +14,7 @@ class Attendance
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"index"})
      */
     private $id;
 

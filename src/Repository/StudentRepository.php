@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Lecture;
-use App\Entity\Module;
 use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;

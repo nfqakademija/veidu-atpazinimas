@@ -5,7 +5,7 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-    faces_directory: '%kernel.project_dir%/public/uploads/faces'
+    faces_directory: '%kernel.project_dir%/public/uploads'
 
 services:
     # default configuration for services in *this* file

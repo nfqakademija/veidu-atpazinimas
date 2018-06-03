@@ -94,7 +94,7 @@ def encode_image(image: Image) -> str:
     buffered = BytesIO()
     image.save(buffered, format='PNG')
 
-    encoded_string = b'data:image/png;base64,' + base64.b64encode(buffered.getvalue())
+    encoded_string = base64.b64encode(buffered.getvalue())
 
     return encoded_string.decode('ascii')
 

@@ -49,7 +49,7 @@ class FaceUploadListener
             $entity->setFace($fileName);
         }
 
-        if (!$entity->hasEncoding()) {
+        if (!$entity->hasEncoding() && null !== $entity->getFace()) {
             $this->generateEncoding($entity);
         }
     }

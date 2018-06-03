@@ -9,10 +9,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Serializer\Normalizer\DataUriNormalizer;
 
 class AttendanceRecognition
 {
@@ -21,9 +20,6 @@ class AttendanceRecognition
 
     /** @var EntityManager */
     private $em;
-
-    /** @var DataUriNormalizer */
-    private $normalizer;
 
     /** @var Filesystem */
     private $fs;
@@ -37,7 +33,6 @@ class AttendanceRecognition
     {
         $this->recognition = $recognition;
         $this->em = $entityManager;
-        $this->normalizer = new DataUriNormalizer();
         $this->fs = new Filesystem();
     }
 
@@ -65,6 +60,8 @@ class AttendanceRecognition
             $result = $this->recognition->recognizeFaces($faceEncodings, $image);
         } catch (ClientException $e) {
             throw new \Exception($e->getMessage());
+        } catch (GuzzleException $e) {
+            throw new \Exception("Face recognition service is currently unavalable");
         }
 
         $attendancePairs = array_combine($studentsWithEncodings->getKeys(), $result['recognized']);
@@ -113,21 +110,17 @@ class AttendanceRecognition
     private function generateUnknownAttendances($lecture, $unknownStudents)
     {
         $attendances = new ArrayCollection();
-        foreach ($unknownStudents as $student) {
-            /** @var File $image */
-            $image = $this->normalizer->normalize(
-                $student['face'],
-                'Symfony\Component\HttpFoundation\File\File'
-            );
+        foreach ($unknownStudents as $unknownStudent) {
+            $image = base64_decode($unknownStudent['face']);
 
             $fileName = uniqid() . '.png';
-            $this->fs->dumpFile('tmp/' . $fileName, file_get_contents($image));
-            $file = new UploadedFile('tmp/', $fileName);
-
+            $this->fs->dumpFile('tmp/' . $fileName, $image);
+            $file = new File('tmp/' . $fileName, $fileName);
+            
             $student = new Student();
             $student
                 ->setFace($file)
-                ->setEncoding($student['encoding'])
+                ->setEncoding($unknownStudent['encoding'])
                 ->setShadow(true);
 
             $this->em->persist($student);
