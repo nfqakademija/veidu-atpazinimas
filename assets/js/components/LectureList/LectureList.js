@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { List, ListItem, Typography, withStyles } from '@material-ui/core';
 
+import _ from 'lodash';
+
 import Lecture from './Lecture';
+import { Header } from '../Layout';
 
 const styles = theme => ({
   container: {
@@ -14,28 +16,30 @@ const styles = theme => ({
   },
 });
 
-const LectureList = ({classes, lectures, error, isFetching}) => {
-  if (error) {
-    return <Typography>Error: {error.message}</Typography>;
-  } else if (isFetching) {
-    return <Typography>Loading...</Typography>;
-  } else {
-    return (
-        <div>
-          <List onChange={this.handleChange}>
-            {lectures.map(lecture => (
-                <ListItem key={lecture.id} className={classes.container}>
-                  <Lecture {...lecture}/>
-                </ListItem>
-            ))}
-          </List>
-        </div>
-    );
-  }
+const LectureList = ({classes, lectures}) => {
+  return (
+      <div>
+        <Header title="Attendance"/>
+        {_.isEmpty(lectures) ?
+            <Typography>Loading...</Typography>
+            :
+            <div>
+              <List>
+                {Object.entries(lectures)
+                    .map(([id, lecture]) => (
+                        <ListItem key={id} className={classes.container}>
+                          <Lecture {...lecture}/>
+                        </ListItem>
+                    ))}
+              </List>
+            </div>
+        }
+      </div>
+  );
 };
 
 LectureList.propTypes = {
-  lectures: PropTypes.arrayOf(
+  lectures: PropTypes.shape(
       PropTypes.shape({
         id: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,

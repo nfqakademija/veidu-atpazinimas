@@ -1,39 +1,28 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
 
-import { fetchLecturesIfNeeded } from '../actions/lectureActions';
+import { fetchLectures } from '../redux/modules/lectures';
 import { LectureList } from '../components';
-import { Header } from '../components/common';
 
 class LectureListContainer extends Component {
-  static propTypes = {
-    lectures: PropTypes.array.isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    lastUpdated: PropTypes.number,
-    dispatch: PropTypes.func.isRequired,
-  };
-
-  componentWillMount() {
-    const {dispatch} = this.props;
-    dispatch(fetchLecturesIfNeeded());
+  componentDidMount() {
+    this.props.fetch();
   }
 
   render() {
-    return (
-        <div>
-          <Header title="Attendance"/>
-          <LectureList {...this.props}/>
-        </div>
-    );
+    return <LectureList {...this.props}/>;
   }
 }
 
 const mapStateToProps = state => ({
-  lectures: state.lectures.lectures,
-  isFetching: state.lectures.isFetching,
-  error: state.lectures.error,
+  lectures: state.entities.lectures,
 });
 
-export default connect(mapStateToProps)(LectureListContainer);
+const mapDispatchToProps = dispatch => ({
+  fetch: () => dispatch(fetchLectures()),
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(LectureListContainer);

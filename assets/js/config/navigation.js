@@ -9,7 +9,7 @@ export default [
   },
   {
     title: 'Attendance',
-    link: '/attendance',
+    link: '/lectures',
     icon: <Face/>,
   },
 ];

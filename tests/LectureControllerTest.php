@@ -12,6 +12,6 @@ class LectureControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/attendance');
 
         $this->assertSame(200, $client->getResponse()->getStatusCode());
-        $this->assertSame(1, $crawler->filter('#app')->count());
+        $this->assertSame(1, $crawler->filter('#root')->count());
     }
 }

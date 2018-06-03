@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Card, CardContent, Typography, withStyles } from '@material-ui/core';
-import { withRouter } from 'react-router-dom';
+import { Button, Card, CardContent, Typography, withStyles } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
   container: {
@@ -12,7 +12,13 @@ const styles = theme => ({
     alignItems: 'center',
   },
   time: {
-    width: 110,
+    width: 120,
+  },
+  button: {
+    height: 'auto',
+    width: '100%',
+    margin: 0,
+    padding: 0,
   },
   card: {
     flex: 4,
@@ -30,32 +36,37 @@ const styles = theme => ({
   },
 });
 
-const Lecture = ({classes, history, id, title, module, start, attendedStudents, totalStudents}) => (
+const Lecture = ({classes, id, title, module, start, attendedStudents, totalStudents}) => (
     <div className={classes.container}>
       <Typography variant="headline" className={classNames(classes.time, classes.alignEnd)} color="primary">
         {parseTime(start)}
       </Typography>
-      <Card className={classes.card} onClick={() => history.push(`/lectures/${id}`)}>
-        <CardContent>
-          <div className={classes.cardContent}>
-            <div className={classes.details}>
-              <Typography variant="headline" noWrap>
-                {title}
-              </Typography>
-              <Typography variant="subheading" color="textSecondary">
-                {module.title}
+
+      <Button className={classes.button} component={Link} to={`/lectures/${id}`}>
+        <Card
+            className={classes.card}
+        >
+          <CardContent>
+            <div className={classes.cardContent}>
+              <div className={classes.details}>
+                <Typography variant="headline" noWrap>
+                  {title}
+                </Typography>
+                <Typography variant="subheading" color="textSecondary">
+                  {module.title}
+                </Typography>
+              </div>
+              <Typography variant="headline" className={classes.alignEnd}>
+                {attendedStudents}/{totalStudents}
               </Typography>
             </div>
-            <Typography variant="headline" className={classes.alignEnd}>
-              {attendedStudents}/{totalStudents}
-            </Typography>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </Button>
     </div>
 );
 
 const parseTime = time => new Date(time)
     .toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 
-export default withRouter(withStyles(styles)(Lecture));
+export default withStyles(styles)(Lecture);

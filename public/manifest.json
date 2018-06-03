@@ -1,0 +1,22 @@
+{
+    "short_name": "Attendance",
+    "name": "Face Recognition",
+    "icons": [
+        {
+            "src": "/images/apple-touch-icon.png",
+            "type": "image/png",
+            "sizes": "129x129"
+        },
+        {
+            "src": "/images/favicon.ico",
+            "type": "image/ico",
+            "sizes": "144x144"
+        }
+    ],
+    "start_url": "/",
+    "background_color": "#3C54FE",
+    "display": "standalone",
+    "orientation": "portrait",
+    "scope": "/",
+    "theme_color": "#3367D6"
+}

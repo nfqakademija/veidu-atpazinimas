@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Button, Typography, withStyles } from '@material-ui/core';
 import { AddAPhoto } from '@material-ui/icons';
 
@@ -20,7 +20,7 @@ const styles = theme => ({
   },
 });
 
-class AttendanceList extends React.Component {
+class AttendanceList extends Component {
   // submitPhoto() {
   //   console.log('to do upload');
   //
