@@ -75,7 +75,7 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
                 ->setGroup($group)
                 ->setFace($item . '.png');
 
-            $student[] = $student;
+            $students[] = $student;
             $manager->persist($student);
         }
 
@@ -97,8 +97,10 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
         foreach ($students as $student) {
             $attendance = new Attendance();
             $attendance
-                ->setLecture($lecture)
+                ->setAttended(false)
                 ->setStudent($student);
+            
+            $manager->persist($attendance);
 
             $attendances[] = $attendance;
         }

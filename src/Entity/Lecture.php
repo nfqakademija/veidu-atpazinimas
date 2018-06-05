@@ -163,7 +163,7 @@ class Lecture
     {
         $this->attendances = $attendances;
         /** @var Attendance $attendance */
-        foreach ($attendances->getIterator() as $attendance) {
+        foreach ($attendances as $attendance) {
             $attendance->setLecture($this);
         }
 
