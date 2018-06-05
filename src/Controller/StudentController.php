@@ -22,12 +22,12 @@ class StudentController extends BaseController
             $students = [];
         }
 
-        return $this->jsonEntity($students, ['index', 'group']);
+        return $this->jsonEntity($students, ['index', 'face', 'group']);
     }
 
     public function show(Student $student): Response
     {
-        return $this->jsonEntity($student, ['index', 'group']);
+        return $this->jsonEntity($student, ['index', 'face', 'group']);
     }
 
     public function new(Request $request): Response

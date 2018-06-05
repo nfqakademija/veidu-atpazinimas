@@ -1,11 +1,35 @@
 import React from 'react';
+import { List, Paper, ListItem, Typography, withStyles } from '@material-ui/core';
 
-class StudentsList extends React.Component {
-  render() {
-    return (
-        <h1>StudentsList</h1>
-    );
-  }
-}
+import { Header } from '../Layout';
+import Student from './Student';
 
-export default StudentsList;
+const styles = theme => ({
+  container: {
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+});
+
+const StudentList = ({classes, students, loading}) => (
+    <div>
+      <Header title={`Students`}/>
+      <Paper>
+      <List>
+        {loading ?
+            <Typography>loading...</Typography>
+            :
+            students.map(student => (
+                <ListItem key={student.id} className={classes.container}>
+                  <Student student={student}/>
+                </ListItem>
+            ))
+        }
+      </List>
+      </Paper>
+    </div>
+);
+
+export default withStyles(styles)(StudentList);

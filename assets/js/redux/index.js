@@ -4,15 +4,18 @@ import thunk from 'redux-thunk';
 
 import rootReducer from './modules';
 
-import * as schema from './api/schema';
+import normalizedApi from './normalizedApi';
 
 const configureStore = () => {
+  const middlewares = [
+    normalizedApi,
+    thunk,
+  ];
+
   return createStore(
       rootReducer,
       composeWithDevTools(
-          applyMiddleware(
-              thunk.withExtraArgument({schema}),
-          ),
+          applyMiddleware(...middlewares),
       ),
   );
 };

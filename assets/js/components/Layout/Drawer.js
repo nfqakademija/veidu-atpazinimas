@@ -35,7 +35,7 @@ class AppDrawer extends Component {
 
   constructor(props) {
     super(props);
-
+    // TODO Reactive navigation buttons
     this.state = {
       selected: this.props.location.pathname,
     };
@@ -44,7 +44,7 @@ class AppDrawer extends Component {
   handleChange(selected) {
     this.setState({selected});
     this.props.history.push(selected);
-  };
+  }
 
   render() {
     const {classes} = this.props;

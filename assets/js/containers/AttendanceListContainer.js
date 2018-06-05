@@ -3,26 +3,26 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { AttendanceList } from '../components';
-import { fetchAttendances } from '../redux/modules/attendances';
+import { fetchAttendances, selectLecture, attendancesLoaded } from '../redux/modules/lectures';
 
 class AttendanceListContainer extends Component {
-  componentDidMount() {
+  componentWillMount() {
     const {lectureId} = this.props;
-    
     this.props.fetch(lectureId);
   }
 
   render() {
-    return <AttendanceList {...this.props}/>;
+    const {lecture, loading} = this.props;
+    return <AttendanceList lecture={lecture} loading={loading}/>;
   }
 }
 
 const mapStateToProps = (state, {match}) => {
-  const { lectureId } = match.params;
+  const {lectureId} = match.params;
   return ({
     lectureId,
-    lecture: state.entities.lectures[lectureId],
-    attendances: state.entities.attendances
+    lecture: selectLecture(state, lectureId),
+    loading: !attendancesLoaded(state, lectureId),
   });
 };
 

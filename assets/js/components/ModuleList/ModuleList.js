@@ -1,19 +1,34 @@
 import React from 'react';
-import { Paper, Typography } from '@material-ui/core';
+import { Typography, withStyles } from '@material-ui/core';
 
-class ModulesList extends React.Component {
-  render() {
-    return (
-        <Paper elevation={0}>
-          <Typography>
-            TO DO
-            Students Modules
-          </Typography>
-        </Paper>
-    );
-  }
-}
+import merge from 'lodash/merge';
 
-export default ModulesList;
+import { Header } from '../Layout';
+import Module from './Module';
+
+const styles = theme => ({
+  grid: {
+    display: 'flex',
+    padding: 50,
+  },
+});
+
+const ModuleList = ({classes, modules, loading}) => {
+  return (
+      <div>
+        <Header title="Modules"/>
+        <div className={classes.grid}>
+          {loading ?
+              <Typography>Loading...</Typography>
+              :
+              modules.map(module => (
+                  <Module key={module.id} module={module}/>
+              ))}
+        </div>
+      </div>
+  );
+};
+
+export default withStyles(styles)(ModuleList);
 
 

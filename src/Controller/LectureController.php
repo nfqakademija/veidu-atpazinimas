@@ -25,7 +25,7 @@ class LectureController extends BaseController
 
     public function show(Lecture $lecture): Response
     {
-        return $this->jsonEntity($lecture, ['index', 'time', 'module', 'attendances']);
+        return $this->jsonEntity($lecture, ['index', 'time', 'module', 'attendances', 'face']);
     }
 
     public function upload(

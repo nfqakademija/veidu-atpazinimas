@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchLectures } from '../redux/modules/lectures';
 import { LectureList } from '../components';
+import { fetchLectures, selectLectures } from '../redux/modules/lectures';
 
 class LectureListContainer extends Component {
   componentDidMount() {
@@ -10,12 +10,14 @@ class LectureListContainer extends Component {
   }
 
   render() {
-    return <LectureList {...this.props}/>;
+    const {lectures} = this.props;
+    return <LectureList lectures={lectures}/>;
   }
 }
 
 const mapStateToProps = state => ({
-  lectures: state.entities.lectures,
+  lectures: selectLectures(state),
+  loading: !state.index.lectures.length
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
-import { Button, Typography, withStyles } from '@material-ui/core';
+import { Button, List, ListItem, Typography, withStyles } from '@material-ui/core';
 import { AddAPhoto } from '@material-ui/icons';
 
+import { Header } from '../Layout';
+import Attendance from './Attendance';
+
 const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-    position: 'absolute',
-    bottom: -1 * (28 + theme.spacing.unit),
-    right: theme.spacing.unit * 2,
+  container: {
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
-  heading: {
-    padding: theme.spacing.unit,
-    paddingTop: 60,
-    height: 120,
-    position: 'relative',
+  button: {
+    position: 'fixed',
+    right: theme.spacing.unit * 2,
+    bottom: theme.spacing.unit * 2,
   },
   input: {
     display: 'none',
@@ -21,26 +23,39 @@ const styles = theme => ({
 });
 
 class AttendanceList extends Component {
-  // submitPhoto() {
-  //   console.log('to do upload');
-  //
-  //   // window.post = function(url, data) {
-  //   //   return fetch(url, {method: "POST", body: JSON.stringify(data)});
-  //   // }
-  //
-  //   // // ...
-  //
-  //   // post("post/data/here", data);
-  // };
+  static submitPhoto() {
+    console.log('to do upload');
+
+    // window.post = function(url, data) {
+    //   return fetch(url, {method: "POST", body: JSON.stringify(data)});
+    // }
+
+    // // ...
+
+    // post("post/data/here", data);
+  }
 
   render() {
-    const {classes} = this.props;
-    const lectureId = this.props.match.params.lectureId;
+    const {classes, lecture, loading} = this.props;
 
     return (
-        <div className={classes.heading}>
-          <Typography>TO DO single lecture</Typography>
-
+        <div>
+          <Header title="Lecture"/>
+          <List>
+            {loading ?
+                <Typography>Loading...</Typography>
+                :
+                lecture.attendances
+                    .map(attendance =>
+                        <ListItem key={attendance.id} className={classes.container}>
+                          <Attendance
+                              student={attendance.student}
+                              attended={attendance.attended}
+                          />
+                        </ListItem>,
+                    )
+            }
+          </List>
           <input accept="image/*" className={classes.input} id="icon-button-file" type="file"/>
           <label htmlFor="icon-button-file">
             <Button variant="fab" color="secondary" className={classes.button} component="span">

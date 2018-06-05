@@ -24,7 +24,7 @@ const styles = theme => ({
     flex: 4,
     cursor: 'pointer',
   },
-  cardContent: {
+  leftContent: {
     display: 'flex',
     justifyContent: 'space-between',
   },
@@ -36,28 +36,27 @@ const styles = theme => ({
   },
 });
 
-const Lecture = ({classes, id, title, module, start, attendedStudents, totalStudents}) => (
+const Lecture = ({classes, lecture}) => (
     <div className={classes.container}>
       <Typography variant="headline" className={classNames(classes.time, classes.alignEnd)} color="primary">
-        {parseTime(start)}
+        {parseTime(lecture.start)}
       </Typography>
 
-      <Button className={classes.button} component={Link} to={`/lectures/${id}`}>
-        <Card
-            className={classes.card}
-        >
+      <Button className={classes.button} component={Link} to={`/lectures/${lecture.id}`}>
+        <Card className={classes.card}>
           <CardContent>
-            <div className={classes.cardContent}>
+            <div className={classes.leftContent}>
               <div className={classes.details}>
                 <Typography variant="headline" noWrap>
-                  {title}
+                  {lecture.title}
                 </Typography>
                 <Typography variant="subheading" color="textSecondary">
-                  {module.title}
+                  {lecture.module.title}
                 </Typography>
               </div>
+              
               <Typography variant="headline" className={classes.alignEnd}>
-                {attendedStudents}/{totalStudents}
+                {lecture.attendedStudents}/{lecture.totalStudents}
               </Typography>
             </div>
           </CardContent>

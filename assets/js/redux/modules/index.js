@@ -1,31 +1,37 @@
 import { combineReducers } from 'redux';
 
-import * as Action from '../actions';
-
-import lectures from './lectures';
-import attendances from './attendances';
-import modules from './modules';
-import groups from './groups';
-import students from './students';
+import { fetched as fetchedLectures, index as lectureIndex, lectures } from './lectures';
+import { fetched as fetchedModules, index as modulesIndex, modules } from './modules';
+import { fetched as fetchedGroups, groups, index as groupsIndex } from './groups';
+import { index as studentsIndex, students } from './students';
+import { loadingReducer } from './loadingReducer';
 
 const entities = combineReducers({
   lectures,
-  attendances,
   modules,
   groups,
   students,
 });
 
-const currentLectures = (state = [], action) => {
-  switch (action.type) {
-    case Action.CREATE_LECTURE:
-      return [...state, action.id];
-    default:
-      return state;
-  }
-};
+const index = combineReducers({
+  lectures: lectureIndex,
+  modules: modulesIndex,
+  groups: groupsIndex,
+  students: studentsIndex,
+});
+
+const fetched = combineReducers({
+  lectures: fetchedLectures,
+  modules: fetchedModules,
+  groups: fetchedGroups,
+});
 
 export default combineReducers({
   entities,
-  currentLectures,
+  index,
+  fetched,
+  loading: loadingReducer,
 });
+
+export const createLoadingSelector = actions => state =>
+  actions.some(action => state.loading[action]);

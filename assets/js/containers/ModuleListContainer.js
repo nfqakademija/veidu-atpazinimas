@@ -1,19 +1,30 @@
-import React from 'react';
-
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchAttendancesIfNeeded, invalidateAttendances } from '../redux/modules/attendances';
 import { ModuleList } from '../components';
+import { fetchModules, selectModules } from '../redux/modules/modules';
+
+class ModuleListContainer extends Component {
+  componentDidMount() {
+    this.props.fetch();
+  }
+
+  render() {
+    const {modules, loading} = this.props;
+    return <ModuleList modules={modules} loading={loading}/>;
+  }
+}
 
 const mapStateToProps = state => ({
-  lectures: state.lectures.lectures,
-  loading: state.lectures.loading,
-  error: state.lectures.error,
+  modules: selectModules(state),
+  loading: !state.index.modules.length || !state.index.groups.length,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetch: () => dispatch(fetchAttendancesIfNeeded()),
-  invalidate: () => dispatch(invalidateAttendances()),
+  fetch: () => dispatch(fetchModules()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModuleList);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(ModuleListContainer);
