@@ -2,9 +2,6 @@
 
 namespace App;
 
-use Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle;
-use Http\HttplugBundle\HttplugBundle;
-use HWI\Bundle\OAuthBundle\HWIOAuthBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -36,12 +33,6 @@ class Kernel extends BaseKernel
                 yield new $class();
             }
         }
-
-        $bundles[] = [
-            new HttplugBundle(),
-            new HWIOAuthBundle(),
-            new DoctrineFixturesBundle()
-        ];
     }
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader)
