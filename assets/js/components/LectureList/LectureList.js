@@ -1,8 +1,8 @@
 import React from 'react';
-import { List, ListItem, Typography, withStyles } from '@material-ui/core';
-
-import Lecture from './Lecture';
+import { Hidden, List, ListItem, Typography, withStyles } from '@material-ui/core';
 import { Header } from '../Layout';
+import LectureCard from './LectureCard';
+import LectureListItem from './LectureListItem';
 
 const styles = theme => ({
   container: {
@@ -16,34 +16,22 @@ const styles = theme => ({
 const LectureList = ({classes, lectures, loading}) => (
     <div>
       <Header title="Attendance"/>
-      {loading ?
-          <Typography>Loading...</Typography>
-          :
-          <List>
-            {loading ?
-                <Typography>Loading...</Typography>
-                :
-                lectures.map(lecture => (
-                    <ListItem key={lecture.id} className={classes.container}>
-                      <Lecture lecture={lecture}/>
-                    </ListItem>
-                ))}
-          </List>
-      }
+      <List>
+        {loading ?
+            <Typography>Loading...</Typography>
+            :
+            lectures.map(lecture => (
+                <ListItem key={lecture.id} className={classes.container}>
+                  <Hidden smDown>
+                    <LectureCard lecture={lecture}/>
+                  </Hidden>
+                  <Hidden mdUp>
+                    <LectureListItem lecture={lecture}/>
+                  </Hidden>
+                </ListItem>
+            ))}
+      </List>
     </div>
 );
-
-// LectureList.propTypes = {
-//   lectures: PropTypes.arrayOf(
-//       PropTypes.shape({
-//         id: PropTypes.number.isRequired,
-//         title: PropTypes.string.isRequired,
-//         start: PropTypes.string.isRequired,
-//         end: PropTypes.string.isRequired,
-//         attendedStudents: PropTypes.number,
-//         totalStudents: PropTypes.number.isRequired,
-//       }).isRequired,
-//   ),
-// };
 
 export default withStyles(styles)(LectureList);

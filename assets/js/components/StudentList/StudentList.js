@@ -5,11 +5,12 @@ import { Header } from '../Layout';
 import Student from './Student';
 
 const styles = theme => ({
+  root: {
+    paddingBottom: theme.spacing.unit * 16,
+  },
   container: {
     display: 'flex',
     width: '100%',
-    flexDirection: 'column',
-    alignItems: 'center',
   },
 });
 
@@ -17,7 +18,7 @@ const StudentList = ({classes, students, loading}) => (
     <div>
       <Header title={`Students`}/>
       <Paper>
-      <List>
+      <List className={classes.root}>
         {loading ?
             <Typography>loading...</Typography>
             :

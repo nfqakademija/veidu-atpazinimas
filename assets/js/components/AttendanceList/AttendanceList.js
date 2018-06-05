@@ -6,16 +6,23 @@ import { Header } from '../Layout';
 import Attendance from './Attendance';
 
 const styles = theme => ({
+  root: {
+    margin: 'auto, 0',
+    maxWidth: 900,
+    paddingBottom: theme.spacing.unit * 16,
+  },
   container: {
     display: 'flex',
     width: '100%',
-    flexDirection: 'column',
-    alignItems: 'center',
   },
   button: {
     position: 'fixed',
     right: theme.spacing.unit * 2,
     bottom: theme.spacing.unit * 2,
+
+    '@media (max-width: 960px)': {
+      bottom: theme.spacing.unit * 9,
+    },
   },
   input: {
     display: 'none',
@@ -41,13 +48,13 @@ class AttendanceList extends Component {
     return (
         <div>
           <Header title="Lecture"/>
-          <List>
+          <List className={classes.root}>
             {loading ?
                 <Typography>Loading...</Typography>
                 :
                 lecture.attendances
                     .map(attendance =>
-                        <ListItem key={attendance.id} className={classes.container}>
+                        <ListItem key={attendance.id} dense className={classes.container}>
                           <Attendance
                               student={attendance.student}
                               attended={attendance.attended}

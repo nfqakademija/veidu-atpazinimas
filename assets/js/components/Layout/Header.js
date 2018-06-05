@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
-import { AccountCircle } from '@material-ui/icons';
+import { AppBar, Toolbar, Typography, withStyles } from '@material-ui/core';
+
+import Account from './Account';
 
 const styles = theme => ({
   appBar: {
@@ -11,9 +11,6 @@ const styles = theme => ({
   },
   flex: {
     flex: 1,
-  },
-  icon: {
-    fontSize: 36,
   },
 });
 
@@ -41,16 +38,7 @@ class Header extends Component {
             <Typography variant="title" noWrap className={classes.flex}>
               {title}
             </Typography>
-            {account && (
-                <div>
-                  <IconButton
-                      onClick={this.handleAccount}
-                      color="primary"
-                  >
-                    <AccountCircle className={classes.icon}/>
-                  </IconButton>
-                </div>
-            )}
+            {account && <Account/>}
           </Toolbar>
         </AppBar>
     );

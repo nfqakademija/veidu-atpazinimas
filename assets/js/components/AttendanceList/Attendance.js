@@ -1,15 +1,18 @@
-import React from 'react';
-import { Typography, withStyles } from '@material-ui/core';
+import React, { Fragment } from 'react';
+import { Avatar, Checkbox, ListItemSecondaryAction, ListItemText, withStyles } from '@material-ui/core';
 
 const styles = theme => ({});
 
 const Attendance = ({classes, student, attended}) => (
-    <div>
-      <Typography>{student.id}</Typography>
-      <Typography>{student.name}</Typography>
-      <Typography>{student.face}</Typography>
-      <Typography>{attended}</Typography>
-    </div>
+    <Fragment>
+      <Avatar src={`/uploads/${student.face}`}/>
+      <ListItemText primary={student.name}/>
+      <ListItemSecondaryAction>
+        <Checkbox
+            checked={attended}
+        />
+      </ListItemSecondaryAction>
+    </Fragment>
 );
 
 export default withStyles(styles)(Attendance);
