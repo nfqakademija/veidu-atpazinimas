@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, List, ListItem, Typography, withStyles } from '@material-ui/core';
+import { Button, List, ListItem, Paper, Typography, withStyles } from '@material-ui/core';
 import { AddAPhoto } from '@material-ui/icons';
 
 import { Header } from '../Layout';
@@ -7,12 +7,14 @@ import Attendance from './Attendance';
 
 const styles = theme => ({
   root: {
-    margin: 'auto, 0',
-    maxWidth: 900,
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 16,
   },
   container: {
-    display: 'flex',
+    maxWidth: 700,
     width: '100%',
   },
   button: {
@@ -30,42 +32,38 @@ const styles = theme => ({
 });
 
 class AttendanceList extends Component {
-  static submitPhoto() {
-    console.log('to do upload');
-
-    // window.post = function(url, data) {
-    //   return fetch(url, {method: "POST", body: JSON.stringify(data)});
-    // }
-
-    // // ...
-
-    // post("post/data/here", data);
-  }
-
   render() {
     const {classes, lecture, loading} = this.props;
 
     return (
         <div>
           <Header title="Lecture"/>
-          <List className={classes.root}>
-            {loading ?
-                <Typography>Loading...</Typography>
-                :
-                lecture.attendances
-                    .map(attendance =>
-                        <ListItem key={attendance.id} dense className={classes.container}>
-                          <Attendance
-                              student={attendance.student}
-                              attended={attendance.attended}
-                          />
-                        </ListItem>,
-                    )
-            }
-          </List>
-          <input accept="image/*" className={classes.input} id="icon-button-file" type="file"/>
-          <label htmlFor="icon-button-file">
-            <Button variant="fab" color="secondary" className={classes.button} component="span">
+          <div className={classes.root}>
+            <Paper elevation={4} className={classes.container}>
+              <List>
+                {loading ?
+                    <Typography>Loading...</Typography>
+                    :
+                    lecture.attendances
+                        .map(attendance =>
+                            <ListItem key={attendance.id} dense>
+                              <Attendance
+                                  student={attendance.student}
+                                  attended={attendance.attended}
+                              />
+                            </ListItem>,
+                        )
+                }
+              </List>
+            </Paper>
+          </div>
+          <input
+              type="file" accept="image/*"
+              onChange={e => this.props.upload(e.target.files[0])}
+              className={classes.input} id="upload-photo"
+          />
+          <label htmlFor="upload-photo">
+            <Button component="span" variant="fab" color="secondary" className={classes.button}>
               <AddAPhoto/>
             </Button>
           </label>

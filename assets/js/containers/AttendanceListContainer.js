@@ -3,17 +3,17 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { AttendanceList } from '../components';
-import { fetchAttendances, selectLecture, attendancesLoaded } from '../redux/modules/lectures';
+import { fetchAttendances, selectLecture, attendancesLoaded, uploadPhoto } from '../redux/modules/lectures';
 
 class AttendanceListContainer extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const {lectureId} = this.props;
     this.props.fetch(lectureId);
   }
 
   render() {
-    const {lecture, loading} = this.props;
-    return <AttendanceList lecture={lecture} loading={loading}/>;
+    const {lectureId, lecture, loading, upload} = this.props;
+    return <AttendanceList lecture={lecture} loading={loading} upload={upload(lectureId)}/>;
   }
 }
 
@@ -28,6 +28,7 @@ const mapStateToProps = (state, {match}) => {
 
 const mapDispatchToProps = dispatch => ({
   fetch: (id) => dispatch(fetchAttendances(id)),
+  upload: (id) => (file) => dispatch(uploadPhoto(id, file)),
 });
 
 export default withRouter(connect(

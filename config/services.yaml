@@ -31,6 +31,17 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     
+    hwi_oauth.user.provider.fosub_bridge:
+        class: App\FOSUBUserProvider
+        arguments:
+          - '@fos_user.user_manager'
+          - { google: googleId }
+          - '@doctrine'
+    
+    my.custom.user_provider:
+            class: App\FOSUBUserProvider
+            arguments: ['@fos_user.user_manager', { google: googleId }]
+    
     App\Controller\LectureController:
         bind:
             $attendanceRecognition: '@app.attendance_recognition'

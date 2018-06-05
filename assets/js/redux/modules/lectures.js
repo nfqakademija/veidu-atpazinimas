@@ -12,6 +12,10 @@ const FETCH_ATTENDANCES_REQUEST = 'FETCH_ATTENDANCES_REQUEST';
 const FETCH_ATTENDANCES_SUCCESS = 'FETCH_ATTENDANCES_SUCCESS';
 const FETCH_ATTENDANCES_FAILURE = 'FETCH_ATTENDANCES_FAILURE';
 
+const UPLOAD_PHOTO_REQUEST = 'UPLOAD_PHOTO_REQUEST';
+const UPLOAD_PHOTO_SUCCESS = 'UPLOAD_PHOTO_SUCCESS';
+const UPLOAD_PHOTO_FAILURE = 'UPLOAD_PHOTO_FAILURE';
+
 const CREATE_LECTURE = 'CREATE_LECTURE';
 const UPDATE_LECTURE = 'UPDATE_LECTURE';
 const DELETE_LECTURE = 'DELETE_LECTURE';
@@ -66,6 +70,30 @@ export const fetchAttendances = lectureId => {
     schemaType: schema.lecture,
     shouldCallAPI: state => !attendancesLoaded(state, lectureId),
     callAPI: () => axios(`/api/lectures/${lectureId}`),
+  };
+};
+
+export const uploadPhoto = (lectureId, file) => {
+  const data = new FormData();
+  data.append('file', file);
+  
+  return {
+    types: [
+      UPLOAD_PHOTO_REQUEST,
+      UPLOAD_PHOTO_SUCCESS,
+      UPLOAD_PHOTO_FAILURE,
+    ],
+    schemaType: schema.lecture,
+    shouldCallAPI: state => true,
+    callAPI: () => axios.post(
+        `/api/lectures/${lectureId}/upload`,
+        data,
+        {
+          headers: {
+            'content-type': 'multipart/form-data',
+          },
+        },
+    ),
   };
 };
 

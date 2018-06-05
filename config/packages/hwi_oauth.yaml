@@ -1,0 +1,14 @@
+hwi_oauth:
+    connect:
+        account_connector: my.custom.user_provider
+    firewall_name: [main]
+    fosub:
+        username_iterations: 30
+        properties:
+            google: google_id
+    resource_owners:
+        google:
+            type:                google 
+            client_id:           "952012669043-gbdk8ed8aogpm1vhastebqqdv3frt2ii.apps.googleusercontent.com"
+            client_secret:       "dWaMba2eSGg2ca9kdL7KgOpw"
+            scope:               "email profile"
