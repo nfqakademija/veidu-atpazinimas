@@ -3,6 +3,7 @@ import { Button, Dialog, DialogActions, DialogTitle, IconButton, withStyles } fr
 import { AccountCircle } from '@material-ui/icons';
 
 import GoogleLogin from 'react-google-login';
+import { login } from '../googleApi';
 
 const styles = theme => ({
   icon: {
@@ -12,7 +13,7 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
   button: {
-    extends: Button
+    extends: Button,
   },
 });
 
@@ -25,13 +26,23 @@ class Account extends Component {
 
   handleClose = () => this.setState({open: false});
 
-  responseGoogle = (googleUser) => {
-    const id_token = googleUser.getAuthResponse().id_token;
-    const googleId = googleUser.getId();
+  responseGoogle = (response) => {
+    if (response.w3.U3) {
+      const postData = {
+        name: response.w3.ig,
+        provider: type,
+        email: response.w3.U3,
+        provider_id: response.El,
+        token: response.Zi.access_token,
+        provider_pic: response.w3.Paa,
+      };
 
-    console.log({googleId});
-    console.log({accessToken: id_token});
-    //anything else you want to do(save to localStorage)...
+      login(postData).then((result) => {
+        let responseJson = result;
+        sessionStorage.setItem("userData", JSON.stringify(responseJson));
+        this.setState({redirect: true});
+      });
+    }
   };
 
   render() {
@@ -63,14 +74,12 @@ class Account extends Component {
                   <DialogTitle id="form-dialog-title">Login to your account...</DialogTitle>
                   <DialogActions>
                     <Button variant="outlined" color="primary">Register</Button>
-                    <GoogleLogin clientId="952012669043-gbdk8ed8aogpm1vhastebqqdv3frt2ii.apps.googleusercontent.com"
-                                 scope="profile"
-                                 fetchBasicProfile={false}
-                                 responseHandler={this.responseGoogle}
-                                 onFailure={(a) => console.log(a)}
-                                 onSuccess={(a) => console.log(a)}
-
-                                 className={classes.button}
+                    <GoogleLogin
+                        clientId="952012669043-gbdk8ed8aogpm1vhastebqqdv3frt2ii.apps.googleusercontent.com"
+                        scope="profile"
+                        onFailure={this.responseGoogle}
+                        onSuccess={this.responseGoogle}
+                        className={classes.button}
                     />
                   </DialogActions>
                 </Fragment>

@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Attendance;
 use App\Entity\Lecture;
 use App\Entity\Module;
+use App\Entity\Student;
 use App\Entity\StudentGroup;
 use App\Entity\Teacher;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -37,7 +38,7 @@ class ModuleFixtures extends Fixture implements OrderedFixtureInterface
                 $start = $faker->dateTime();
                 $end = (clone $start)->add(new \DateInterval('PT45M'));
                 $lecture
-                    ->setTitle($faker->text(50))
+                    ->setTitle('Paskaita #' . $i)
                     ->setStart($start)
                     ->setEnd($end);
 

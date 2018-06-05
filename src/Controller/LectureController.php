@@ -15,7 +15,7 @@ class LectureController extends BaseController
     public function index(TeacherRepository $teacherRepository, LectureRepository $lectureRepository): Response
     {
         $teacher = $teacherRepository->findOneBy([
-            'user' => $this->getUser()
+            // 'user' => $this->getUser()
         ]);
 
         $lectures = $lectureRepository->findByTeacher($teacher, 10);

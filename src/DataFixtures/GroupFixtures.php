@@ -15,7 +15,7 @@ class GroupFixtures extends Fixture implements OrderedFixtureInterface
 
         for ($i = 0; $i < 10; $i++) {
             $group = new StudentGroup();
-            $group->setTitle($faker->word);
+            $group->setTitle("Student Group #" . $i);
 
             $manager->persist($group);
         }

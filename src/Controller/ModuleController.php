@@ -14,7 +14,7 @@ class ModuleController extends BaseController
     public function index(TeacherRepository $teacherRepository, ModuleRepository $moduleRepository): Response
     {
         $teacher = $teacherRepository->findOneBy([
-            'user' => $this->getUser(),
+            // 'user' => $this->getUser(),
         ]);
 
         $modules = $moduleRepository->findBy([
