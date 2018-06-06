@@ -38,7 +38,7 @@ class ModuleFixtures extends Fixture implements OrderedFixtureInterface
                 $start = $faker->dateTime();
                 $end = (clone $start)->add(new \DateInterval('PT45M'));
                 $lecture
-                    ->setTitle('Paskaita #' . $i)
+                    ->setTitle('Paskaita #' . $l)
                     ->setStart($start)
                     ->setEnd($end);
 
