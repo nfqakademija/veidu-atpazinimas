@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { Button, List, ListItem, Paper, Typography, withStyles } from '@material-ui/core';
+import {
+  Button,
+  List,
+  ListItem,
+  Paper,
+  Typography,
+  withStyles,
+} from '@material-ui/core';
 import { AddAPhoto } from '@material-ui/icons';
 
 import { Header } from '../Layout';
@@ -33,41 +40,47 @@ const styles = theme => ({
 
 class AttendanceList extends Component {
   render() {
-    const {classes, lecture, loading} = this.props;
+    const { classes, lecture, loading } = this.props;
 
     return (
-        <div>
-          <Header title="Lecture"/>
-          <div className={classes.root}>
-            <Paper elevation={4} className={classes.container}>
-              <List>
-                {loading ?
-                    <Typography>Loading...</Typography>
-                    :
-                    lecture.attendances
-                        .map(attendance =>
-                            <ListItem key={attendance.id} dense>
-                              <Attendance
-                                  student={attendance.student}
-                                  attended={attendance.attended}
-                              />
-                            </ListItem>,
-                        )
-                }
-              </List>
-            </Paper>
-          </div>
-          <input
-              type="file" accept="image/*"
-              onChange={e => this.props.upload(e.target.files[0])}
-              className={classes.input} id="upload-photo"
-          />
-          <label htmlFor="upload-photo">
-            <Button component="span" variant="fab" color="secondary" className={classes.button}>
-              <AddAPhoto/>
-            </Button>
-          </label>
+      <div>
+        <Header title="Lecture" />
+        <div className={classes.root}>
+          <Paper elevation={4} className={classes.container}>
+            <List>
+              {loading ? (
+                <Typography>Loading...</Typography>
+              ) : (
+                lecture.attendances.map(attendance => (
+                  <ListItem key={attendance.id} dense>
+                    <Attendance
+                      student={attendance.student}
+                      attended={attendance.attended}
+                    />
+                  </ListItem>
+                ))
+              )}
+            </List>
+          </Paper>
         </div>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={e => this.props.upload(e.target.files[0])}
+          className={classes.input}
+          id="upload-photo"
+        />
+        <label htmlFor="upload-photo">
+          <Button
+            component="span"
+            variant="fab"
+            color="secondary"
+            className={classes.button}
+          >
+            <AddAPhoto />
+          </Button>
+        </label>
+      </div>
     );
   }
 }

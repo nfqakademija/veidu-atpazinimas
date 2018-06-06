@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Drawer, ListItemIcon, MenuItem, MenuList, withStyles } from '@material-ui/core';
+import {
+  Drawer,
+  ListItemIcon,
+  MenuItem,
+  MenuList,
+  withStyles,
+} from '@material-ui/core';
 import classNames from 'classnames';
 
 const styles = theme => ({
@@ -35,52 +41,47 @@ class AppDrawer extends Component {
 
   constructor(props) {
     super(props);
-    // TODO Reactive navigation buttons
     this.state = {
+      // TODO Reactive navigation buttons
       selected: this.props.location.pathname,
     };
   }
 
   handleChange(selected) {
-    this.setState({selected});
+    this.setState({ selected });
     this.props.history.push(selected);
   }
 
   render() {
-    const {classes} = this.props;
-    const {nav} = this.props;
+    const { classes, nav } = this.props;
+
     return (
-        <div className={classes.container}>
-          <Drawer
-              variant="permanent"
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-          >
-            <MenuList>
-              {nav && nav.map(elem =>
-                  <MenuItem
-                      key={elem.link}
-                      onClick={() => this.handleChange(elem.link)}
-                      className={classes.menuItem}>
-                    <ListItemIcon
-                        children={elem.icon}
-                        className={classNames(
-                            classes.icon,
-                            this.state.selected === elem.link ? classes.selected : null,
-                        )}/>
-                  </MenuItem>,
-              )}
-            </MenuList>
-          </Drawer>
-        </div>
+      <div className={classes.container}>
+        <Drawer variant="permanent" classes={{ paper: classes.drawerPaper }}>
+          <MenuList>
+            {nav &&
+              nav.map(elem => (
+                <MenuItem
+                  key={elem.link}
+                  onClick={elem => this.handleChange(elem.link)}
+                  className={classes.menuItem}
+                >
+                  <ListItemIcon
+                    children={elem.icon}
+                    className={classNames(
+                      classes.icon,
+                      this.state.selected === elem.link
+                        ? classes.selected
+                        : null
+                    )}
+                  />
+                </MenuItem>
+              ))}
+          </MenuList>
+        </Drawer>
+      </div>
     );
   }
 }
-
-AppDrawer.propTypes = {
-  classes: PropTypes.object.isRequired,
-  nav: PropTypes.array.isRequired,
-};
 
 export default withRouter(withStyles(styles)(AppDrawer));

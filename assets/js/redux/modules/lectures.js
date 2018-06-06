@@ -20,7 +20,6 @@ const CREATE_LECTURE = 'CREATE_LECTURE';
 const UPDATE_LECTURE = 'UPDATE_LECTURE';
 const DELETE_LECTURE = 'DELETE_LECTURE';
 
-
 export const lectures = (state = {}, action) => {
   if (action.entities && action.entities.lectures) {
     return merge({}, state, action.entities.lectures);
@@ -45,7 +44,6 @@ export const fetched = (state = [], action) => {
       return state;
   }
 };
-
 
 export const fetchLectures = () => {
   return {
@@ -76,46 +74,41 @@ export const fetchAttendances = lectureId => {
 export const uploadPhoto = (lectureId, file) => {
   const data = new FormData();
   data.append('file', file);
-  
+
   return {
-    types: [
-      UPLOAD_PHOTO_REQUEST,
-      UPLOAD_PHOTO_SUCCESS,
-      UPLOAD_PHOTO_FAILURE,
-    ],
+    types: [UPLOAD_PHOTO_REQUEST, UPLOAD_PHOTO_SUCCESS, UPLOAD_PHOTO_FAILURE],
     schemaType: schema.lecture,
     shouldCallAPI: state => true,
-    callAPI: () => axios.post(
-        `/api/lectures/${lectureId}/upload`,
-        data,
-        {
-          headers: {
-            'content-type': 'multipart/form-data',
-          },
+    callAPI: () =>
+      axios.post(`/api/lectures/${lectureId}/upload`, data, {
+        headers: {
+          'content-type': 'multipart/form-data',
         },
-    ),
+      }),
   };
 };
 
 export const createLecture = lecture => dispatch => {
-  dispatch({type: CREATE_LECTURE});
+  dispatch({ type: CREATE_LECTURE });
   axios.post(`/api/lectures`, lecture);
 };
 
 export const updateLecture = lecture => dispatch => {
-  dispatch({type: UPDATE_LECTURE});
+  dispatch({ type: UPDATE_LECTURE });
   axios.put(`/api/lectures/${lecture.id}`, lecture);
 };
 
 export const deleteLecture = lecture => dispatch => {
-  dispatch({type: DELETE_LECTURE});
+  dispatch({ type: DELETE_LECTURE });
   axios.delete(`/api/lectures/${lecture.id}`);
 };
 
+export const selectLectures = state =>
+  denormalize(state.index.lectures, [schema.lecture], state.entities);
 
-export const selectLectures = state => denormalize(state.index.lectures, [schema.lecture], state.entities);
+export const selectLecture = (state, lectureId) =>
+  denormalize(lectureId, schema.lecture, state.entities);
 
-export const selectLecture = (state, lectureId) => denormalize(lectureId, schema.lecture, state.entities);
-
-export const attendancesLoaded = (state, lectureId) => state.entities.lectures[lectureId] &&
-    state.entities.lectures[lectureId].attendances;
+export const attendancesLoaded = (state, lectureId) =>
+  state.entities.lectures[lectureId] &&
+  state.entities.lectures[lectureId].attendances;

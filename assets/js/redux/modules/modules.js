@@ -14,7 +14,6 @@ const CREATE_MODULE = 'CREATE_MODULE';
 const UPDATE_MODULE = 'UPDATE_MODULE';
 const DELETE_MODULE = 'DELETE_MODULE';
 
-
 export const modules = (state = {}, action) => {
   if (action.entities && action.entities.modules) {
     return merge({}, state, action.entities.modules);
@@ -25,7 +24,11 @@ export const modules = (state = {}, action) => {
 export const index = (state = [], action) => {
   switch (action.type) {
     case FETCH_MODULES_SUCCESS:
-      return merge([], state, Object.keys(action.entities.modules).map(x => +x));
+      return merge(
+        [],
+        state,
+        Object.keys(action.entities.modules).map(x => +x)
+      );
     default:
       return state;
   }
@@ -40,7 +43,6 @@ export const fetched = (state = [], action) => {
   }
 };
 
-
 export const fetchModules = () => {
   return {
     types: [
@@ -54,5 +56,5 @@ export const fetchModules = () => {
   };
 };
 
-
-export const selectModules = state => denormalize(state.index.modules, [schema.module], state.entities);
+export const selectModules = state =>
+  denormalize(state.index.modules, [schema.module], state.entities);

@@ -9,14 +9,26 @@ import {
 } from '../containers';
 
 const Routes = () => (
-    <Switch>
-      <Route exact path="/" render={() => (<Redirect to="/lectures"/>)}/>
-      <Route exact path="/modules" component={ModuleListContainer}/>
-      <Route exact path="/modules/:moduleId(\d+)" component={StudentListContainer}/>
-      <Route exact path="/groups/:groupId(\d+)" component={StudentListContainer}/>
-      <Route exact path="/lectures" component={LectureListContainer}/>
-      <Route exact path="/lectures/:lectureId(\d+)" component={AttendanceListContainer}/>
-    </Switch>
+  <Switch>
+    <Route exact path="/" render={() => <Redirect to="/lectures" />} />
+    <Route exact path="/modules" component={ModuleListContainer} />
+    <Route
+      exact
+      path="/modules/:moduleId(\d+)"
+      component={StudentListContainer}
+    />
+    <Route
+      exact
+      path="/groups/:groupId(\d+)"
+      component={StudentListContainer}
+    />
+    <Route exact path="/lectures" component={LectureListContainer} />
+    <Route
+      exact
+      path="/lectures/:lectureId(\d+)"
+      component={AttendanceListContainer}
+    />
+  </Switch>
 );
 
 export default Routes;

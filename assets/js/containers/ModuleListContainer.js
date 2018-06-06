@@ -10,8 +10,8 @@ class ModuleListContainer extends Component {
   }
 
   render() {
-    const {modules, loading} = this.props;
-    return <ModuleList modules={modules} loading={loading}/>;
+    const { modules, loading } = this.props;
+    return <ModuleList modules={modules} loading={loading} />;
   }
 }
 
@@ -25,6 +25,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
+  mapStateToProps,
+  mapDispatchToProps
 )(ModuleListContainer);

@@ -24,23 +24,21 @@ class Header extends Component {
     account: true,
   };
 
-  handleAccount() {
-
-  }
+  handleAccount() {}
 
   render() {
-    const {classes} = this.props;
-    const {title, account} = this.props;
+    const { classes } = this.props;
+    const { title, account } = this.props;
 
     return (
-        <AppBar position="sticky" className={classes.appBar}>
-          <Toolbar>
-            <Typography variant="title" noWrap className={classes.flex}>
-              {title}
-            </Typography>
-            {account && <Account/>}
-          </Toolbar>
-        </AppBar>
+      <AppBar position="sticky" className={classes.appBar}>
+        <Toolbar>
+          <Typography variant="title" noWrap className={classes.flex}>
+            {title}
+          </Typography>
+          {account && <Account />}
+        </Toolbar>
+      </AppBar>
     );
   }
 }

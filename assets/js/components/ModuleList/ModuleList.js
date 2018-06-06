@@ -13,22 +13,19 @@ const styles = theme => ({
   },
 });
 
-const ModuleList = ({classes, modules, loading}) => {
+const ModuleList = ({ classes, modules, loading }) => {
   return (
-      <div>
-        <Header title="Modules"/>
-        <div className={classes.grid}>
-          {loading ?
-              <Typography>Loading...</Typography>
-              :
-              modules.map(module => (
-                  <Module key={module.id} module={module}/>
-              ))}
-        </div>
+    <div>
+      <Header title="Modules" />
+      <div className={classes.grid}>
+        {loading ? (
+          <Typography>Loading...</Typography>
+        ) : (
+          modules.map(module => <Module key={module.id} module={module} />)
+        )}
       </div>
+    </div>
   );
 };
 
 export default withStyles(styles)(ModuleList);
-
-

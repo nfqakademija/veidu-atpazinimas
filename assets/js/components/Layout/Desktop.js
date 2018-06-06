@@ -14,15 +14,13 @@ const styles = theme => ({
 });
 
 const Layout = props => {
-  const {classes} = props;
+  const { classes } = props;
 
   return (
-      <div className={classes.container}>
-        <Drawer className={classes.aside} nav={props.nav}/>
-        <main className={classes.content}>
-          {props.content}
-        </main>
-      </div>
+    <div className={classes.container}>
+      <Drawer className={classes.aside} nav={props.nav} />
+      <main className={classes.content}>{props.content}</main>
+    </div>
   );
 };
 

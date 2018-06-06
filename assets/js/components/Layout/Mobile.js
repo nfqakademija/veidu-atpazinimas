@@ -11,13 +11,13 @@ const styles = theme => ({
 });
 
 const Layout = props => {
-  const {classes} = props;
+  const { classes } = props;
 
   return (
-      <div className={classes.container}>
-        {props.content}
-        <BottomNav nav={props.nav}/>
-      </div>
+    <div className={classes.container}>
+      {props.content}
+      <BottomNav nav={props.nav} />
+    </div>
   );
 };
 

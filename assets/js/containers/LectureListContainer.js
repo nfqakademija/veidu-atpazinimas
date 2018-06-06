@@ -10,14 +10,14 @@ class LectureListContainer extends Component {
   }
 
   render() {
-    const {lectures} = this.props;
-    return <LectureList lectures={lectures}/>;
+    const { lectures } = this.props;
+    return <LectureList lectures={lectures} />;
   }
 }
 
 const mapStateToProps = state => ({
   lectures: selectLectures(state),
-  loading: !state.index.lectures.length
+  loading: !state.index.lectures.length,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -25,6 +25,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
+  mapStateToProps,
+  mapDispatchToProps
 )(LectureListContainer);

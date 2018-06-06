@@ -7,16 +7,11 @@ import rootReducer from './modules';
 import normalizedApi from './normalizedApi';
 
 const configureStore = () => {
-  const middlewares = [
-    normalizedApi,
-    thunk,
-  ];
+  const middlewares = [normalizedApi, thunk];
 
   return createStore(
-      rootReducer,
-      composeWithDevTools(
-          applyMiddleware(...middlewares),
-      ),
+    rootReducer,
+    composeWithDevTools(applyMiddleware(...middlewares))
   );
 };
 

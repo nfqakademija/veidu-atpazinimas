@@ -6,7 +6,7 @@ export const group = new schema.Entity('groups', {
   students: [student],
 });
 
-student.define({group});
+student.define({ group });
 
 export const module = new schema.Entity('modules', {
   groups: [group],

@@ -5,11 +5,11 @@ export default [
   {
     title: 'Students',
     link: '/modules',
-    icon: <People/>,
+    icon: <People />,
   },
   {
     title: 'Attendance',
     link: '/lectures',
-    icon: <Face/>,
+    icon: <Face />,
   },
 ];

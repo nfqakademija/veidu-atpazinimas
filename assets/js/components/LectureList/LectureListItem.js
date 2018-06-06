@@ -35,28 +35,32 @@ const styles = theme => ({
   },
 });
 
-const LectureListItem = ({classes, lecture}) => (
-    <Button className={classes.button} component={Link} to={`/lectures/${lecture.id}`}>
-      <Typography variant="title" className={classes.time} color="primary">
-        {parseTime(lecture.start)}
-      </Typography>
+const LectureListItem = ({ classes, lecture }) => (
+  <Button
+    className={classes.button}
+    component={Link}
+    to={`/lectures/${lecture.id}`}
+  >
+    <Typography variant="title" className={classes.time} color="primary">
+      {parseTime(lecture.start)}
+    </Typography>
 
-      <div className={classes.details}>
-        <Typography variant="body1" noWrap>
-          {lecture.title}
-        </Typography>
-        <Typography variant="body2" color="textSecondary">
-          {lecture.module.title}
-        </Typography>
-      </div>
-
-      <Typography variant="title" className={classes.count}>
-        {lecture.attendedStudents}/{lecture.totalStudents}
+    <div className={classes.details}>
+      <Typography variant="body1" noWrap>
+        {lecture.title}
       </Typography>
-    </Button>
+      <Typography variant="body2" color="textSecondary">
+        {lecture.module.title}
+      </Typography>
+    </div>
+
+    <Typography variant="title" className={classes.count}>
+      {lecture.attendedStudents}/{lecture.totalStudents}
+    </Typography>
+  </Button>
 );
 
-const parseTime = time => new Date(time)
-    .toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+const parseTime = time =>
+  new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
 export default withStyles(styles)(LectureListItem);

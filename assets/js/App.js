@@ -17,14 +17,14 @@ const styles = theme => ({
 
 const App = () => {
   return (
-      <MuiThemeProvider theme={theme}>
-        <Hidden mdUp>
-          <Mobile content={<Routes/>} nav={navigation}/>
-        </Hidden>
-        <Hidden smDown>
-          <Desktop content={<Routes/>} nav={navigation}/>
-        </Hidden>
-      </MuiThemeProvider>
+    <MuiThemeProvider theme={theme}>
+      <Hidden mdUp>
+        <Mobile content={<Routes />} nav={navigation} />
+      </Hidden>
+      <Hidden smDown>
+        <Desktop content={<Routes />} nav={navigation} />
+      </Hidden>
+    </MuiThemeProvider>
   );
 };
 

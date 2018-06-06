@@ -34,7 +34,7 @@ class BottomNav extends Component {
 
   constructor(props) {
     super(props);
-    
+
     this.state = {
       value: this.props.location.pathname,
     };
@@ -42,27 +42,35 @@ class BottomNav extends Component {
   }
 
   handleChange(event, value) {
-    this.setState({value});
+    this.setState({ value });
     this.props.history.push(value);
-  };
+  }
 
   render() {
-    const {classes} = this.props;
-    const {nav} = this.props;
-    const {value} = this.state;
+    const { classes } = this.props;
+    const { nav } = this.props;
+    const { value } = this.state;
 
     return (
-        <BottomNavigation value={value} onChange={this.handleChange} classes={{root: classes.paper}}>
-          {nav.map(elem =>
-              <BottomNavigationAction
-                  key={elem.link}
-                  icon={elem.icon}
-                  label={elem.title}
-                  value={elem.link}
-                  classes={{iconOnly: classes.icon, selected: classes.selected, root: classes.selectedIcon}}
-              />,
-          )}
-        </BottomNavigation>
+      <BottomNavigation
+        value={value}
+        onChange={this.handleChange}
+        classes={{ root: classes.paper }}
+      >
+        {nav.map(elem => (
+          <BottomNavigationAction
+            key={elem.link}
+            icon={elem.icon}
+            label={elem.title}
+            value={elem.link}
+            classes={{
+              iconOnly: classes.icon,
+              selected: classes.selected,
+              root: classes.selectedIcon,
+            }}
+          />
+        ))}
+      </BottomNavigation>
     );
   }
 }
