@@ -50,6 +50,8 @@ class AppDrawer extends Component {
   handleChange(selected) {
     this.setState({ selected });
     this.props.history.push(selected);
+    console.log(selected);
+    
   }
 
   render() {
@@ -63,7 +65,7 @@ class AppDrawer extends Component {
               nav.map(elem => (
                 <MenuItem
                   key={elem.link}
-                  onClick={elem => this.handleChange(elem.link)}
+                  onClick={() => this.handleChange(elem.link)}
                   className={classes.menuItem}
                 >
                   <ListItemIcon
