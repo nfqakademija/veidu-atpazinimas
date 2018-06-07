@@ -46,24 +46,35 @@ class LectureController extends BaseController
         $em = $this->getDoctrine()->getManager();
         $em->flush();
         
-        return $this->jsonEntity($lecture, ['index', 'attendances']);
+        return $this->jsonEntity($lecture, ['index', 'attendances', 'face']);
     }
 
     public function new(Request $request): Response
     {
         $lecture = new Lecture();
-        $form = $this->createForm(LectureType::class, $lecture);
-        $form->submit($request->getContent());
+        $form = $this->createForm(LectureType::class, $lecture, ['csrf_protection' => false]);
+        
+        $form->submit($request->request->all());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
             $em->persist($lecture);
             $em->flush();
 
-            return $this->json($lecture, Response::HTTP_CREATED);
-        }
+            return $this->jsonEntity($lecture,  ['index', 'time', 'module', 'attendances', 'face']);
+        } else {
+            $errors = [];
+            foreach ($form as $child) {
+                if (!$child->isValid()) {
+                    foreach ($child->getErrors() as $error) {
+                        $errors[$child->getName()] = $error->getMessage();
+                    }
+                }
+            }
 
-        return new Response('', Response::HTTP_BAD_REQUEST);
+            return $this->json(['error' => $errors], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     public function edit(Request $request, Lecture $lecture): Response

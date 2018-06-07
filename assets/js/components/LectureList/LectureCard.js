@@ -11,12 +11,6 @@ import {
 import { Link } from 'react-router-dom';
 
 const styles = theme => ({
-  button: {
-    height: 'auto',
-    width: '100%',
-    margin: 0,
-    padding: 0,
-  },
   container: {
     paddingLeft: 0,
     width: '100%',
@@ -25,32 +19,34 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
   },
+  button: {
+    width: '100%',
+    margin: 0,
+    padding: 0,
+  },
   time: {
     width: 120,
     minWidth: 120,
-  },
-  alignEnd: {
-    display: 'flex',
-    flexDirection: 'column',
-    textAlign: 'end',
-    padding: 10,
+    paddingRight: 12,
   },
   card: {
     flexGrow: 1,
   },
   content: {
     display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   leftContent: {
     flex: 1,
     minWidth: 0,
-
+    
     overflow: 'hidden',
     textOverflow: 'ellipsis',
 
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
 });
 
@@ -58,8 +54,9 @@ const LectureCard = ({ classes, lecture }) => (
   <div className={classes.container}>
     <Typography
       variant="headline"
-      className={classNames(classes.time, classes.alignEnd)}
       color="primary"
+      className={classes.time}
+      align="right"
     >
       {parseTime(lecture.start)}
     </Typography>
@@ -82,7 +79,7 @@ const LectureCard = ({ classes, lecture }) => (
                 </Typography>
               </div>
 
-              <Typography variant="headline" className={classes.alignEnd}>
+              <Typography variant="headline">
                 {lecture.attendedStudents}/{lecture.totalStudents}
               </Typography>
             </div>

@@ -6,14 +6,14 @@ import { AttendanceList } from '../components';
 import {
   fetchAttendances,
   selectLecture,
-  attendancesLoaded,
   uploadPhoto,
 } from '../redux/modules/lectures';
+import { createLoadingSelector } from '../redux/modules';
 
 class AttendanceListContainer extends Component {
-  componentDidMount() {
-    const { lectureId } = this.props;
-    this.props.fetch(lectureId);
+  componentWillMount() {
+    const { lectureId, fetch } = this.props;
+    fetch(lectureId);
   }
 
   render() {
@@ -28,12 +28,20 @@ class AttendanceListContainer extends Component {
   }
 }
 
+const attendancesLoadingSelector = createLoadingSelector(['FETCH_ATTENDANCES']);
+
 const mapStateToProps = (state, { match }) => {
   const { lectureId } = match.params;
+
   return {
     lectureId,
     lecture: selectLecture(state, lectureId),
-    loading: !attendancesLoaded(state, lectureId),
+    loading:
+      attendancesLoadingSelector(state) ||
+      !(
+        state.entities.lectures[lectureId] &&
+        state.entities.lectures[lectureId].attendances
+      ),
   };
 };
 

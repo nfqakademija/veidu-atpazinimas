@@ -2,26 +2,32 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { LectureList } from '../components';
-import { fetchLectures, selectLectures } from '../redux/modules/lectures';
+import { fetchLectures, selectLectures, addLecture } from '../redux/modules/lectures';
+import { createLoadingSelector } from '../redux/modules';
 
 class LectureListContainer extends Component {
   componentDidMount() {
-    this.props.fetch();
+    const { fetch } = this.props;
+    fetch();
   }
 
   render() {
-    const { lectures } = this.props;
-    return <LectureList lectures={lectures} />;
+    const { lectures, loading, addLecture } = this.props;
+
+    return <LectureList lectures={lectures} loading={loading} addLecture={addLecture} />;
   }
 }
 
+const lectureLoadingSelector = createLoadingSelector(['FETCH_LECTURES']);
+
 const mapStateToProps = state => ({
   lectures: selectLectures(state),
-  loading: !state.index.lectures.length,
+  loading: lectureLoadingSelector(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   fetch: () => dispatch(fetchLectures()),
+  addLecture: lecture => dispatch(addLecture(lecture)),
 });
 
 export default connect(

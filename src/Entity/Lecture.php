@@ -40,7 +40,7 @@ class Lecture
 
     /**
      * @ORM\ManyToOne(targetEntity="Module", inversedBy="lectures")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Groups({"module"})
      */
     private $module;
@@ -85,7 +85,7 @@ class Lecture
     /**
      * @return \DateTime
      */
-    public function getStart(): \DateTime
+    public function getStart(): ?\DateTime
     {
         return $this->start;
     }
@@ -105,7 +105,7 @@ class Lecture
     /**
      * @return \DateTime
      */
-    public function getEnd(): \DateTime
+    public function getEnd(): ?\DateTime
     {
         return $this->end;
     }
@@ -127,7 +127,7 @@ class Lecture
     /**
      * @return Module
      */
-    public function getModule(): Module
+    public function getModule(): ?Module
     {
         return $this->module;
     }

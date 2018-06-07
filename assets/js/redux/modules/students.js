@@ -4,13 +4,11 @@ import merge from 'lodash/merge';
 import * as schema from '../api/schema';
 
 const FETCH_STUDENTS_IN_MODULE_REQUEST = 'FETCH_STUDENTS_IN_MODULE_REQUEST';
-export const FETCH_STUDENTS_IN_MODULE_SUCCESS =
-  'FETCH_STUDENTS_IN_MODULE_SUCCESS';
+export const FETCH_STUDENTS_IN_MODULE_SUCCESS = 'FETCH_STUDENTS_IN_MODULE_SUCCESS';
 const FETCH_STUDENTS_IN_MODULE_FAILURE = 'FETCH_STUDENTS_IN_MODULE_FAILURE';
 
 const FETCH_STUDENTS_IN_GROUP_REQUEST = 'FETCH_STUDENTS_IN_GROUP_REQUEST';
-export const FETCH_STUDENTS_IN_GROUP_SUCCESS =
-  'FETCH_STUDENTS_IN_GROUP_SUCCESS';
+export const FETCH_STUDENTS_IN_GROUP_SUCCESS = 'FETCH_STUDENTS_IN_GROUP_SUCCESS';
 const FETCH_STUDENTS_IN_GROUP_FAILURE = 'FETCH_STUDENTS_IN_GROUP_FAILURE';
 
 const CREATE_STUDENT = 'CREATE_STUDENT';
@@ -50,19 +48,29 @@ export const fetchStudents = ({ module, group }) => {
   const params = module ? { module: +module } : { group: +group };
   return {
     types: module
-      ? [
-          FETCH_STUDENTS_IN_MODULE_FAILURE,
-          FETCH_STUDENTS_IN_MODULE_SUCCESS,
-          FETCH_STUDENTS_IN_MODULE_FAILURE,
-        ]
-      : [
-          FETCH_STUDENTS_IN_GROUP_REQUEST,
-          FETCH_STUDENTS_IN_GROUP_SUCCESS,
-          FETCH_STUDENTS_IN_GROUP_FAILURE,
-        ],
+      ? [FETCH_STUDENTS_IN_MODULE_FAILURE, FETCH_STUDENTS_IN_MODULE_SUCCESS, FETCH_STUDENTS_IN_MODULE_FAILURE]
+      : [FETCH_STUDENTS_IN_GROUP_REQUEST, FETCH_STUDENTS_IN_GROUP_SUCCESS, FETCH_STUDENTS_IN_GROUP_FAILURE],
     schemaType: [schema.student],
     shouldCallAPI: state => true,
     callAPI: () => axios(`/api/students`, { params }),
     payload: params,
+  };
+};
+
+export const addStudent = (group, student) => {
+  const formData = new FormData();
+  student.group = group;
+  Object.keys(student).forEach(key => formData.append(key, student[key]));
+
+  return {
+    types: [FETCH_STUDENTS_IN_MODULE_FAILURE, FETCH_STUDENTS_IN_MODULE_SUCCESS, FETCH_STUDENTS_IN_MODULE_FAILURE],
+    schemaType: schema.student,
+    shouldCallAPI: state => true,
+    callAPI: () =>
+      axios.post(`/api/students`, formData, {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      }),
   };
 };

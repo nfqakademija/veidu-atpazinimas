@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { ModuleList } from '../components';
 import { fetchModules, selectModules } from '../redux/modules/modules';
+import { createLoadingSelector } from "../redux/modules";
 
 class ModuleListContainer extends Component {
   componentDidMount() {
@@ -15,9 +16,11 @@ class ModuleListContainer extends Component {
   }
 }
 
+const modulesLoadingSelector = createLoadingSelector(['FETCH_MODULES']);
+
 const mapStateToProps = state => ({
   modules: selectModules(state),
-  loading: !state.index.modules.length || !state.index.groups.length,
+  loading: modulesLoadingSelector(state),
 });
 
 const mapDispatchToProps = dispatch => ({

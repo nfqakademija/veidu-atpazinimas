@@ -1,12 +1,13 @@
 import React, { Fragment } from 'react';
-import { Avatar, ListItemText, withStyles } from '@material-ui/core';
+import {ListItemText, withStyles } from '@material-ui/core';
+import CustomAvatar from '../Layout/Avatar';
 
 const styles = theme => ({});
 
 const Student = ({ student }) => (
   <Fragment>
-    <Avatar src={`/uploads/${student.face}`} />
-    <ListItemText primary={student.name} />
+    <CustomAvatar face={student.face} name={student.name} />
+    <ListItemText primary={student.name} secondary={student.group.title} />
   </Fragment>
 );
 

@@ -9,6 +9,7 @@ import {
 
 import { Header } from '../Layout';
 import Student from './Student';
+import StudentForm from './StudentForm';
 
 const styles = theme => ({
   root: {
@@ -24,14 +25,14 @@ const styles = theme => ({
   },
 });
 
-const StudentList = ({ classes, students, loading }) => (
+const StudentList = ({ classes, students, loading, addStudent }) => (
   <div>
     <Header title={`Students`} />
     <div className={classes.root}>
       <Paper elevation={4} className={classes.container}>
         <List className={classes.root}>
           {loading ? (
-            <Typography>loading...</Typography>
+            <Typography>Loading...</Typography>
           ) : (
             students.map(student => (
               <ListItem key={student.id} className={classes.container}>
@@ -42,6 +43,7 @@ const StudentList = ({ classes, students, loading }) => (
         </List>
       </Paper>
     </div>
+    <StudentForm addStudent={addStudent} />
   </div>
 );
 

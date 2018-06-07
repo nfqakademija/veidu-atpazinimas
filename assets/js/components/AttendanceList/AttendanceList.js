@@ -38,51 +38,45 @@ const styles = theme => ({
   },
 });
 
-class AttendanceList extends Component {
-  render() {
-    const { classes, lecture, loading } = this.props;
-
-    return (
-      <div>
-        <Header title="Lecture" />
-        <div className={classes.root}>
-          <Paper elevation={4} className={classes.container}>
-            <List>
-              {loading ? (
-                <Typography>Loading...</Typography>
-              ) : (
-                lecture.attendances.map(attendance => (
-                  <ListItem key={attendance.id} dense>
-                    <Attendance
-                      student={attendance.student}
-                      attended={attendance.attended}
-                    />
-                  </ListItem>
-                ))
-              )}
-            </List>
-          </Paper>
-        </div>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={e => this.props.upload(e.target.files[0])}
-          className={classes.input}
-          id="upload-photo"
-        />
-        <label htmlFor="upload-photo">
-          <Button
-            component="span"
-            variant="fab"
-            color="secondary"
-            className={classes.button}
-          >
-            <AddAPhoto />
-          </Button>
-        </label>
-      </div>
-    );
-  }
-}
+const AttendanceList = ({ classes, lecture, loading, upload }) => (
+  <div>
+    <Header title="Lecture" />
+    <div className={classes.root}>
+      <Paper elevation={4} className={classes.container}>
+        <List>
+          {loading ? (
+            <Typography>Loading...</Typography>
+          ) : (
+            lecture.attendances.map(attendance => (
+              <ListItem key={attendance.id} dense>
+                <Attendance
+                  student={attendance.student}
+                  attended={attendance.attended}
+                />
+              </ListItem>
+            ))
+          )}
+        </List>
+      </Paper>
+    </div>
+    <input
+      type="file"
+      accept="image/*"
+      onChange={e => upload(e.target.files[0])}
+      className={classes.input}
+      id="upload-photo"
+    />
+    <label htmlFor="upload-photo">
+      <Button
+        component="span"
+        variant="fab"
+        color="secondary"
+        className={classes.button}
+      >
+        <AddAPhoto />
+      </Button>
+    </label>
+  </div>
+);
 
 export default withStyles(styles)(AttendanceList);

@@ -4,9 +4,9 @@ namespace App\Form;
 
 use App\Entity\Lecture;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class LectureType extends AbstractType
 {
@@ -14,13 +14,9 @@ class LectureType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('startDate')
-            ->add('endDate')
-            ->add('module')
-            ->add('attendance', CollectionType::class, [
-                'entry_type'    => AttendanceType::class,
-                'entry_options' => ['label' => false],
-            ]);
+            ->add('start', DateTimeType::class)
+            ->add('end', DateTimeType::class)
+            ->add('module');
     }
 
     public function configureOptions(OptionsResolver $resolver)

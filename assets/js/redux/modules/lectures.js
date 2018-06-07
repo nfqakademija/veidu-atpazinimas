@@ -30,7 +30,7 @@ export const lectures = (state = {}, action) => {
 export const index = (state = [], action) => {
   switch (action.type) {
     case FETCH_LECTURES_SUCCESS:
-      return [...state, ...action.result];
+      return merge([], state, action.result);
     default:
       return state;
   }
@@ -39,7 +39,7 @@ export const index = (state = [], action) => {
 export const fetched = (state = [], action) => {
   switch (action.type) {
     case FETCH_ATTENDANCES_SUCCESS:
-      return [...state, action.result];
+      return merge([], state, action.result);
     default:
       return state;
   }
@@ -47,26 +47,36 @@ export const fetched = (state = [], action) => {
 
 export const fetchLectures = () => {
   return {
-    types: [
-      FETCH_LECTURES_REQUEST,
-      FETCH_LECTURES_SUCCESS,
-      FETCH_LECTURES_FAILURE,
-    ],
+    types: [FETCH_LECTURES_REQUEST, FETCH_LECTURES_SUCCESS, FETCH_LECTURES_FAILURE],
     schemaType: [schema.lecture],
     shouldCallAPI: state => !state.index.lectures.length,
     callAPI: () => axios(`/api/lectures`),
   };
 };
 
+export const addLecture = lecture => {
+  const formData = new FormData();
+  lecture.module = +lecture.module;
+  Object.keys(lecture).forEach(key => formData.append(key, lecture[key]));
+
+  return {
+    types: [FETCH_LECTURES_REQUEST, FETCH_LECTURES_SUCCESS, FETCH_LECTURES_FAILURE],
+    schemaType: schema.lecture,
+    shouldCallAPI: state => true,
+    callAPI: () =>
+      axios.post(`/api/lectures`, formData, {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      }),
+  };
+};
+
 export const fetchAttendances = lectureId => {
   return {
-    types: [
-      FETCH_ATTENDANCES_REQUEST,
-      FETCH_ATTENDANCES_SUCCESS,
-      FETCH_ATTENDANCES_FAILURE,
-    ],
+    types: [FETCH_ATTENDANCES_REQUEST, FETCH_ATTENDANCES_SUCCESS, FETCH_ATTENDANCES_FAILURE],
     schemaType: schema.lecture,
-    shouldCallAPI: state => !attendancesLoaded(state, lectureId),
+    shouldCallAPI: state => true,
     callAPI: () => axios(`/api/lectures/${lectureId}`),
   };
 };
@@ -103,12 +113,12 @@ export const deleteLecture = lecture => dispatch => {
   axios.delete(`/api/lectures/${lecture.id}`);
 };
 
-export const selectLectures = state =>
-  denormalize(state.index.lectures, [schema.lecture], state.entities);
+export const selectLectures = state => denormalize(state.index.lectures, [schema.lecture], state.entities);
 
-export const selectLecture = (state, lectureId) =>
-  denormalize(lectureId, schema.lecture, state.entities);
+export const selectLecture = (state, lectureId) => denormalize(lectureId, schema.lecture, state.entities);
 
-export const attendancesLoaded = (state, lectureId) =>
-  state.entities.lectures[lectureId] &&
-  state.entities.lectures[lectureId].attendances;
+export const attendancesLoaded = (state, lectureId) => {
+  console.log(state.entities.lectures);
+
+  return state.entities.lectures[lectureId] && state.entities.lectures[lectureId].attendances;
+};

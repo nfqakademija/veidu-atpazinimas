@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   Hidden,
   List,
   ListItem,
   Typography,
   withStyles,
+  Divider,
 } from '@material-ui/core';
 import { Header } from '../Layout';
 import LectureCard from './LectureCard';
 import LectureListItem from './LectureListItem';
+import LectureForm from './LectureForm';
 
 const styles = theme => ({
   container: {
@@ -19,7 +21,7 @@ const styles = theme => ({
   },
 });
 
-const LectureList = ({ classes, lectures, loading }) => (
+const LectureList = ({ classes, lectures, loading, addLecture }) => (
   <div>
     <Header title="Attendance" />
     <List>
@@ -27,17 +29,21 @@ const LectureList = ({ classes, lectures, loading }) => (
         <Typography>Loading...</Typography>
       ) : (
         lectures.map(lecture => (
-          <ListItem key={lecture.id} className={classes.container}>
+          <Fragment key={lecture.id}>
             <Hidden smDown>
-              <LectureCard lecture={lecture} />
+              <ListItem className={classes.container}>
+                <LectureCard lecture={lecture} />
+              </ListItem>
             </Hidden>
             <Hidden mdUp>
               <LectureListItem lecture={lecture} />
+              <Divider />
             </Hidden>
-          </ListItem>
+          </Fragment>
         ))
       )}
     </List>
+    <LectureForm addLecture={addLecture} />
   </div>
 );
 

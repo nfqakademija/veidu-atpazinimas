@@ -1,18 +1,19 @@
 import React, { Fragment } from 'react';
 import {
-  Avatar,
   Checkbox,
   Typography,
   ListItemSecondaryAction,
   ListItemText,
   withStyles,
 } from '@material-ui/core';
+import CustomAvatar from '../Layout/Avatar';
+
 
 const styles = theme => ({});
 
 const Attendance = ({ classes, student, attended }) => (
   <Fragment>
-    <Avatar src={`/uploads/${student.face}`} />
+    <CustomAvatar face={student.face} name={student.name} />
     <ListItemText
       disableTypography
       primary={<Typography variant="headline">{student.name}</Typography>}

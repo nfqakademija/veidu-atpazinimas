@@ -43,15 +43,13 @@ class AppDrawer extends Component {
     super(props);
     this.state = {
       // TODO Reactive navigation buttons
-      selected: this.props.location.pathname,
+      selected: `/${props.location.pathname.split('/')[1]}`,
     };
   }
 
   handleChange(selected) {
     this.setState({ selected });
     this.props.history.push(selected);
-    console.log(selected);
-    
   }
 
   render() {

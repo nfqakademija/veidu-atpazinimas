@@ -1,22 +1,20 @@
 import React from 'react';
-import { Button, Typography, withStyles } from '@material-ui/core';
+import { Typography, withStyles, ListItem } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 const styles = theme => ({
   button: {
-    height: 'auto',
+    height: 72,
     width: '100%',
     margin: 0,
     padding: 0,
-
-    display: 'flex',
   },
   time: {
-    textAlign: 'center',
-    width: 64,
-    minWidth: 64,
+    width: 56,
+    minWidth: 56,
+    fontSize: 16,
   },
-  details: {
+  content: {
     flex: 1,
     minWidth: 0,
 
@@ -31,22 +29,32 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     textAlign: 'end',
-    padding: 10,
+
+    paddingTop: 24,
+    paddingBottom: 24,
+    paddingRight: 16,
+    paddingLeft: 16,
   },
 });
 
 const LectureListItem = ({ classes, lecture }) => (
-  <Button
+  <ListItem
     className={classes.button}
+    button
     component={Link}
-    to={`/lectures/${lecture.id}`}
+    to={`lectures/${lecture.id}`}
   >
-    <Typography variant="title" className={classes.time} color="primary">
+    <Typography
+      variant="title"
+      color="primary"
+      className={classes.time}
+      align="center"
+    >
       {parseTime(lecture.start)}
     </Typography>
 
-    <div className={classes.details}>
-      <Typography variant="body1" noWrap>
+    <div className={classes.content}>
+      <Typography variant="title" noWrap>
         {lecture.title}
       </Typography>
       <Typography variant="body2" color="textSecondary">
@@ -57,7 +65,7 @@ const LectureListItem = ({ classes, lecture }) => (
     <Typography variant="title" className={classes.count}>
       {lecture.attendedStudents}/{lecture.totalStudents}
     </Typography>
-  </Button>
+  </ListItem>
 );
 
 const parseTime = time =>

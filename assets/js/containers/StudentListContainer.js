@@ -7,6 +7,7 @@ import {
   fetchStudents,
   selectStudentsInGroup,
   studentsLoaded,
+  addStudent,
 } from '../redux/modules/students';
 import { createLoadingSelector } from '../redux/modules';
 
@@ -19,8 +20,10 @@ class StudentListContainer extends Component {
   }
 
   render() {
-    const { students, loading } = this.props;
-    return <StudentList students={students} loading={loading} />;
+    const { addStudent, students, loading, groupId } = this.props;
+    return (
+      <StudentList students={students} loading={loading} addStudent={addStudent(groupId)} />
+    );
   }
 }
 
@@ -48,6 +51,7 @@ const mapStateToProps = (state, { match }) => {
 
 const mapDispatchToProps = dispatch => ({
   fetch: id => dispatch(fetchStudents(id)),
+  addStudent: groupId => student => dispatch(addStudent(groupId, student)),
 });
 
 export default withRouter(

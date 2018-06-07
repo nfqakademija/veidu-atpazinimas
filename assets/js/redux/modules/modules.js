@@ -24,11 +24,7 @@ export const modules = (state = {}, action) => {
 export const index = (state = [], action) => {
   switch (action.type) {
     case FETCH_MODULES_SUCCESS:
-      return merge(
-        [],
-        state,
-        Object.keys(action.entities.modules).map(x => +x)
-      );
+      return merge([], state, action.result);
     default:
       return state;
   }
