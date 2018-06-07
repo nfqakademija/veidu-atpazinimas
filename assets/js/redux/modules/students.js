@@ -63,7 +63,7 @@ export const addStudent = (group, student) => {
   Object.keys(student).forEach(key => formData.append(key, student[key]));
 
   return {
-    types: [FETCH_STUDENTS_IN_MODULE_FAILURE, FETCH_STUDENTS_IN_MODULE_SUCCESS, FETCH_STUDENTS_IN_MODULE_FAILURE],
+    types: [FETCH_STUDENTS_IN_GROUP_REQUEST, FETCH_STUDENTS_IN_GROUP_SUCCESS, FETCH_STUDENTS_IN_GROUP_FAILURE],
     schemaType: schema.student,
     shouldCallAPI: state => true,
     callAPI: () =>
