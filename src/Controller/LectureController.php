@@ -62,7 +62,7 @@ class LectureController extends BaseController
             $em->persist($lecture);
             $em->flush();
 
-            return $this->jsonEntity($lecture,  ['index', 'time', 'module', 'attendances', 'face']);
+            return $this->jsonEntity($lecture, ['index', 'time', 'module', 'attendances', 'face']);
         } else {
             $errors = [];
             foreach ($form as $child) {
