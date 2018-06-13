@@ -52,9 +52,12 @@ class AttendanceRecognition
             return $student->hasEncoding();
         });
 
-        $faceEncodings = array_map(function (Student $student) {
-            return $student->getEncoding();
-        }, $studentsWithEncodings->getValues());
+        $faceEncodings = array_map(
+            function (Student $student) {
+                return $student->getEncoding();
+            },
+            $studentsWithEncodings->getValues()
+        );
 
         try {
             $result = $this->recognition->recognizeFaces($faceEncodings, $image);
@@ -69,10 +72,12 @@ class AttendanceRecognition
         $knownAttendances = $this->generateAttendances($lecture, $students, $attendancePairs);
         $unknownAttendances = $this->generateUnknownAttendances($lecture, $result['unknown']);
 
-        return new ArrayCollection(array_merge(
-            $knownAttendances->toArray(),
-            $unknownAttendances->toArray()
-        ));
+        return new ArrayCollection(
+            array_merge(
+                $knownAttendances->toArray(),
+                $unknownAttendances->toArray()
+            )
+        );
     }
 
     /**
