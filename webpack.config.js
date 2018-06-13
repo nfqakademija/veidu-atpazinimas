@@ -17,7 +17,7 @@ Encore
     .enableReactPreset()
 
     .configureBabel(function(babelConfig) {
-      babelConfig.plugins = ['transform-object-rest-spread', 'transform-class-properties'];
+      babelConfig.plugins = ['transform-object-rest-spread', 'transform-class-properties', 'wildcard'];
     })
 ;
 

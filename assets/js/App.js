@@ -4,7 +4,7 @@ import { Hidden } from '@material-ui/core';
 import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 
 import { Desktop, Mobile } from './components/Layout';
-import { Routes, theme, navigation } from './config';
+import { Routes, theme, navigation } from './config/*';
 
 const styles = theme => ({
   '@global': {

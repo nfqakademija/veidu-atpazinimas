@@ -6,7 +6,7 @@ import {
   LectureListContainer,
   ModuleListContainer,
   StudentListContainer,
-} from '../containers';
+} from '../containers/*';
 
 const Routes = () => (
   <Switch>
