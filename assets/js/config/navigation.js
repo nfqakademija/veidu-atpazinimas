@@ -1,11 +1,16 @@
 import React from 'react';
-import { Face, People } from '@material-ui/icons';
+import { Face, Group, School } from '@material-ui/icons';
 
 export default [
   {
-    title: 'Students',
+    title: 'Modules',
     link: '/modules',
-    icon: <People />,
+    icon: <School />,
+  },
+  {
+    title: 'Groups',
+    link: '/groups',
+    icon: <Group />,
   },
   {
     title: 'Attendance',

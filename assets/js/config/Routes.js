@@ -1,34 +1,35 @@
-import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
-
 import {
-  AttendanceListContainer,
-  LectureListContainer,
-  ModuleListContainer,
-  StudentListContainer,
-} from '../containers/*';
+  AttendancePage,
+  LecturePage /*,  ModulePage, GroupPage, StudentPage */,
+} from 'pages';
 
-const Routes = () => (
-  <Switch>
-    <Route exact path="/" render={() => <Redirect to="/lectures" />} />
-    <Route exact path="/modules" component={ModuleListContainer} />
-    <Route
-      exact
-      path="/modules/:moduleId(\d+)"
-      component={StudentListContainer}
-    />
-    <Route
-      exact
-      path="/groups/:groupId(\d+)"
-      component={StudentListContainer}
-    />
-    <Route exact path="/lectures" component={LectureListContainer} />
-    <Route
-      exact
-      path="/lectures/:lectureId(\d+)"
-      component={AttendanceListContainer}
-    />
-  </Switch>
-);
-
-export default Routes;
+export default [
+  {
+    path: '/',
+    redirect: '/lectures',
+  },
+  /* {
+    path: '/modules',
+    component: ModulePage,
+  },
+  {
+    path: '/modules/:moduleId(d+)',
+    component: StudentPage,
+  },
+  {
+    path: '/groups',
+    component: GroupPage,
+  },
+  {
+    path: '/groups/:groupId(d+)',
+    component: StudentPage,
+  }, */
+  {
+    path: '/lectures',
+    component: LecturePage,
+  },
+  {
+    path: '/lectures/:lectureId',
+    component: AttendancePage,
+  },
+];

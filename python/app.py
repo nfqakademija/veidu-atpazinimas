@@ -20,7 +20,10 @@ def allowed_file(filename):
 
 @app.route('/')
 def index():
-    return jsonify(test='test')
+    return jsonify((
+        "/encoding      - Calculate encoding from image"
+        "/recognition   - Recognize faces from image with given encodings"
+    ))
 
 
 @app.route('/encoding', methods=['POST'])
@@ -93,7 +96,6 @@ def decode_image(encoded_string: str) -> BytesIO:
 def encode_image(image: Image) -> str:
     buffered = BytesIO()
     image.save(buffered, format='PNG')
-
     encoded_string = base64.b64encode(buffered.getvalue())
 
     return encoded_string.decode('ascii')
