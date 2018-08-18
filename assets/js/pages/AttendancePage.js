@@ -24,7 +24,7 @@ class AttendancePage extends Component {
     const { lectureId, lecture, loading, upload } = this.props;
 
     return (
-      <Fragment>
+      <>
         <Header title={(lecture && lecture.title) || 'Lecture'} />
 
         <AttendanceList
@@ -42,7 +42,7 @@ class AttendancePage extends Component {
         <label htmlFor="upload-photo">
           <FloatingActionButton icon={<AddAPhoto />} />
         </label>
-      </Fragment>
+      </>
     );
   }
 }

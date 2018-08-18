@@ -7,7 +7,7 @@ import { getInitials } from 'utils/helpers';
 const styles = theme => ({});
 
 const Student = ({ name, face, group }) => (
-  <Fragment>
+  <>
     <Avatar
       src={face}
       fallback={getInitials(name)
@@ -15,7 +15,7 @@ const Student = ({ name, face, group }) => (
         .toUpperCase()}
     />
     <ListItemText primary={name} secondary={group.title} />
-  </Fragment>
+  </>
 );
 
 export default withStyles(styles)(Student);

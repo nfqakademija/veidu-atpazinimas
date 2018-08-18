@@ -36,7 +36,7 @@ class LecturePage extends Component {
     const { search, form } = this.state;
 
     return (
-      <Fragment>
+      <>
         <Header title="Lectures">
           <Button onClick={this.handleOpen('search')}>
             <Search />
@@ -58,7 +58,7 @@ class LecturePage extends Component {
         />
 
         {/* <Snackbar resource="lectures"/> */}
-      </Fragment>
+      </>
     );
   }
 }

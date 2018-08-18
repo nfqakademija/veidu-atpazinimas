@@ -13,10 +13,10 @@ class ModuleListContainer extends Component {
   render() {
     const { modules, loading } = this.props;
     return (
-      <Fragment>
+      <>
         <Header />
         <ModuleList modules={modules} loading={loading} />
-      </Fragment>
+      </>
     );
   }
 }

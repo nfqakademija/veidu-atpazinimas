@@ -47,7 +47,7 @@ const Login = ({ classes, open, onClose }) => {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      {/* <Fragment>
+      {/* <>
         <DialogTitle id="form-dialog-title">Sign out?</DialogTitle>
         <DialogActions>
           <Button color="primary" onChange={onClose}>
@@ -57,7 +57,7 @@ const Login = ({ classes, open, onClose }) => {
             Sign out
           </Button>
         </DialogActions>
-      </Fragment> */}
+      </> */}
       <DialogTitle id="form-dialog-title">Login to your account...</DialogTitle>
       <DialogActions>
         <Button variant="outlined" color="primary">

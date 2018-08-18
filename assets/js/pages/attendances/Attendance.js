@@ -18,7 +18,7 @@ const Attendance = ({
   attended,
   onChange,
 }) => (
-  <Fragment>
+  <>
     <Avatar
       src={face}
       fallback={getInitials(name)
@@ -32,7 +32,7 @@ const Attendance = ({
     <ListItemSecondaryAction>
       <Checkbox checked={attended} onChange={onChange} color="primary" />
     </ListItemSecondaryAction>
-  </Fragment>
+  </>
 );
 
 export default withStyles(styles)(Attendance);

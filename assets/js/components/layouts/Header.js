@@ -43,7 +43,7 @@ class Header extends Component {
     const { open } = this.state;
 
     return (
-      <Fragment>
+      <>
         <AppBar position="sticky" className={classes.appBar}>
           <Toolbar>
             <Typography
@@ -58,7 +58,7 @@ class Header extends Component {
           </Toolbar>
         </AppBar>
         <LoginDialog open={open} onClose={this.handleClose} />
-      </Fragment>
+      </>
     );
   }
 }

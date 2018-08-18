@@ -1,0 +1,16 @@
+{
+    "plugins": [
+        "@babel/transform-runtime",
+        "@babel/plugin-proposal-object-rest-spread",
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-proposal-numeric-separator",
+        "@babel/plugin-proposal-export-default-from",
+        "@babel/plugin-proposal-do-expressions",
+        "@babel/proposal-optional-chaining",
+        "wildcard"
+    ],
+    "presets": [
+        "@babel/env",
+        "@babel/react"
+    ]
+}

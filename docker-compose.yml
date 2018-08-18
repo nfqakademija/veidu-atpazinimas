@@ -41,11 +41,11 @@ services:
     ports:
       - 127.0.0.1:3307:3306 # Connect to it via -h127.0.0.1 --port=3307
 
-  frontend.symfony:
-    build: .docker/frontend/
-    container_name: frontend.symfony
-    volumes:
-      - .:/code # Mount your code, so JavaScript tools could see it
+  # frontend.symfony:
+  #   build: .docker/frontend/
+  #   container_name: frontend.symfony
+  #   volumes:
+  #     - .:/code # Mount your code, so JavaScript tools could see it
 
   python:
     container_name: python

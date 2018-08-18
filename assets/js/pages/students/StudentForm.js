@@ -54,7 +54,7 @@ class StudentForm extends Component {
     const { classes } = this.props;
 
     return (
-      <Fragment>
+      <>
         <Button variant="fab" color="secondary" className={classes.button} onClick={this.handleOpen}>
           <Person />
         </Button>
@@ -86,7 +86,7 @@ class StudentForm extends Component {
             </Button>
           </DialogActions>
         </Dialog>
-      </Fragment>
+      </>
     );
   }
 }
